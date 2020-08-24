@@ -12,6 +12,9 @@ def get_date(comment):
 
 reddit = praw.Reddit("credentials", user_agent=os + ":claimdoneremover:v" + version + " (by u/MurdoMaclachlan edited by u/--B_L_A_N_K--)")
 
+total_counted = 0
+total_deleted = 0
+
 while True:
     deleted = 0
     counted = 0
@@ -24,6 +27,9 @@ while True:
             else:
                 non_cutoff += 1
         counted += 1
-    print("Counted {} entries, deleted {} entries, waiting for cutoff on {} entries.".format(str(counted),str(deleted),str(non_cutoff)))
-    print("Waiting {} minutes before checking again".format(str(wait)))
+    total_counted += counted
+    total_deleted += deleted
+    print("Totals:\nCounted: {}\nDeleted: {}\n\n".format(str(total_counted),str(total_deleted)))
+    print("This Run:\nCounted: {}\nDeleted: {}\nWaiting For {}\n\n".format(str(counted),str(deleted),str(non_cutoff)))
+    print("Waiting {} minutes before checking again\n\n---\n\n".format(str(wait)))
     time.sleep(wait*60)
