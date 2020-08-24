@@ -3,7 +3,7 @@ import praw
 import time
 from config import blacklist, cutoff, os, user, limit, wait
 
-version = "0.3"
+version = "0.4"
 
 
 def get_date(comment):
@@ -31,5 +31,5 @@ while True:
     total_deleted += deleted
     print("Totals:\nCounted: {}\nDeleted: {}\n\n".format(str(total_counted),str(total_deleted)))
     print("This Run:\nCounted: {}\nDeleted: {}\nWaiting For {}\n\n".format(str(counted),str(deleted),str(non_cutoff)))
-    print("Waiting {} minutes before checking again\n\n---\n\n".format(str(wait)))
+    print("Waiting {} minutes before checking again\n\n---".format(str(wait)))
     time.sleep(wait*60)
