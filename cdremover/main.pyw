@@ -1,3 +1,6 @@
+# Credit to /u/MurdoMaclachlan
+# Credit to /u/DasherPack for being a handsome boy...
+
 import praw
 import time
 from config import *
