@@ -1,4 +1,4 @@
-# Credit to /u/MurdoMaclachlan for making the original unedited version.
+# Credit to /u/MurdoMaclachlan for making the original unedited version, unit system.
 # Credit to /u/DasherPack for being a handsome boy...
 # Credit to /u/metaquarx for making funny comments about programming misery...
 # Credit to /u/LukeAbby for making the discord ToR-Stats bot.
@@ -9,7 +9,7 @@ from config import *
 from tkinter import *
 from tkinter import ttk
 
-version = "1.6.7"
+version = "1.6.8"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -30,7 +30,6 @@ def toggle_pause():
     global paused, cont_time
     paused = not paused
     cont_time = time.time()
-    progress["value"] = 100
 
 
 # Create the reddit PRAW instance
@@ -79,6 +78,11 @@ while True:
     elif cur_time >= cont_time:
         # Set the window to show that a deletion is in progress
         update_text("In Progress")
+        # Set the progress bar to 100 to show that it's running
+        progress["value"] = 100
+        # Refresh window to show running indicators
+        m.update_idletasks()
+        m.update()
         # Set the current run default values
         deleted = 0
         counted = 0
@@ -88,7 +92,7 @@ while True:
             # Check if the comment is in the blacklist
             if comment.body in blacklist:
                 # If the sell-by date is passed, delete the comment and update stats
-                if cur_time - get_date(comment) > cutoff * 60:
+                if cur_time - get_date(comment) > cutoff * cutoff_secs:
                     comment.delete()
                     deleted += 1
                 # If the sell-by date hasn't passed, don't delete and update stats
@@ -101,20 +105,16 @@ while True:
         total_deleted += deleted
         # Update the window
         update_text("Totals:\nCounted: {}\nDeleted: {}\n\nThis Run:\nCounted: {}\nDeleted: {}\nWaiting For: {}\n\n"
-                    "Waiting {} minute(s)."
+                    "Waiting {} {}."
                     .format(str(total_counted), str(total_deleted), str(counted), str(deleted), str(non_cutoff),
-                            str(wait)))
+                            str(wait), wait_unit[0] if wait == 1 else wait_unit[1]))
         # Set the next check time
-        cont_time = cur_time + (wait * 60)
+        cont_time = cur_time + (wait * wait_unit[2])
         # Reset progress bar
         progress["value"] = 0
     # Update progress bar if time hasn't passed
     else:
-        progress["value"] = (60-(cont_time-cur_time))/(wait*60)*100
-    try:
-        # Update the window
-        m.update_idletasks()
-        m.update()
-    except TclError:
-        # If a TclError occurs, exit the window
-        exit()
+        progress["value"] = (wait_unit[2]-(cont_time-cur_time))/(wait*wait_unit[2])*100
+    # Update the window
+    m.update_idletasks()
+    m.update()
