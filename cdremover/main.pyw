@@ -9,7 +9,7 @@ from config import *
 from tkinter import *
 from tkinter import ttk
 
-version = "1.6.9"
+version = "1.6.10"
 
 def get_date(comment):
     """Function to return the date of the comment"""
