@@ -3,7 +3,7 @@ import time
 from config import *
 from tkinter import *
 
-version = "1.5.1"
+version = "1.5.2"
 
 
 def get_date(comment):
