@@ -3,3 +3,9 @@
 LICENSE,0\3\0398ccd0f49298b10a3d76a47800d2ebecd49859
 @
 requirements.txt,1\9\19359a61ae2446b51b549167b014da2fcf265768
+H
+cdremover/get_refresh.py,c\0\c035daa256141fa42463b70fe14062d9c1531916
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+C
+cdremover/config.py,3\3\33867246a64550677b8847c1697374060f44104d
