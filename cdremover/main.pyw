@@ -65,7 +65,7 @@ while True:
     if paused:
         # If the window is not already set to Paused, add the pause indicator
         if "Paused" not in ent.get("1.0",END).strip():
-            update_text("Totals:\nCounted: {}\nDeleted: {}\n\nPaused")
+            update_text("Totals:\nCounted: {}\nDeleted: {}\n\nPaused".format(str(total_counted), str(total_deleted)))
     # Check if the preset time has passed
     elif time.time() >= cont_time:
         # Set the window to show that a deletion is in progress
