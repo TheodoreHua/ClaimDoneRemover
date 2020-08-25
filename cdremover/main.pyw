@@ -1,5 +1,6 @@
 # Credit to /u/MurdoMaclachlan
 # Credit to /u/DasherPack for being a handsome boy...
+# Credit to /u/metaquarx for making funny comments about programming misery...
 # Credit to /u/LukeAbby for making the discord ToR-Stats bot
 
 import praw
@@ -8,7 +9,7 @@ from config import *
 from tkinter import *
 from tkinter import ttk
 
-version = "1.5.6"
+version = "1.6.6"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -37,7 +38,7 @@ reddit = praw.Reddit("credentials",
 # Create the main Tkinter window and set it's attributes
 m = Tk()
 m.title("Claim Done Remover")
-m.geometry("180x200")
+m.geometry("180x230")
 m.resizable(0,0)
 m.wm_attributes("-topmost",1)
 m.wm_attributes("-toolwindow",1)
@@ -48,10 +49,15 @@ ent.config(state=DISABLED)
 # Render it on the window
 ent.grid(row=0, column=0, columnspan=3, pady=4)
 
+# Create wait progress bar widget
+progress = ttk.Progressbar(m, orient=HORIZONTAL, length=180, mode="determinate")
+# Render it on the window
+progress.grid(row=1, column=0, columnspan=3,pady=4)
+
 # Create the button widget
 pause = ttk.Button(m, text="Toggle Pause", command=toggle_pause)
 # Render it on the window
-pause.grid(row=1, column=1)
+pause.grid(row=2, column=1)
 
 # Set the default values for the variables
 total_counted = 0
@@ -61,13 +67,15 @@ cont_time = time.time()
 
 # Mainloop
 while True:
+    # Get current time
+    cur_time = time.time()
     # Check whether or not the program is paused
     if paused:
         # If the window is not already set to Paused, add the pause indicator
         if "Paused" not in ent.get("1.0",END).strip():
             update_text("Totals:\nCounted: {}\nDeleted: {}\n\nPaused".format(str(total_counted), str(total_deleted)))
     # Check if the preset time has passed
-    elif time.time() >= cont_time:
+    elif cur_time >= cont_time:
         # Set the window to show that a deletion is in progress
         update_text("In Progress")
         # Set the current run default values
@@ -79,7 +87,7 @@ while True:
             # Check if the comment is in the blacklist
             if comment.body in blacklist:
                 # If the sell-by date is passed, delete the comment and update stats
-                if time.time() - get_date(comment) > cutoff * 60:
+                if cur_time - get_date(comment) > cutoff * 60:
                     comment.delete()
                     deleted += 1
                 # If the sell-by date hasn't passed, don't delete and update stats
@@ -96,7 +104,12 @@ while True:
                     .format(str(total_counted), str(total_deleted), str(counted), str(deleted), str(non_cutoff),
                             str(wait)))
         # Set the next check time
-        cont_time = time.time() + (wait * 60)
+        cont_time = cur_time + (wait * 60)
+        # Reset progress bar
+        progress["value"] = 0
+    # Update progress bar if time hasn't passed
+    else:
+        progress["value"] = (60-(cont_time-cur_time))/(wait*60)*100
     try:
         # Update the window
         m.update_idletasks()
