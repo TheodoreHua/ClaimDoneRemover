@@ -14,8 +14,9 @@ If you've been a transcriber for a while, chances are this program will not remo
     Give it a description (which can really be anything you want).
     Set an about url and redirect url. They don't really matter for a personal script unless you're using 2FA. I linked to this git.
     If you are using 2FA, set the redirect url to `http://localhost:8080` as this will be important later on.
-4. Now, in the `config.py` file, enter your username and OS as it requests. You can also adapt the cutoff time to something else if you wish to only remove older comments, or include ones that are newer than is default, and you can tweak the blacklist if you're looking to remove comments other than "claim" and "done", or change how far back it goes into your history, or change how long it waits before checking again.
-5. Now open the `praw.ini` file. This will contain the credentials for the app you created, and your account. You need your app's client id (14 characters) and client secret (27 characters), and your username and password. OR if you use 2 factor authentication, you can run `get_refresh.py` and follow the steps provided. Once you've gotten the refresh_token from the program. Replace the url and password fields with `refresh_token = your_token_here` 
+5. Rename `config-example.py` to `config.py` then rename `praw-example.ini` to `praw.ini`
+6. Now, in the `config.py` file, enter your username and OS as it requests. You can also adapt the cutoff time to something else if you wish to only remove older comments, or include ones that are newer than is default, and you can tweak the blacklist if you're looking to remove comments other than "claim" and "done", or change how far back it goes into your history, or change how long it waits before checking again.
+7. Now open the `praw.ini` file. This will contain the credentials for the app you created, and your account. You need your app's client id (14 characters) and client secret (27 characters), and your username and password. OR if you use 2 factor authentication, you can run `get_refresh.py` and follow the steps provided. Once you've gotten the refresh_token from the program. Replace the url and password fields with `refresh_token = your_token_here` 
 
 Once complete, your praw.ini should look like this if you're using username + password:
 ```
