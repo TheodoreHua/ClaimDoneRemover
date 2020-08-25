@@ -4,7 +4,7 @@ from config import *
 from tkinter import *
 from tkinter import ttk
 
-version = "1.5.5"
+version = "1.5.6"
 
 
 def get_date(comment):
@@ -32,7 +32,7 @@ reddit = praw.Reddit("credentials",
                      user_agent=os + ":claimdoneremover:v" + version + " (by u/MurdoMaclachlan edited by u/--B_L_A_N_K--)")
 m = Tk()
 m.title("Claim Done Remover")
-m.geometry("180x198")
+m.geometry("180x200")
 m.resizable(0,0)
 m.wm_attributes("-topmost",1)
 m.wm_attributes("-toolwindow",1)
