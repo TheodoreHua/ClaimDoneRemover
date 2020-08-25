@@ -3,7 +3,7 @@ import time
 from config import *
 from tkinter import *
 
-version = "1.5.2"
+version = "1.5.3"
 
 
 def get_date(comment):
@@ -52,6 +52,7 @@ while True:
         if ent.get("1.0",END).strip() != "Paused":
             update_text("Paused")
     elif time.time() >= cont_time:
+        update_text("In Progress")
         deleted = 0
         counted = 0
         non_cutoff = 0
