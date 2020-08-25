@@ -1,4 +1,7 @@
 # Claim/Done Remover
+
+**This is an unofficial program and is not officially endorsed by ToR, they are in no way involved with this program and are not liable.**
+
 Also known as CDRemover, this program removes "claim" and "done" comments after a period of time. It is designed with r/TranscribersOfReddit transcribers in mind; specifically those  who are tired of these comments clogging up their profiles.
 
 If you've been a transcriber for a while, chances are this program will not remove every "claim" or "done" you've ever posted, the max is 1000 comments back depending on the setting you chose, and if you have it running in the background, it should check for `claim` and `done` every certain amount of seconds you set.
