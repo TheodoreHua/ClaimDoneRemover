@@ -1,7 +1,7 @@
-# Credit to /u/MurdoMaclachlan
+# Credit to /u/MurdoMaclachlan for making the original unedited version.
 # Credit to /u/DasherPack for being a handsome boy...
 # Credit to /u/metaquarx for making funny comments about programming misery...
-# Credit to /u/LukeAbby for making the discord ToR-Stats bot
+# Credit to /u/LukeAbby for making the discord ToR-Stats bot.
 
 import praw
 import time
