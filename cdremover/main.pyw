@@ -2,8 +2,9 @@ import praw
 import time
 from config import *
 from tkinter import *
+from tkinter import ttk
 
-version = "1.5.4"
+version = "1.5.5"
 
 
 def get_date(comment):
@@ -31,16 +32,16 @@ reddit = praw.Reddit("credentials",
                      user_agent=os + ":claimdoneremover:v" + version + " (by u/MurdoMaclachlan edited by u/--B_L_A_N_K--)")
 m = Tk()
 m.title("Claim Done Remover")
-m.geometry("180x190")
+m.geometry("180x198")
 m.resizable(0,0)
 m.wm_attributes("-topmost",1)
 m.wm_attributes("-toolwindow",1)
 
 ent = Text(m, height=10, width=22)
 ent.config(state=DISABLED)
-ent.grid(row=0, column=0, columnspan=3)
+ent.grid(row=0, column=0, columnspan=3, pady=4)
 
-pause = Button(m, text="Toggle Pause", command=toggle_pause)
+pause = ttk.Button(m, text="Toggle Pause", command=toggle_pause)
 pause.grid(row=1, column=1)
 
 total_counted = 0
