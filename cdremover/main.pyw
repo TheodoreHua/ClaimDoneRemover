@@ -9,7 +9,7 @@ from config import *
 from tkinter import *
 from tkinter import ttk
 
-version = "1.6.8"
+version = "1.6.9"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -118,3 +118,5 @@ while True:
     # Update the window
     m.update_idletasks()
     m.update()
+    # Small delay to reduce CPU usage
+    time.sleep(0.01)
