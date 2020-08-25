@@ -9,7 +9,7 @@ from config import *
 from tkinter import *
 from tkinter import ttk
 
-version = "1.6.6"
+version = "1.6.7"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -30,6 +30,7 @@ def toggle_pause():
     global paused, cont_time
     paused = not paused
     cont_time = time.time()
+    progress["value"] = 100
 
 
 # Create the reddit PRAW instance
