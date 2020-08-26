@@ -9,18 +9,24 @@ entries = {}
 
 def create_survey_praw(main: Tk, txt:Text=None):
     global entries
+    # Ask if they are using refresh or username & password
     refresh = askyesno("Prompt", "Are you using refresh tokens (If you don't understand, choose no)?")
+    # Create toplevel window then configure it
     top = Toplevel(main)
     top.wm_attributes("-topmost", 1)
     entries = {}
+    # Create instructions label
     ttk.Label(top, text=
     "Enter the corresponding value for the config name. The current value is already entered into the field."
-    " Instructions are in README.md/on the GitHub", justify="center", wraplength=300).grid(row=0, column=0, columnspan=3)
-    row = 1
+    " Instructions are in README.md/on the GitHub", justify="center", wraplength=400).grid(row=0, column=0, columnspan=3)
+    # Get the original values for each text
     config = configparser.ConfigParser()
     config.read("praw.ini")
     old = config["credentials"]
+    row = 1
+    # Create the labels and entry widgets for each option
     for name in ["client_id","client_secret","username","password","refresh_token"]:
+        # Only show refresh token or username & password fields corresponding to the one used
         if name in ["username","password"] and refresh:
             continue
         elif name == "refresh_token" and not refresh:
@@ -33,22 +39,28 @@ def create_survey_praw(main: Tk, txt:Text=None):
         ttk.Label(top, text=name.replace("_", " ").title()).grid(row=row, column=0)
         ttk.Entry(top, textvariable=entries[name], width=50).grid(row=row, column=1, columnspan=2)
         row += 1
+    # Create submit button
     ttk.Button(top, text="Submit", command=lambda: submit_survey(top,txt)).grid(row=row, column=0, columnspan=3, sticky="we", padx=2)
 
 def submit_survey(top:Toplevel,txt:Text=None):
     con = {}
+    # Iterate through all of the StringVars and add it to a dictionary in the correct formatting
     for name,var in entries.items():
         val = var.get().strip()
         if val == "":
             return
         else:
             con[name] = val
+    # Write to INI file
     config = configparser.ConfigParser()
     config["credentials"] = con
     with open("praw.ini","w") as configfile:
         config.write(configfile)
+    # Destroy the toplevel window
     top.destroy()
+    # Give a notice that it needs to be restarted to take effect
     showinfo("Notice","Application restart needed to put changes into effect.")
+    # Update option menu log
     if txt is not None:
         txt.config(state=NORMAL)
         txt.delete("1.0", END)

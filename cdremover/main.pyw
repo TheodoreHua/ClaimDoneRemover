@@ -11,7 +11,7 @@ from tkinter import *
 from tkinter import ttk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "2.7.13"
+version = "2.8.14"
 
 def get_date(comment):
     """Function to return the date of the comment"""
