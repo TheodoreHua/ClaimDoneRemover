@@ -11,7 +11,7 @@ def reset_config(txt:Text=None):
                     "blacklist": ["claim", "done", "unclaim",
                                   "claim -- this was a automated action. please contact me with any questions.",
                                   "done -- this was a automated action. please contact me with any questions."],
-                    "cutoff": 5, "cutoff_secs": "60", "limit": 100, "wait": 1,
+                    "cutoff": 5, "cutoff_secs": 60, "limit": 100, "wait": 1,
                     "wait_unit": ["'minute'", "'minutes'", 60],
                     "real_time_checking": True}
     # Write to JSON file

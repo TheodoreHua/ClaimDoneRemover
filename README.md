@@ -40,7 +40,7 @@ Once you're done, just navigate to the folder where `main.pyw` is and run the fi
 
 ### Get a Refresh Token
 1. Run `get_refresh.py`.
-2. Follow the step-by-step instructions. If it asks for a scope, enter `all`.
+2. Follow the step-by-step instructions. If it asks for a scope, enter `edit,history`.
 3. Copy the refresh token.
 
 ## FAQ
