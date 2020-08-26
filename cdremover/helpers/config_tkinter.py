@@ -49,7 +49,7 @@ def submit_survey(top:Toplevel,txt:Text=None):
             con[name] = val.replace(", ",",").split(",")
         elif name == "wait_unit":
             con[name] = val.replace(", ",",").split(",")[:-1] + [int(val.replace(", ",",").split(",")[-1])]
-        elif name in ["cutoff","cutoff_sec","wait"]:
+        elif name in ["cutoff","cutoff_secs","wait"]:
             con[name] = int(val)
         elif name == "real_time_checking":
             if val.title() == "True":
