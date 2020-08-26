@@ -185,7 +185,7 @@ while True:
                     deleted += 1
                 # If the sell-by date hasn't passed, don't delete and update stats
                 else:
-                    log.append_log("")
+                    log.append_log("Waiting for cutoff \"{}\"".format(comment.body))
                     non_cutoff += 1
             # Update counted stats
             counted += 1
