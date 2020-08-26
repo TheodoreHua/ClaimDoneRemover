@@ -11,7 +11,7 @@ from tkinter import *
 from tkinter import ttk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "2.9.18"
+version = "2.9.19"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -98,7 +98,7 @@ else:
         log.append_log(repr(e))
 
 # Check if real time checking is on
-check_once = None
+checked_once = None
 if not config["real_time_checking"]:
     checked_once = False
 
