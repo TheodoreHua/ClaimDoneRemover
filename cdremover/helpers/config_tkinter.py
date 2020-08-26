@@ -44,11 +44,18 @@ def submit_survey(top:Toplevel,txt:Text=None):
             con[name] = val.replace(", ",",").split(",")[:-1] + [int(val.replace(", ",",").split(",")[-1])]
         elif name in ["cutoff","cutoff_sec","wait"]:
             con[name] = int(val)
+        elif name == "real_time_checking":
+            if val.title() == "True":
+                con[name] = True
+            elif val.title() == "False":
+                con[name] = False
+            else:
+                return
         elif name == "limit":
             if val.title() == "None":
                 con[name] = None
             else:
-                con[name] = val
+                con[name] = int(val)
         else:
             con[name] = val
     with open("config.json","w") as f:

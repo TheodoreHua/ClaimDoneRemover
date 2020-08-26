@@ -34,8 +34,10 @@ def toggle_pause():
     cont_time = time.time()
 
 def set_cont(txt:Text=None):
-    global cont_time
+    global cont_time, checked_once
     cont_time = time.time()
+    if checked_once:
+        checked_once = False
     if txt is not None:
         txt.config(state=NORMAL)
         txt.delete("1.0", END)
@@ -95,6 +97,11 @@ else:
         reddit = None
         log.append_log(repr(e))
 
+# Check if real time checking is on
+check_once = None
+if not config["real_time_checking"]:
+    checked_once = False
+
 # Create the main Tkinter window and set it's attributes
 m = Tk()
 m.title("Claim Done Remover")
@@ -146,8 +153,14 @@ while True:
         if "Paused" not in ent.get("1.0",END).strip():
             update_text("Totals:\nCounted: {}\nDeleted: {}\n\nPaused".format(str(total_counted), str(total_deleted)))
             log.append_log("Paused")
+    elif not config["real_time_checking"] and checked_once not in [False, None]:
+        if "Real Time Checking Off" not in ent.get("1.0",END).strip():
+            update_text("Totals:\nCounted: {}\nDeleted: {}\n\nReal Time Checking Off".format(str(total_counted), str(total_deleted)))
+            log.append_log("Real Time Checking Off")
     # Check if the preset time has passed
     elif cur_time >= cont_time:
+        if not config["real_time_checking"]:
+            checked_once = True
         # Add logs
         log.append_log("Starting Check")
         # Set the window to show that a deletion is in progress
