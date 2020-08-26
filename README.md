@@ -10,31 +10,42 @@ If you've been a transcriber for a while, chances are this program will not remo
 
 1. Clone the `claimdoneremover` repository to a directory.
 2. Run `pip install -r requirements.txt` in the folder where you extracted the files (you might need to do so as root/admin).
-3. Inside the `cdremover` folder, if `main.py` is not yet executable, make it so. On Linux you can do this by running `chmod +x main.py` from inside the `cdremover` directory.
+3. Inside the `cdremover` folder, if `main.pyw` is not yet executable, make it so. On Linux you can do this by running `chmod +x main.pyw` from inside the `cdremover` directory.
 4. Before doing anything else, you should now create an app for your Reddit account. You can do this by going to `https://www.reddit.com/prefs/apps/` and creating a new app. 
     Give it a name ("ClaimDoneRemover" or "CDRemover" are easy to remember).
     Choose "script". 
     Give it a description (which can really be anything you want).
     Set an about url and redirect url. They don't really matter for a personal script unless you're using 2FA. I linked to this git.
-    If you are using 2FA, set the redirect url to `http://localhost:8080` as this will be important later on.
-5. Now, in the `config.py` file, enter your username and OS as it requests. You can also adapt the cutoff time to something else if you wish to only remove older comments, or include ones that are newer than is default, and you can tweak the blacklist if you're looking to remove comments other than "claim" and "done", or change how far back it goes into your history, or change how long it waits before checking again.
-6. Now open the `praw.ini` file. This will contain the credentials for the app you created, and your account. You need your app's client id (14 characters) and client secret (27 characters), and your username and password. OR if you use 2 factor authentication, you can run `get_refresh.py` and follow the steps provided. Once you've gotten the refresh_token from the program. Replace the url and password fields with `refresh_token = your_token_here` 
+    If you are using 2FA/refresh tokens, set the redirect url to `http://localhost:8080` as this will be important later on.
+5. Now run the `main.pyw` program, don't worry if it says error.
+6. Click the options button then click the `Edit Config` button and fill in each field. There's a description of what each field does [here](#config-options-description).
+7. Now click the `Edit PRAW Config` button. It will ask you if you are using a refresh token (if you are go to [get a refresh token](#get-a-refresh-token) then come back and click yes, if you aren't click no). Fill in the options with the information you got from step #3 (and you just got if using refresh token).
+8. Restart the program
+9. Done
 
-Once complete, your praw.ini should look like this if you're using username + password:
-```
-[credentials]
-client_id=lI3fAkE7x82LiE
-client_secret=4lS0f4Ke1234567894NdN0tR3aL
-username=testuser
-password=yourpasswordhere
-```
-and this if you're using refresh_token:
-```
-[credentials]
-client_id = lI3fAkE7x82LiE
-client_secret = 4lS0f4Ke1234567894NdN0tR3aL
-refresh_token = example-refresh-1234
-```
-Your praw.ini should remain in the current directory when running CDRemover, or in one of the config folders as [described on PRAW's documentation](https://praw.readthedocs.io/en/latest/getting_started/configuration/prawini.html).
+Once you're done, just navigate to the folder where `main.pyw` is and run the file. You might run with an IDE you have installed, or simply run itself, or you can run it from the command line. On Linux, you do this like so: `./main.pyw`. You will see an output after a few seconds. Each comment older than your cutoff should be deleted. You can then either leave the program running in the background to delete posts while you are transcribing as you reach the cutoff, or you can manually run it every now and then in order to delete in batches.
 
-Once you're done, just navigate to the folder where `main.pyw` is and run the file. You might run with an IDE you have installed, or simply run itself, or you can run it from the command line. On Linux, you do this like so: `./main.py`. You will see an output after a few seconds. Each comment older than your cutoff should be deleted. You can then either leave the program running in the background to delete posts while you are transcribing as you reach the cutoff, or you can manually run it every now and then in order to delete in batches.
+## Other Instructions
+### Config Options Description
+**IMPORTANT: Do not put commas anywhere in any value except when used as a separator**
+- User: Your username.
+- OS: Your operating system name (Doesn't have to be exact).
+- Blacklist: Exact, word-for-word body of the comments to be deleted. Separated by commas (`,`).
+- Cutoff: How many units of time old the comments must be before they are deleted.
+- Cutoff Secs: How many seconds each unit of time for the cutoff is. E.g. a second would be 1, a minute would be 60, a hour would be 3600, etc.
+- Limit: How many comments to check through in the users history, max 1000 (enter `None` for 1000). Keep in mind the larger this is, the longer it will take to check per run.
+- Wait: How many units of time the program should wait before checking for new comments again.
+- Wait Unit: The unit of time used for the wait configuration. This should be in the format `singular unit name, plural unit name, number of seconds per unit`.
+
+### Get a Refresh Token
+1. Run `get_refresh.py`.
+2. Follow the step-by-step instructions. If it asks for a scope, enter `all`.
+3. Copy the refresh token.
+
+## FAQ
+#### Why is the window not responding?
+This is normal if you have a large amount of comments that match the blacklist that hasn't been deleted yet. If any dialog pops up asking if you want to close it, choose no/wait. It should finish within 2 seconds-2 minutes.
+#### Can I use this to delete past comments?
+Yes, if you would like it to go back and delete all of your comments, set the limit to `None` then let it run 3-10 times (You can skip the wait by pressing the check now button in the options menu).
+#### Where can I contact the developer?
+You can send me an email at `blankdev.th@gmail.com`.
