@@ -67,7 +67,7 @@ def submit_survey(top:Toplevel,txt:Text=None):
             con[name] = val
     # Write to JSON file
     with open("config.json","w") as f:
-        json.dump(con,f)
+        json.dump(con,f,indent=2)
     # Destroy the toplevel window
     top.destroy()
     # Give a notice that it needs to be restarted to take effect
