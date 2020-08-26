@@ -13,8 +13,8 @@
   "limit": 100,
   "wait": 1,
   "wait_unit": [
-    "'minute'",
-    "'minutes'",
+    "minute",
+    "minutes",
     60
   ],
   "real_time_checking": true
