@@ -16,7 +16,7 @@ def reset_config(txt:Text=None):
                     "real_time_checking": True}
     # Write to JSON file
     with open("config.json","w") as f:
-        json.dump(default_vals,f)
+        json.dump(default_vals,f,indent=2)
     # Update option menu log
     if txt is not None:
         txt.config(state=NORMAL)
