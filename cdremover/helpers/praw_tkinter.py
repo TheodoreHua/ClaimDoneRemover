@@ -36,7 +36,10 @@ def create_survey_praw(main: Tk, txt:Text=None):
             entries[name].set(str(old[name]))
         except KeyError:
             pass
-        ttk.Label(top, text=name.replace("_", " ").title()).grid(row=row, column=0)
+        if name == "client_id":
+            ttk.Label(top, text=name.replace("_", " ").title().replace("Id","ID")).grid(row=row, column=0)
+        else:
+            ttk.Label(top, text=name.replace("_", " ").title()).grid(row=row, column=0)
         ttk.Entry(top, textvariable=entries[name], width=50).grid(row=row, column=1, columnspan=2)
         row += 1
     # Create submit button
