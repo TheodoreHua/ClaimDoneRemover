@@ -11,7 +11,7 @@ from tkinter import *
 from tkinter import ttk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "2.9.19"
+version = "2.9.20"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -180,7 +180,7 @@ while True:
             if comment.body in config["blacklist"]:
                 # If the sell-by date is passed, delete the comment and update stats
                 if cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
-                    log.append_log("Deleted \"{}\"".format(comment.body))
+                    log.append_log("Deleted \"{}\". Comment Time {}.".format(comment.body,get_date(comment)))
                     comment.delete()
                     deleted += 1
                 # If the sell-by date hasn't passed, don't delete and update stats
