@@ -26,7 +26,10 @@ def create_survey_praw(main: Tk, txt:Text=None):
         elif name == "refresh_token" and not refresh:
             continue
         entries[name] = StringVar()
-        entries[name].set(str(old[name]))
+        try:
+            entries[name].set(str(old[name]))
+        except KeyError:
+            pass
         ttk.Label(top, text=name.replace("_", " ").title()).grid(row=row, column=0)
         ttk.Entry(top, textvariable=entries[name], width=50).grid(row=row, column=1, columnspan=2)
         row += 1
