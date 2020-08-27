@@ -13,7 +13,8 @@ def reset_config(txt:Text=None):
                                   "done -- this was a automated action. please contact me with any questions."],
                     "cutoff": 5, "cutoff_secs": 60, "limit": 100, "wait": 1,
                     "wait_unit": ["minute", "minutes", 60],
-                    "real_time_checking": True}
+                    "real_time_checking": True,
+                    "mode": "light"}
     # Write to JSON file
     with open("config.json","w") as f:
         json.dump(default_vals,f,indent=2)

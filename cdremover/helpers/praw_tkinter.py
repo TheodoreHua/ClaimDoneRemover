@@ -1,7 +1,7 @@
 import configparser
 from tkinter import *
 from tkinter import ttk
-from tkinter.messagebox import showinfo,askyesno
+from tkinter.messagebox import showinfo,askyesno,showerror
 
 """Function to take care of the PRAW config file tkinter menu option"""
 
@@ -51,6 +51,7 @@ def submit_survey(top:Toplevel,txt:Text=None):
     for name,var in entries.items():
         val = var.get().strip()
         if val == "":
+            showerror("Error", "There is a empty field.")
             return
         else:
             con[name] = val

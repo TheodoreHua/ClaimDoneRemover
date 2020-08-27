@@ -37,6 +37,7 @@ Once you're done, just navigate to the folder where `main.pyw` is and run the fi
 - Wait: How many units of time the program should wait before checking for new comments again.
 - Wait Unit: The unit of time used for the wait configuration. This should be in the format `singular unit name, plural unit name, number of seconds per unit`.
 - Real Time Checking: Whether you want to app to run continuously in the background and check OR check once when run/when check now button is pressed. Set `True` OR `False`.
+- Mode: The theme of the window, light (arc) or dark (equilux). Enter `Light` or `Dark`
 
 ### Get a Refresh Token
 1. Run `get_refresh.py`.
@@ -49,6 +50,6 @@ This is normal if you have a large amount of comments that match the blacklist t
 #### Can I use this to delete past comments?
 Yes, if you would like it to go back and delete all of your comments, set the limit to `None` then let it run 3-10 times (You can skip the wait by pressing the check now button in the options menu).
 #### I messed up something in the configuration settings and now it won't start/is crashing, what should I do?
-Try and look at the error and correct it yourself by editing `config.json` or `praw.ini` by yourself. If the error cannot be resolved by yourself, re-download the `config.json` and/or the `praw.ini` files from GitHub and replace them then set it again in app.
+Try and look at the error and correct it yourself by editing `config.json` or `praw.ini` by yourself. If the error cannot be resolved by yourself, re-download the `config.json` and/or the `praw.ini` files from GitHub and replace them then set it again in folder.
 #### Where can I contact the developer?
 You can send me an email at `blankdev.th@gmail.com`.
