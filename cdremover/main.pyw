@@ -11,7 +11,7 @@ from tkinter import *
 from tkinter import ttk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "2.9.22"
+version = "2.9.23"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -20,9 +20,12 @@ def get_date(comment):
 
 def update_text(msg):
     """Function to update the text in the Text widget"""
+    # Unset the text widget as read only
     ent.config(state=NORMAL)
+    # Delete the original text and insert the new text
     ent.delete("1.0", END)
     ent.insert(INSERT, msg, "a")
+    # Reset the text widget as read only then scroll to the bottom (in case it isn't already)
     ent.config(state=DISABLED)
     ent.see("end")
 
@@ -30,14 +33,19 @@ def update_text(msg):
 def toggle_pause():
     """Turn pause on/off then set the cont_time to the current time"""
     global paused, cont_time
+    # Toggle the paused status
     paused = not paused
+    # Set the continue time to the current time to ensure that it runs immediately after unpausing
     cont_time = time.time()
 
 def set_cont(txt:Text=None):
     global cont_time, checked_once
+    # Set the continue time to the current time to make it run the next loop iteration
     cont_time = time.time()
+    # If real time checking is turned off, set the checked_once to false to make it run once then not run again
     if checked_once:
         checked_once = False
+    # If the text widget is provided, update it
     if txt is not None:
         txt.config(state=NORMAL)
         txt.delete("1.0", END)
@@ -48,19 +56,25 @@ def set_cont(txt:Text=None):
 
 def close_window():
     """Function to be called when the user closes the window"""
+    # Update the log
     log.append_log("Exit")
+    # Write the log to file
     log.write_log()
+    # Destroy the main window then exit
     m.destroy()
     exit()
 
 def options():
+    # Create the toplevel options window and set it's attributes
     opt_win = Toplevel(m)
     opt_win.wm_attributes("-topmost", 1)
+    # Create the confirmation Text widget
     confirm_txt = Text(opt_win, height=1, width=30)
     confirm_txt.grid(row=0, column=0)
     confirm_txt.tag_configure("center",justify="center")
     confirm_txt.config(state=DISABLED)
     row = 1
+    # Set the dictionary full of all of the options and it's action
     btns = {"Scan Now":lambda: set_cont(confirm_txt),
             "Erase Cached Log":lambda: log.erase_cached(confirm_txt),
             "Erase Stored Log":lambda: log.erase_stored(confirm_txt),
@@ -69,6 +83,7 @@ def options():
             "Edit PRAW Config":lambda: create_survey_praw(m, confirm_txt),
             "Reset Config":lambda: reset_config(confirm_txt),
             "Reset PRAW Config":lambda: reset_praw(confirm_txt)}
+    # Iterate through the dictionary and create the corresponding button
     for text,command in btns.items():
         ttk.Button(opt_win, text=text, command=command).grid(row=row, column=0, sticky="we")
         row += 1
