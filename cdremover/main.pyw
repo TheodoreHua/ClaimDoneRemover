@@ -1,6 +1,6 @@
 # Credit to /u/MurdoMaclachlan for making the original unedited version, and the unit system.
 # Credit to /u/DasherPack for being a handsome boy...
-# Credit to /u/metaquarx for making funny comments about programming misery...
+# Credit to /u/metaquarx for making funny comments about programming misery and typing for a whole night...
 # Credit to /u/LukeAbby for making the discord ToR-Stats bot.
 
 import praw
@@ -11,7 +11,7 @@ from tkinter import *
 from tkinter import ttk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "2.9.21"
+version = "2.9.22"
 
 def get_date(comment):
     """Function to return the date of the comment"""
