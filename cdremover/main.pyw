@@ -11,7 +11,7 @@ from tkinter import *
 from tkinter import ttk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "2.9.24"
+version = "2.9.25"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -32,6 +32,9 @@ def update_text(msg):
 
 def toggle_pause():
     """Turn pause on/off then set the cont_time to the current time"""
+    # Disable pause if the reddit instance does not exist
+    if reddit is None:
+        return
     global paused, cont_time
     # If it was originally paused set the button to unpause if it was original unpaused set the button to pause
     if paused:
@@ -44,6 +47,15 @@ def toggle_pause():
     cont_time = time.time()
 
 def set_cont(txt:Text=None):
+    if reddit is None:
+        if txt is not None:
+            txt.config(state=NORMAL)
+            txt.delete("1.0", END)
+            txt.insert(INSERT, "Fail: Not Configured", "a")
+            txt.tag_add("center", "1.0", "end")
+            txt.config(state=DISABLED)
+            txt.see("end")
+        return
     global cont_time, checked_once
     # Set the continue time to the current time to make it run the next loop iteration
     cont_time = time.time()
