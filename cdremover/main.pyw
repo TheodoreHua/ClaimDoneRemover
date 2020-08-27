@@ -11,7 +11,7 @@ from tkinter import *
 from tkinter import ttk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "2.9.23"
+version = "2.9.24"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -33,6 +33,11 @@ def update_text(msg):
 def toggle_pause():
     """Turn pause on/off then set the cont_time to the current time"""
     global paused, cont_time
+    # If it was originally paused set the button to unpause if it was original unpaused set the button to pause
+    if paused:
+        pause.config(text="Pause")
+    else:
+        pause.config(text="Unpause")
     # Toggle the paused status
     paused = not paused
     # Set the continue time to the current time to ensure that it runs immediately after unpausing
