@@ -12,7 +12,7 @@ from tkinter import ttk
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.9.26"
+version = "3.9.27"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -143,7 +143,7 @@ if config["mode"] == "light":
 else:
     m = ThemedTk(theme="equilux",background=True,toplevel=True)
 m.title("Claim Done Remover")
-m.geometry("180x230")
+m.geometry("180x218")
 m.resizable(0,0)
 m.wm_attributes("-topmost",1)
 m.wm_attributes("-toolwindow",1)
