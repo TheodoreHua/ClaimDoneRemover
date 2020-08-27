@@ -17,5 +17,6 @@
     "minutes",
     60
   ],
-  "real_time_checking": true
+  "real_time_checking": true,
+  "mode": "light"
 }

@@ -1,7 +1,7 @@
 import json
 from tkinter import *
 from tkinter import ttk
-from tkinter.messagebox import showinfo
+from tkinter.messagebox import showinfo,showerror
 
 """Functions to take care of the config file tkinter menu option"""
 
@@ -44,6 +44,7 @@ def submit_survey(top:Toplevel,txt:Text=None):
     for name,var in entries.items():
         val = var.get().strip()
         if val == "":
+            showerror("Error","There is a empty field.")
             return
         elif name == "blacklist":
             con[name] = val.replace(", ",",").split(",")
@@ -57,6 +58,13 @@ def submit_survey(top:Toplevel,txt:Text=None):
             elif val.title() == "False":
                 con[name] = False
             else:
+                showerror("Error","Invalid Value in Real Time Checking (True/False)")
+                return
+        elif name == "Mode":
+            if val.lower() in ["light","dark"]:
+                con[name] = val.lower()
+            else:
+                showerror("Error","Invalid Value in Mode (Light/Dark)")
                 return
         elif name == "limit":
             if val.title() == "None":

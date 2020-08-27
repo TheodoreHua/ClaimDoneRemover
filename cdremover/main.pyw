@@ -9,9 +9,10 @@ import json
 from helpers import *
 from tkinter import *
 from tkinter import ttk
+from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "2.9.25"
+version = "3.9.26"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -86,7 +87,8 @@ def options():
     opt_win = Toplevel(m)
     opt_win.wm_attributes("-topmost", 1)
     # Create the confirmation Text widget
-    confirm_txt = Text(opt_win, height=1, width=30)
+    confirm_txt = Text(opt_win, height=1, width=30, background=m.cget("background"), foreground=get_foreground(config),
+           highlightbackground=m.cget("background"), highlightcolor=m.cget("background"), highlightthickness=1)
     confirm_txt.grid(row=0, column=0)
     confirm_txt.tag_configure("center",justify="center")
     confirm_txt.config(state=DISABLED)
@@ -134,8 +136,12 @@ checked_once = None
 if not config["real_time_checking"]:
     checked_once = False
 
+
 # Create the main Tkinter window and set it's attributes
-m = Tk()
+if config["mode"] == "light":
+    m = ThemedTk(theme="arc",background=True,toplevel=True)
+else:
+    m = ThemedTk(theme="equilux",background=True,toplevel=True)
 m.title("Claim Done Remover")
 m.geometry("180x230")
 m.resizable(0,0)
@@ -145,10 +151,11 @@ m.protocol("WM_DELETE_WINDOW", close_window)
 log.append_log("Created Main Window")
 
 # Create the text widget and set it's state to DISABLED to make it read only
-ent = Text(m, height=10, width=22)
+ent = Text(m, height=10, width=22, background=m.cget("background"), foreground=get_foreground(config),
+           highlightbackground=m.cget("background"), highlightcolor=m.cget("background"), highlightthickness=1)
 ent.config(state=DISABLED)
 # Render it on the window
-ent.grid(row=0, column=0, columnspan=2, pady=4)
+ent.grid(row=0, column=0, columnspan=2)
 
 # Create wait progress bar widget
 progress = ttk.Progressbar(m, orient=HORIZONTAL, length=180, mode="determinate")
