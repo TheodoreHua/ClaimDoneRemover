@@ -28,3 +28,5 @@ G
 cdremover/data/logs.txt,a\c\ac112d15b25c57e23cc332c38d220e4cf5a826ac
 E
 cdremover/config.json,f\f\fff09d6f5a6a9421cc379f2c01549fb4c3af4d95
+I
+cdremover/helpers/misc.py,8\6\86d7ad0878a4a0fe54cab4475caa46c4cea2430f
