@@ -12,7 +12,7 @@ from tkinter import ttk
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.9.27"
+version = "3.9.28"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -180,13 +180,13 @@ log.append_log("Created Default Totals")
 while True:
     # Get current time
     cur_time = time.time()
-    # Check whether or not the program is paused
 
     # Check if reddit instance exists
     if reddit is None:
         if "No Reddit Instance" not in ent.get("1.0",END).strip():
             update_text("No Reddit Instance\nOR\nConfiguration Error\n\nSet Config\nand/or\nPRAW Config")
             log.append_log("No Reddit Instance")
+    # Check whether or not program is paused
     elif paused:
         # If the window is not already set to Paused, add the pause indicator
         if "Paused" not in ent.get("1.0",END).strip():
