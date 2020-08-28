@@ -12,7 +12,7 @@ from tkinter import ttk
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.9.28"
+version = "3.9.29"
 
 def get_date(comment):
     """Function to return the date of the comment"""

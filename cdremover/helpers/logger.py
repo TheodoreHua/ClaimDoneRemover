@@ -16,7 +16,7 @@ class Logger:
     def append_log(self, msg):
         """Method to append a line to the log"""
         dt = datetime.datetime.now().strftime("%B %d, %Y %H:%M:%S.%f")
-        m = "{}: {}".format(dt,msg)
+        m = "{} - {}".format(dt,msg)
         self.log.append(m)
 
     def write_log(self,erase=True, txt:Text=None):
