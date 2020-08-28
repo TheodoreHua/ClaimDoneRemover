@@ -132,16 +132,21 @@ else:
         log.append_log(repr(e))
 
 # Check if real time checking is on
-checked_once = None
 if not config["real_time_checking"]:
     checked_once = False
+    log.append_log("Recur/Real Time Checking set to False")
+else:
+    checked_once = None
+    log.append_log("Recur/Real Time Checking set to True")
 
 
 # Create the main Tkinter window and set it's attributes
 if config["mode"] == "light":
     m = ThemedTk(theme="arc",background=True,toplevel=True)
+    log.append_log("Using Light Mode")
 else:
     m = ThemedTk(theme="equilux",background=True,toplevel=True)
+    log.append_log("Using Dark Mode")
 m.title("Claim Done Remover")
 m.geometry("180x218")
 m.resizable(0,0)
