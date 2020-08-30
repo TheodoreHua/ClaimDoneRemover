@@ -57,12 +57,15 @@ def set_cont(txt:Text=None):
             txt.config(state=DISABLED)
             txt.see("end")
         return
-    global cont_time, checked_once
+    global cont_time, checked_once, paused
     # Set the continue time to the current time to make it run the next loop iteration
     cont_time = time.time()
     # If real time checking is turned off, set the checked_once to false to make it run once then not run again
     if checked_once:
         checked_once = False
+    # If paused, unpause
+    if paused:
+        paused = False
     # If the text widget is provided, update it
     if txt is not None:
         txt.config(state=NORMAL)
