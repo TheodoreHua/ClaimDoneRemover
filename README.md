@@ -38,7 +38,6 @@ Once you're done, just navigate to the folder where `main.pyw` is and run the fi
 - Wait: How many units of time the program should wait before checking for new comments again.
 - Wait Unit: The unit of time used for the wait configuration. This should be in the format `singular unit name, plural unit name, number of seconds per unit`.
 - Real Time Checking: Whether you want to app to run continuously in the background and check OR check once when run/when check now button is pressed. Set `True` OR `False`.
-- Mode: The theme of the window, light (arc) or dark (equilux). Enter `Light` or `Dark`
 
 ### Get a Refresh Token
 1. Run `get_refresh.py`.

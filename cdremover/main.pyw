@@ -9,16 +9,104 @@ import json
 from helpers import *
 from tkinter import *
 from tkinter import ttk
-from tkinter.messagebox import askyesno, showinfo
+from tkinter.messagebox import askyesno, showinfo, showerror
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.11.34"
+version = "3.12.34"
+
+def create_main_window():
+    """Function to create main window"""
+    global m, ent, progress, pause, opts
+    # Create the main Tkinter window and set it's attributes
+    if config["mode"] == "light":
+        m = ThemedTk(theme="arc", background=True, toplevel=True)
+        log.append_log("Using Light Mode")
+    else:
+        m = ThemedTk(theme="equilux", background=True, toplevel=True)
+        log.append_log("Using Dark Mode")
+    m.title("Claim Done Remover")
+    m.geometry("180x218")
+    m.resizable(0, 0)
+    m.wm_attributes("-topmost", 1)
+    m.wm_attributes("-toolwindow", 1)
+    m.protocol("WM_DELETE_WINDOW", close_window)
+    log.append_log("Created Main Window")
+
+    # Create the text widget and set it's state to DISABLED to make it read only
+    ent = Text(m, height=10, width=22, background=m.cget("background"), foreground=get_foreground(config),
+               highlightbackground=m.cget("background"), highlightcolor=m.cget("background"), highlightthickness=1)
+    ent.config(state=DISABLED)
+    # Render it on the window
+    ent.grid(row=0, column=0, columnspan=2)
+
+    # Create wait progress bar widget
+    progress = ttk.Progressbar(m, orient=HORIZONTAL, length=180, mode="determinate")
+    # Render it on the window
+    progress.grid(row=1, column=0, columnspan=2, pady=4)
+
+    # Create the button widgets
+    pause = ttk.Button(m, text="Pause", command=toggle_pause)
+    opts = ttk.Button(m, text="Options", command=options)
+    # Render it on the window
+    pause.grid(row=2, column=0)
+    opts.grid(row=2, column=1)
+
+def update_txt(msg:str,txt:Text=None):
+    """Function to update text window if needed"""
+    if txt is not None:
+        txt.config(state=NORMAL)
+        txt.delete("1.0", END)
+        txt.insert(INSERT, msg, "a")
+        txt.tag_add("center", "1.0", "end")
+        txt.config(state=DISABLED)
+        txt.see("end")
+        return True
+    return False
+
+def reset_window():
+    m.destroy()
+    create_main_window()
+
+def load_config():
+    global config
+    with open("config.json","r") as f:
+        config = json.load(f)
+    if not config["case_sensitive"]:
+        config["blacklist"] = [x.casefold() for x in config["blacklist"]]
+
+def submit_change_theme(theme,win,txt:Text=None):
+    val = theme.get()
+    if val.casefold() in ["light", "dark"]:
+        with open("config.json","r") as f:
+            con = json.load(f)
+        con["mode"] = val.casefold()
+        with open("config.json","w") as f:
+            json.dump(con,f)
+        win.destroy()
+        load_config()
+        log.append_log("Recreating Window")
+        m.destroy()
+        create_main_window()
+        update_txt("Success: Theme Updated", txt)
+    else:
+        showerror("Error", "Invalid Value in Mode (Light/Dark)")
+        return
+
+def change_theme_window(txt:Text=None):
+    win = Toplevel(m)
+    win.wm_attributes("-topmost", 1)
+    win.wm_attributes("-toolwindow", 1)
+    theme = StringVar()
+    theme.set(config["mode"])
+    ttk.Label(win, text="Theme (Light/Dark)").grid(row=0,column=0)
+    ttk.Entry(win, textvariable=theme, width=50).grid(row=0, column=1, columnspan=2)
+    ttk.Button(win, text="Submit", command=lambda: submit_change_theme(theme,win)).grid(
+        row=1, column=0, columnspan=3,sticky="we", padx=2)
 
 def get_date(comment):
     """Function to return the date of the comment"""
     return comment.created_utc
-
 
 def update_text(msg):
     """Function to update the text in the Text widget"""
@@ -30,7 +118,6 @@ def update_text(msg):
     # Reset the text widget as read only then scroll to the bottom (in case it isn't already)
     ent.config(state=DISABLED)
     ent.see("end")
-
 
 def toggle_pause():
     """Turn pause on/off then set the cont_time to the current time"""
@@ -50,13 +137,7 @@ def toggle_pause():
 
 def set_cont(txt:Text=None):
     if reddit is None:
-        if txt is not None:
-            txt.config(state=NORMAL)
-            txt.delete("1.0", END)
-            txt.insert(INSERT, "Fail: Not Configured", "a")
-            txt.tag_add("center", "1.0", "end")
-            txt.config(state=DISABLED)
-            txt.see("end")
+        update_txt("Fail: Not Configured",txt)
         return
     global cont_time, checked_once, paused
     # Set the continue time to the current time to make it run the next loop iteration
@@ -68,34 +149,16 @@ def set_cont(txt:Text=None):
     if paused:
         paused = False
     # If the text widget is provided, update it
-    if txt is not None:
-        txt.config(state=NORMAL)
-        txt.delete("1.0", END)
-        txt.insert(INSERT, "Success: Scanning", "a")
-        txt.tag_add("center", "1.0", "end")
-        txt.config(state=DISABLED)
-        txt.see("end")
+    update_txt("Success: Scanning",txt)
 
 def set_ignore_cutoff(txt:Text=None):
     """Function to set the variable that ignores cutoff and deletes once for option menu"""
     if reddit is None:
-        if txt is not None:
-            txt.config(state=NORMAL)
-            txt.delete("1.0", END)
-            txt.insert(INSERT, "Fail: Not Configured", "a")
-            txt.tag_add("center", "1.0", "end")
-            txt.config(state=DISABLED)
-            txt.see("end")
+        update_txt("Fail: Not Configured",txt)
         return
     if not askyesno("Prompt","Are you sure you want to ignore cutoff and delete now once?"):
         # If the text widget is provided, update it
-        if txt is not None:
-            txt.config(state=NORMAL)
-            txt.delete("1.0", END)
-            txt.insert(INSERT, "Fail: Canceled", "a")
-            txt.tag_add("center", "1.0", "end")
-            txt.config(state=DISABLED)
-            txt.see("end")
+        update_txt("Fail: Canceled",txt)
         return
     global ignore_cutoff
     # Set ignore_cutoff to True
@@ -103,13 +166,7 @@ def set_ignore_cutoff(txt:Text=None):
     # Call set_cont function to unpause and run now
     set_cont()
     # If the text widget is provided, update it
-    if txt is not None:
-        txt.config(state=NORMAL)
-        txt.delete("1.0", END)
-        txt.insert(INSERT, "Success: Scanning & Ignoring", "a")
-        txt.tag_add("center", "1.0", "end")
-        txt.config(state=DISABLED)
-        txt.see("end")
+    update_txt("Success: Scanning & Ignoring",txt)
 
 def close_window():
     """Function to be called when the user closes the window"""
@@ -144,6 +201,7 @@ def options():
             "Erase Cached Log": lambda: log.erase_cached(confirm_txt),
             "Erase Stored Log": lambda: log.erase_stored(confirm_txt),
             "Assert Data": lambda: assert_data(log,confirm_txt),
+            "Change Theme": lambda: change_theme_window(confirm_txt),
             "Edit Config": lambda: create_survey_config(m, confirm_txt),
             "Edit PRAW Config": lambda: create_survey_praw(m, confirm_txt),
             "Reset Config": lambda: reset_config(confirm_txt),
@@ -153,18 +211,14 @@ def options():
         ttk.Button(opt_win, text=text, command=command).grid(row=row, column=0, sticky="we")
         row += 1
 
-
 # Create logger instance
 log = Logger()
 
 # Assert that config and PRAW files exist
 assert_config_praw(log)
 
-# Get the config variables from the JSON file, check if case-sensitive and set blacklist accordingly
-with open("config.json","r") as f:
-    config = json.load(f)
-if not config["case_sensitive"]:
-    config["blacklist"] = [x.casefold() for x in config["blacklist"]]
+# Get data from config
+load_config()
 
 # Check if basic config is set
 if config["os"] in [None,""]:
@@ -193,40 +247,8 @@ else:
 # Update logs for case sensitivity
 log.append_log("Case Sensitive set to " + str(config["case_sensitive"]))
 
-
-# Create the main Tkinter window and set it's attributes
-if config["mode"] == "light":
-    m = ThemedTk(theme="arc",background=True,toplevel=True)
-    log.append_log("Using Light Mode")
-else:
-    m = ThemedTk(theme="equilux",background=True,toplevel=True)
-    log.append_log("Using Dark Mode")
-m.title("Claim Done Remover")
-m.geometry("180x218")
-m.resizable(0,0)
-m.wm_attributes("-topmost",1)
-m.wm_attributes("-toolwindow",1)
-m.protocol("WM_DELETE_WINDOW", close_window)
-log.append_log("Created Main Window")
-
-# Create the text widget and set it's state to DISABLED to make it read only
-ent = Text(m, height=10, width=22, background=m.cget("background"), foreground=get_foreground(config),
-           highlightbackground=m.cget("background"), highlightcolor=m.cget("background"), highlightthickness=1)
-ent.config(state=DISABLED)
-# Render it on the window
-ent.grid(row=0, column=0, columnspan=2)
-
-# Create wait progress bar widget
-progress = ttk.Progressbar(m, orient=HORIZONTAL, length=180, mode="determinate")
-# Render it on the window
-progress.grid(row=1, column=0, columnspan=2,pady=4)
-
-# Create the button widgets
-pause = ttk.Button(m, text="Pause", command=toggle_pause)
-opts = ttk.Button(m, text="Options", command=options)
-# Render it on the window
-pause.grid(row=2, column=0)
-opts.grid(row=2, column=1)
+# Create main window
+create_main_window()
 
 # Assert data
 assert_data(log)
