@@ -10,7 +10,7 @@ entries = {}
 def create_survey_praw(main: Tk, txt:Text=None):
     global entries
     # Ask if they are using refresh or username & password
-    refresh = askyesno("Prompt", "Are you using refresh tokens (If you don't understand, choose no)?")
+    refresh = askyesno("Prompt", "Are you using refresh tokens?\nChoose No if you don't understand.")
     # Create toplevel window then configure it
     top = Toplevel(main)
     top.wm_attributes("-topmost", 1)
