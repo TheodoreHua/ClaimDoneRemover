@@ -12,7 +12,7 @@ def reset_config(txt:Text=None):
                                   "claim -- this was a automated action. please contact me with any questions.",
                                   "done -- this was a automated action. please contact me with any questions.",
                                   "unclaim -- this was a automated action. please contact me with any questions."],
-                    "cutoff": 5, "cutoff_secs": 60, "limit": 100, "wait": 1,
+                    "case_sensitive": True,"cutoff": 5, "cutoff_secs": 60, "limit": 100, "wait": 1,
                     "wait_unit": ["minute", "minutes", 60],
                     "real_time_checking": True,
                     "mode": "light"}

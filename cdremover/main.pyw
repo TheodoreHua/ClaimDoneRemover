@@ -13,7 +13,7 @@ from tkinter.messagebox import askyesno, showinfo
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.9.33"
+version = "3.10.33"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -154,9 +154,11 @@ def options():
         row += 1
 
 
-# Get the config variables from the JSON file
+# Get the config variables from the JSON file, check if case-sensitive and set blacklist accordingly
 with open("config.json","r") as f:
     config = json.load(f)
+if not config["case_sensitive"]:
+    config["blacklist"] = [x.casefold() for x in config["blacklist"]]
 
 # Create logger instance
 log = Logger()
@@ -184,6 +186,9 @@ if not config["real_time_checking"]:
 else:
     checked_once = None
     log.append_log("Recur/Real Time Checking set to True")
+
+# Update logs for case sensitivity
+log.append_log("Case Sensitive set to " + str(config["case_sensitive"]))
 
 
 # Create the main Tkinter window and set it's attributes
@@ -276,7 +281,11 @@ while True:
         # Iterate through each comment in the redditor up until the limit
         for comment in reddit.redditor(config["user"]).comments.new(limit=config["limit"]):
             # Check if the comment is in the blacklist
-            if comment.body in config["blacklist"]:
+            if config["case_sensitive"]:
+                check_body = comment.body
+            else:
+                check_body = comment.body.casefold()
+            if check_body in config["blacklist"]:
                 # If ignore_cutoff is true, delete all matching values and update stats
                 if ignore_cutoff:
                     log.append_log("Deleted \"{}\". Comment Time {}. Cutoff Ignored.".format(comment.body, get_date(comment)))
