@@ -13,7 +13,7 @@ from tkinter.messagebox import askyesno, showinfo
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.9.32"
+version = "3.9.33"
 
 def get_date(comment):
     """Function to return the date of the comment"""
