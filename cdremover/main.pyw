@@ -9,11 +9,11 @@ import json
 from helpers import *
 from tkinter import *
 from tkinter import ttk
-from tkinter.messagebox import askyesno
+from tkinter.messagebox import askyesno, showinfo
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.9.31"
+version = "3.9.32"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -117,6 +117,9 @@ def close_window():
     log.append_log("Exit")
     # Write the log to file
     log.write_log()
+    # Add total to lifetime total
+    with open("data/lifetime_totals.json","w") as f:
+        json.dump({"counted":lifetime_total_counted,"deleted":lifetime_total_deleted},f,indent=2)
     # Destroy the main window then exit
     m.destroy()
     exit()
@@ -133,16 +136,18 @@ def options():
     confirm_txt.config(state=DISABLED)
     row = 1
     # Set the dictionary full of all of the options and it's action
-    btns = {"Scan Now":lambda: set_cont(confirm_txt),
+    btns = {"Scan Now": lambda: set_cont(confirm_txt),
             "Scan Now Ignore Cutoff": lambda: set_ignore_cutoff(confirm_txt),
-            "Save Logs":lambda: log.write_log(txt=confirm_txt),
-            "Erase Cached Log":lambda: log.erase_cached(confirm_txt),
-            "Erase Stored Log":lambda: log.erase_stored(confirm_txt),
-            "Assert Data":lambda: log.assert_data(confirm_txt),
-            "Edit Config":lambda: create_survey_config(m, confirm_txt),
-            "Edit PRAW Config":lambda: create_survey_praw(m, confirm_txt),
-            "Reset Config":lambda: reset_config(confirm_txt),
-            "Reset PRAW Config":lambda: reset_praw(confirm_txt)}
+            "Show Lifetime Totals": lambda: showinfo("Lifetime Totals","Total Counted: {}\nTotal Deleted: {}".format(
+                str(lifetime_total_counted),lifetime_total_deleted)),
+            "Save Logs": lambda: log.write_log(txt=confirm_txt),
+            "Erase Cached Log": lambda: log.erase_cached(confirm_txt),
+            "Erase Stored Log": lambda: log.erase_stored(confirm_txt),
+            "Assert Data": lambda: assert_data(log,confirm_txt),
+            "Edit Config": lambda: create_survey_config(m, confirm_txt),
+            "Edit PRAW Config": lambda: create_survey_praw(m, confirm_txt),
+            "Reset Config": lambda: reset_config(confirm_txt),
+            "Reset PRAW Config": lambda: reset_praw(confirm_txt)}
     # Iterate through the dictionary and create the corresponding button
     for text,command in btns.items():
         ttk.Button(opt_win, text=text, command=command).grid(row=row, column=0, sticky="we")
@@ -215,7 +220,15 @@ opts = ttk.Button(m, text="Options", command=options)
 pause.grid(row=2, column=0)
 opts.grid(row=2, column=1)
 
+# Assert data
+assert_data(log)
+
 # Set the default values for the variables
+with open("data/lifetime_totals.json") as f:
+    d = json.load(f)
+    lifetime_total_counted = d["counted"]
+    lifetime_total_deleted = d["deleted"]
+    del d
 total_counted = 0
 total_deleted = 0
 paused = False
@@ -285,6 +298,9 @@ while True:
         # Add the current run stats to the total
         total_counted += counted
         total_deleted += deleted
+        # Add the current total stats to the lifetime total
+        lifetime_total_counted += counted
+        lifetime_total_deleted += deleted
         # Update the window
         update_text("Totals:\nCounted: {}\nDeleted: {}\n\nThis Run:\nCounted: {}\nDeleted: {}\nWaiting For: {}\n\n"
                     "Waiting {} {}."
