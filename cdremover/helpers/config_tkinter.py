@@ -52,17 +52,17 @@ def submit_survey(top:Toplevel,txt:Text=None):
             con[name] = val.replace(", ",",").split(",")[:-1] + [int(val.replace(", ",",").split(",")[-1])]
         elif name in ["cutoff","cutoff_secs","wait"]:
             con[name] = int(val)
-        elif name == "real_time_checking":
+        elif name in ["real_time_checking","case_sensitive"]:
             if val.title() == "True":
                 con[name] = True
             elif val.title() == "False":
                 con[name] = False
             else:
-                showerror("Error","Invalid Value in Real Time Checking (True/False)")
+                showerror("Error","Invalid Value in Real Time Checking or Case Sensitive (True/False)")
                 return
         elif name == "Mode":
-            if val.lower() in ["light","dark"]:
-                con[name] = val.lower()
+            if val.casefold() in ["light","dark"]:
+                con[name] = val.casefold()
             else:
                 showerror("Error","Invalid Value in Mode (Light/Dark)")
                 return

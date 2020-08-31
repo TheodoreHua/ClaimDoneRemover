@@ -31,6 +31,7 @@ Once you're done, just navigate to the folder where `main.pyw` is and run the fi
 - User: Your username.
 - OS: Your operating system name (Doesn't have to be exact).
 - Blacklist: Exact, word-for-word body of the comments to be deleted. Separated by commas (`,`).
+- Case Sensitive: Whether or not the blacklist should be case sensitive.
 - Cutoff: How many units of time old the comments must be before they are deleted.
 - Cutoff Secs: How many seconds each unit of time for the cutoff is. E.g. a second would be 1, a minute would be 60, a hour would be 3600, etc.
 - Limit: How many comments to check through in the users history, max 1000 (enter `None` for 1000). Keep in mind the larger this is, the longer it will take to check per run.

@@ -9,6 +9,7 @@
     "done -- this was a automated action. please contact me with any questions.",
     "unclaim -- this was a automated action. please contact me with any questions."
   ],
+  "case_sensitive": true,
   "cutoff": 5,
   "cutoff_secs": 60,
   "limit": 100,
