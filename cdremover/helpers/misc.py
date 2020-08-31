@@ -2,6 +2,7 @@ import json
 from tkinter import NORMAL, END, INSERT, DISABLED, Text
 from os import mkdir
 from os.path import isfile,isdir
+from .set_defaults import reset_config, reset_praw
 
 def get_foreground(config:dict):
     """Function to get the foreground color for the current theme"""
@@ -13,7 +14,7 @@ def get_foreground(config:dict):
         return None
 
 def assert_data(log,txt:Text=None):
-    """Method to check if the file exists, if it doesn't exist, create it"""
+    """Method to check if the data files exists, if it doesn't exist, create it"""
     if not isdir("data"):
         mkdir("data")
         log.append_log("Created Data Folder")
@@ -31,3 +32,12 @@ def assert_data(log,txt:Text=None):
         txt.tag_add("center", "1.0", "end")
         txt.config(state=DISABLED)
         txt.see("end")
+
+def assert_config_praw(log):
+    """Method to check if the config files exists, if it doesn't exist, create it"""
+    if not isfile("config.json"):
+        reset_config()
+        log.append_log("Created Config JSON File")
+    if not isfile("praw.ini"):
+        reset_praw()
+        log.append_log("Created Config PRAW INI file")
