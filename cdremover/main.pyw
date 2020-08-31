@@ -9,10 +9,11 @@ import json
 from helpers import *
 from tkinter import *
 from tkinter import ttk
+from tkinter.messagebox import askyesno
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.9.29"
+version = "3.9.30"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -70,7 +71,42 @@ def set_cont(txt:Text=None):
     if txt is not None:
         txt.config(state=NORMAL)
         txt.delete("1.0", END)
-        txt.insert(INSERT, "Success: Scanning Now", "a")
+        txt.insert(INSERT, "Success: Scanning", "a")
+        txt.tag_add("center", "1.0", "end")
+        txt.config(state=DISABLED)
+        txt.see("end")
+
+def set_ignore_cutoff(txt:Text=None):
+    """Function to set the variable that ignores cutoff and deletes once for option menu"""
+    if reddit is None:
+        if txt is not None:
+            txt.config(state=NORMAL)
+            txt.delete("1.0", END)
+            txt.insert(INSERT, "Fail: Not Configured", "a")
+            txt.tag_add("center", "1.0", "end")
+            txt.config(state=DISABLED)
+            txt.see("end")
+        return
+    if not askyesno("Prompt","Are you sure you want to ignore cutoff and delete now once?"):
+        # If the text widget is provided, update it
+        if txt is not None:
+            txt.config(state=NORMAL)
+            txt.delete("1.0", END)
+            txt.insert(INSERT, "Fail: Canceled", "a")
+            txt.tag_add("center", "1.0", "end")
+            txt.config(state=DISABLED)
+            txt.see("end")
+        return
+    global ignore_cutoff
+    # Set ignore_cutoff to True
+    ignore_cutoff = True
+    # Call set_cont function to unpause and run now
+    set_cont()
+    # If the text widget is provided, update it
+    if txt is not None:
+        txt.config(state=NORMAL)
+        txt.delete("1.0", END)
+        txt.insert(INSERT, "Success: Scanning & Ignoring", "a")
         txt.tag_add("center", "1.0", "end")
         txt.config(state=DISABLED)
         txt.see("end")
@@ -98,6 +134,7 @@ def options():
     row = 1
     # Set the dictionary full of all of the options and it's action
     btns = {"Scan Now":lambda: set_cont(confirm_txt),
+            "Scan Now Ignore Cutoff": lambda: set_ignore_cutoff(confirm_txt),
             "Erase Cached Log":lambda: log.erase_cached(confirm_txt),
             "Erase Stored Log":lambda: log.erase_stored(confirm_txt),
             "Assert Data":lambda: log.assert_data(confirm_txt),
@@ -181,6 +218,7 @@ opts.grid(row=2, column=1)
 total_counted = 0
 total_deleted = 0
 paused = False
+ignore_cutoff = False
 cont_time = time.time()
 log.append_log("Created Default Totals")
 
@@ -225,8 +263,13 @@ while True:
         for comment in reddit.redditor(config["user"]).comments.new(limit=config["limit"]):
             # Check if the comment is in the blacklist
             if comment.body in config["blacklist"]:
+                # If ignore_cutoff is true, delete all matching values and update stats
+                if ignore_cutoff:
+                    log.append_log("Deleted \"{}\". Comment Time {}. Cutoff Ignored.".format(comment.body, get_date(comment)))
+                    comment.delete()
+                    deleted += 1
                 # If the sell-by date is passed, delete the comment and update stats
-                if cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
+                elif cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
                     log.append_log("Deleted \"{}\". Comment Time {}.".format(comment.body,get_date(comment)))
                     comment.delete()
                     deleted += 1
@@ -236,6 +279,8 @@ while True:
                     non_cutoff += 1
             # Update counted stats
             counted += 1
+        # If ignore_cutoff was True, set to False now that it's run
+        ignore_cutoff = False
         # Add the current run stats to the total
         total_counted += counted
         total_deleted += deleted
