@@ -13,9 +13,9 @@ from tkinter.messagebox import askyesno, showinfo, showerror
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.12.34"
+version = "3.12.35"
 
-def create_main_window():
+def create_main_window(recreate=False):
     """Function to create main window"""
     global m, ent, progress, pause, opts
     # Create the main Tkinter window and set it's attributes
@@ -51,6 +51,13 @@ def create_main_window():
     # Render it on the window
     pause.grid(row=2, column=0)
     opts.grid(row=2, column=1)
+    if recreate:
+        update_text("Totals:\nCounted: {}\nDeleted: {}\n\nThis Run:\nCounted: {}\nDeleted: {}\nWaiting For: {}\n\n"
+                    "Waiting {} {}."
+                    .format(str(total_counted), str(total_deleted), str(counted), str(deleted), str(non_cutoff),
+                            str(config["wait"]),
+                            config["wait_unit"][0] if config["wait"] == 1 else config["wait_unit"][1]))
+        log.append_log("Window Recreated")
 
 def update_txt(msg:str,txt:Text=None):
     """Function to update text window if needed"""
@@ -65,10 +72,12 @@ def update_txt(msg:str,txt:Text=None):
     return False
 
 def reset_window():
+    """Function to destroy and recreate main window"""
     m.destroy()
-    create_main_window()
+    create_main_window(True)
 
 def load_config():
+    """Load/Reload configuration file from disk"""
     global config
     with open("config.json","r") as f:
         config = json.load(f)
@@ -76,6 +85,7 @@ def load_config():
         config["blacklist"] = [x.casefold() for x in config["blacklist"]]
 
 def submit_change_theme(theme,win,txt:Text=None):
+    """Function to update theme from config window"""
     val = theme.get()
     if val.casefold() in ["light", "dark"]:
         with open("config.json","r") as f:
@@ -85,15 +95,14 @@ def submit_change_theme(theme,win,txt:Text=None):
             json.dump(con,f)
         win.destroy()
         load_config()
-        log.append_log("Recreating Window")
-        m.destroy()
-        create_main_window()
+        reset_window()
         update_txt("Success: Theme Updated", txt)
     else:
         showerror("Error", "Invalid Value in Mode (Light/Dark)")
         return
 
 def change_theme_window(txt:Text=None):
+    """Function to create theme change config window"""
     win = Toplevel(m)
     win.wm_attributes("-topmost", 1)
     win.wm_attributes("-toolwindow", 1)
