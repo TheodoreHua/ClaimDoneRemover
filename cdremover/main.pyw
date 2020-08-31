@@ -13,7 +13,7 @@ from tkinter.messagebox import askyesno
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.9.30"
+version = "3.9.31"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -135,6 +135,7 @@ def options():
     # Set the dictionary full of all of the options and it's action
     btns = {"Scan Now":lambda: set_cont(confirm_txt),
             "Scan Now Ignore Cutoff": lambda: set_ignore_cutoff(confirm_txt),
+            "Save Logs":lambda: log.write_log(txt=confirm_txt),
             "Erase Cached Log":lambda: log.erase_cached(confirm_txt),
             "Erase Stored Log":lambda: log.erase_stored(confirm_txt),
             "Assert Data":lambda: log.assert_data(confirm_txt),

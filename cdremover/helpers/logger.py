@@ -25,6 +25,13 @@ class Logger:
             f.write("\n" + "\n".join(self.log))
         if erase:
             self.erase_cached()
+        if txt is not None:
+            txt.config(state=NORMAL)
+            txt.delete("1.0", END)
+            txt.insert(INSERT, "Success: Logs Saved", "a")
+            txt.tag_add("center", "1.0", "end")
+            txt.config(state=DISABLED)
+            txt.see("end")
 
     def erase_cached(self, txt:Text=None):
         self.log = []
