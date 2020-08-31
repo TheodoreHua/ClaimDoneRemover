@@ -23,15 +23,15 @@ def create_survey_config(main: Tk, txt:Text=None):
     row = 1
     # Create the labels and entry widgets for each option
     for name, old_val in old.items():
-        # Skip Theme Option
-        if name == "mode":
-            continue
         entries[name] = StringVar()
         # Check if the value/name is special and execute special instructions if needed
         if name in ["blacklist","wait_unit"]:
             entries[name].set(",".join(str(x) for x in old_val))
         else:
             entries[name].set(str(old_val))
+        # Skip Theme Option
+        if name == "mode":
+            continue
         if name == "os":
             ttk.Label(top, text=name.replace("_", " ").upper()).grid(row=row, column=0)
         else:

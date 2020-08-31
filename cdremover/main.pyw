@@ -13,7 +13,7 @@ from tkinter.messagebox import askyesno, showinfo, showerror
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.12.35"
+version = "3.12.36"
 
 def create_main_window(recreate=False):
     """Function to create main window"""

@@ -50,6 +50,6 @@ This is normal if you have a large amount of comments that match the blacklist t
 #### Can I use this to delete past comments?
 Yes, if you would like it to go back and delete all of your comments, set the limit to `None` then let it run 3-10 times (You can skip the wait by pressing the check now button in the options menu).
 #### I messed up something in the configuration settings and now it won't start/is crashing, what should I do?
-Try and look at the error and correct it yourself by editing `config.json` or `praw.ini` by yourself. If the error cannot be resolved by yourself, re-download the `config.json` and/or the `praw.ini` files from GitHub and replace them then set it again in folder.
+Try and look at the error and correct it yourself by editing `config.json` or `praw.ini` by yourself. If the error cannot be resolved by yourself, delete the `config.json` and/or `praw.ini` files, then run `main.pyw`. The program will re-create the files and you'll be good to go.
 #### Where can I contact the developer?
 You can send me an email at `blankdev.th@gmail.com`.
