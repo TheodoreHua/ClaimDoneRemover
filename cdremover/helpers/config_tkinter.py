@@ -23,6 +23,9 @@ def create_survey_config(main: Tk, txt:Text=None):
     row = 1
     # Create the labels and entry widgets for each option
     for name, old_val in old.items():
+        # Skip Theme Option
+        if name == "mode":
+            continue
         entries[name] = StringVar()
         # Check if the value/name is special and execute special instructions if needed
         if name in ["blacklist","wait_unit"]:
@@ -59,12 +62,6 @@ def submit_survey(top:Toplevel,txt:Text=None):
                 con[name] = False
             else:
                 showerror("Error","Invalid Value in Real Time Checking or Case Sensitive (True/False)")
-                return
-        elif name == "Mode":
-            if val.casefold() in ["light","dark"]:
-                con[name] = val.casefold()
-            else:
-                showerror("Error","Invalid Value in Mode (Light/Dark)")
                 return
         elif name == "limit":
             if val.title() == "None":
