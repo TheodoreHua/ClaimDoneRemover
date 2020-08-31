@@ -13,7 +13,7 @@ from tkinter.messagebox import askyesno, showinfo
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.10.34"
+version = "3.11.34"
 
 def get_date(comment):
     """Function to return the date of the comment"""
@@ -154,14 +154,17 @@ def options():
         row += 1
 
 
+# Create logger instance
+log = Logger()
+
+# Assert that config and PRAW files exist
+assert_config_praw(log)
+
 # Get the config variables from the JSON file, check if case-sensitive and set blacklist accordingly
 with open("config.json","r") as f:
     config = json.load(f)
 if not config["case_sensitive"]:
     config["blacklist"] = [x.casefold() for x in config["blacklist"]]
-
-# Create logger instance
-log = Logger()
 
 # Check if basic config is set
 if config["os"] in [None,""]:
