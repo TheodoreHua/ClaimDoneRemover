@@ -52,11 +52,11 @@ def create_main_window(recreate=False):
     pause.grid(row=2, column=0)
     opts.grid(row=2, column=1)
     if recreate:
-        update_text("Totals:\nCounted: {}\nDeleted: {}\n\nThis Run:\nCounted: {}\nDeleted: {}\nWaiting For: {}\n\n"
-                    "Waiting {} {}."
-                    .format(str(total_counted), str(total_deleted), str(counted), str(deleted), str(non_cutoff),
-                            str(config["wait"]),
-                            config["wait_unit"][0] if config["wait"] == 1 else config["wait_unit"][1]))
+        update_text(
+            "Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: {:,}\n\n"
+            "Waiting {} {}."
+            .format(total_counted, total_deleted, counted, deleted, non_cutoff,
+                    str(config["wait"]), config["wait_unit"][0] if config["wait"] == 1 else config["wait_unit"][1]))
         log.append_log("Window Recreated")
 
 def update_txt(msg:str,txt:Text=None):
@@ -346,12 +346,12 @@ while True:
         lifetime_total_counted += counted
         lifetime_total_deleted += deleted
         # Update the window
-        update_text("Totals:\nCounted: {}\nDeleted: {}\n\nThis Run:\nCounted: {}\nDeleted: {}\nWaiting For: {}\n\n"
+        update_text("Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: {:,}\n\n"
                     "Waiting {} {}."
-                    .format(str(total_counted), str(total_deleted), str(counted), str(deleted), str(non_cutoff),
+                    .format(total_counted, total_deleted, counted, deleted, non_cutoff,
                             str(config["wait"]), config["wait_unit"][0] if config["wait"] == 1 else config["wait_unit"][1]))
-        log.append_log("Finished Check. Totals {}, {}. This Run {}, {}, {}"
-                       .format(str(total_counted), str(total_deleted), str(counted), str(deleted), str(non_cutoff)))
+        log.append_log("Finished Check. Totals {:,}, {:,}. This Run {:,}, {:,}, {:,}"
+                       .format(total_counted, total_deleted, counted, deleted, non_cutoff))
         # Set the next check time
         cont_time = cur_time + (config["wait"] * config["wait_unit"][2])
         # Reset progress bar
