@@ -108,10 +108,11 @@ def change_theme_window(txt:Text=None):
     win.wm_attributes("-toolwindow", 1)
     theme = StringVar()
     theme.set(config["mode"])
-    ttk.Label(win, text="Theme (Light/Dark)").grid(row=0,column=0)
-    ttk.Entry(win, textvariable=theme, width=50).grid(row=0, column=1, columnspan=2)
+    ttk.Label(win, text="Theme (Light/Dark)").grid(row=0,column=1,padx=6)
+    ttk.Radiobutton(win, text="Light", variable=theme, value="light", width=6).grid(row=1, column=1)
+    ttk.Radiobutton(win, text="Dark", variable=theme, value="dark", width=6).grid(row=2, column=1)
     ttk.Button(win, text="Submit", command=lambda: submit_change_theme(theme,win)).grid(
-        row=1, column=0, columnspan=3,sticky="we", padx=2)
+        row=3, column=0, columnspan=3,sticky="we", padx=2)
 
 def get_date(comment):
     """Function to return the date of the comment"""
