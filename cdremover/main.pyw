@@ -13,7 +13,7 @@ from tkinter.messagebox import askyesno, showinfo, showerror
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.12.36"
+version = "3.12.37"
 
 def create_main_window(recreate=False):
     """Function to create main window"""
@@ -205,8 +205,8 @@ def options():
     # Set the dictionary full of all of the options and it's action
     btns = {"Scan Now": lambda: set_cont(confirm_txt),
             "Scan Now Ignore Cutoff": lambda: set_ignore_cutoff(confirm_txt),
-            "Show Lifetime Totals": lambda: showinfo("Lifetime Totals","Total Counted: {}\nTotal Deleted: {}".format(
-                str(lifetime_total_counted),lifetime_total_deleted)),
+            "Show Lifetime Totals": lambda: showinfo("Lifetime Totals","Total Counted: {:,}\nTotal Deleted: {:,}".format(
+                lifetime_total_counted,lifetime_total_deleted)),
             "Save Logs": lambda: log.write_log(txt=confirm_txt),
             "Erase Cached Log": lambda: log.erase_cached(confirm_txt),
             "Erase Stored Log": lambda: log.erase_stored(confirm_txt),
