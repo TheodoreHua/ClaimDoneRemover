@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Credit to /u/MurdoMaclachlan for making the original unedited version, and the unit system.
 # Credit to /u/DasherPack for being a handsome boy...
 # Credit to /u/metaquarx for making funny comments about programming misery and typing for a whole night...
@@ -12,8 +14,9 @@ from tkinter import ttk
 from tkinter.messagebox import askyesno, showinfo, showerror
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
+from sys import platform
 
-version = "3.12.37"
+version = "3.12.38"
 
 def create_main_window(recreate=False):
     """Function to create main window"""
@@ -28,7 +31,8 @@ def create_main_window(recreate=False):
     m.title("Claim Done Remover")
     m.geometry("180x218")
     m.resizable(0, 0)
-    m.wm_attributes("-topmost", 1)
+    if sys.platform.startswith("win32"):
+        m.wm_attributes("-topmost", 1)
     m.wm_attributes("-toolwindow", 1)
     m.protocol("WM_DELETE_WINDOW", close_window)
     log.append_log("Created Main Window")
