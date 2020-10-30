@@ -30,3 +30,5 @@ E
 cdremover/config.json,f\f\fff09d6f5a6a9421cc379f2c01549fb4c3af4d95
 I
 cdremover/helpers/misc.py,8\6\86d7ad0878a4a0fe54cab4475caa46c4cea2430f
+S
+#cdremover/data/lifetime_totals.json,5\1\51ab4ea32059978bb70dc3f25c2ad824eadc603d
