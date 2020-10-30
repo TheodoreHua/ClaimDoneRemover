@@ -16,7 +16,7 @@ from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 from sys import platform
 
-version = "3.12.38"
+version = "3.12.39"
 
 def create_main_window(recreate=False):
     """Function to create main window"""
@@ -294,11 +294,11 @@ while True:
     elif paused:
         # If the window is not already set to Paused, add the pause indicator
         if "Paused" not in ent.get("1.0",END).strip():
-            update_text("Totals:\nCounted: {}\nDeleted: {}\n\nPaused".format(str(total_counted), str(total_deleted)))
+            update_text("Totals:\nCounted: {:,}\nDeleted: {:,}\n\nPaused".format(total_counted, total_deleted))
             log.append_log("Paused")
     elif not config["real_time_checking"] and checked_once not in [False, None]:
         if "Real Time Checking Off" not in ent.get("1.0",END).strip():
-            update_text("Totals:\nCounted: {}\nDeleted: {}\n\nReal Time Checking Off".format(str(total_counted), str(total_deleted)))
+            update_text("Totals:\nCounted: {:,}\nDeleted: {:,}\n\nReal Time Checking Off".format(total_counted, total_deleted))
             log.append_log("Real Time Checking Off")
     # Check if the preset time has passed
     elif cur_time >= cont_time:
