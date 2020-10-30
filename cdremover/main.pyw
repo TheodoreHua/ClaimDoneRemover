@@ -8,6 +8,7 @@
 import praw
 import time
 import json
+import matplotlib.pyplot as plt
 from helpers import *
 from tkinter import *
 from tkinter import ttk
@@ -16,7 +17,11 @@ from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 from sys import platform
 
-version = "3.12.39"
+version = "3.13.40"
+
+deleted_num = []
+cutoff_num = []
+time_against = []
 
 def create_main_window(recreate=False):
     """Function to create main window"""
@@ -31,9 +36,9 @@ def create_main_window(recreate=False):
     m.title("Claim Done Remover")
     m.geometry("180x218")
     m.resizable(0, 0)
+    m.wm_attributes("-topmost", 1)
     if platform.startswith("win32"):
-        m.wm_attributes("-topmost", 1)
-    m.wm_attributes("-toolwindow", 1)
+        m.wm_attributes("-toolwindow", 1)
     m.protocol("WM_DELETE_WINDOW", close_window)
     log.append_log("Created Main Window")
 
@@ -195,6 +200,20 @@ def close_window():
     m.destroy()
     exit()
 
+def show_graph():
+    """Function to show a graph of the number of deletions and cutoff waiting against time"""
+    # Plot deleted and cutoff numbers against time
+    plt.plot(time_against, deleted_num, label="Deleted", color="red")
+    plt.plot(time_against, cutoff_num, label="Cutoff", color="orange")
+    # Set axis labels
+    plt.xlabel("Time (minutes)")
+    plt.ylabel("Amount")
+    # Set graph title and show legend
+    plt.title("CDRemover Delete/Cutoff Stats")
+    plt.legend()
+    # Show the graph
+    plt.show()
+
 def options():
     # Create the toplevel options window and set it's attributes
     opt_win = Toplevel(m)
@@ -211,6 +230,7 @@ def options():
             "Scan Now Ignore Cutoff": lambda: set_ignore_cutoff(confirm_txt),
             "Show Lifetime Totals": lambda: showinfo("Lifetime Totals","Total Counted: {:,}\nTotal Deleted: {:,}".format(
                 lifetime_total_counted,lifetime_total_deleted)),
+            "Show Graph": show_graph,
             "Save Logs": lambda: log.write_log(txt=confirm_txt),
             "Erase Cached Log": lambda: log.erase_cached(confirm_txt),
             "Erase Stored Log": lambda: log.erase_stored(confirm_txt),
@@ -278,6 +298,7 @@ total_deleted = 0
 paused = False
 ignore_cutoff = False
 cont_time = time.time()
+start_time = time.time()
 log.append_log("Created Default Totals")
 
 # Mainloop
@@ -349,6 +370,10 @@ while True:
         # Add the current total stats to the lifetime total
         lifetime_total_counted += counted
         lifetime_total_deleted += deleted
+        # Add to graph plotting lists
+        deleted_num.append(deleted)
+        cutoff_num.append(non_cutoff)
+        time_against.append((cur_time-start_time)/60)
         # Update the window
         update_text("Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: {:,}\n\n"
                     "Waiting {} {}."
