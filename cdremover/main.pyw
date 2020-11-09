@@ -17,7 +17,7 @@ from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 from sys import platform
 
-version = "3.13.40"
+version = "3.13.41"
 
 deleted_num = []
 cutoff_num = []
@@ -212,7 +212,7 @@ def show_graph():
     plt.title("CDRemover Delete/Cutoff Stats")
     plt.legend()
     # Show the graph
-    plt.show()
+    plt.show(block=False)
 
 def options():
     # Create the toplevel options window and set it's attributes
@@ -305,6 +305,7 @@ log.append_log("Created Default Totals")
 while True:
     # Get current time
     cur_time = time.time()
+    print("run")
 
     # Check if reddit instance exists
     if reddit is None:
@@ -313,6 +314,7 @@ while True:
             log.append_log("No Reddit Instance")
     # Check whether or not program is paused
     elif paused:
+        print("paused")
         # If the window is not already set to Paused, add the pause indicator
         if "Paused" not in ent.get("1.0",END).strip():
             update_text("Totals:\nCounted: {:,}\nDeleted: {:,}\n\nPaused".format(total_counted, total_deleted))
@@ -323,6 +325,7 @@ while True:
             log.append_log("Real Time Checking Off")
     # Check if the preset time has passed
     elif cur_time >= cont_time:
+        print("checked")
         if not config["real_time_checking"]:
             checked_once = True
         # Add logs
@@ -387,6 +390,7 @@ while True:
         progress["value"] = 0
     # Update progress bar if time hasn't passed
     else:
+        print("progress updated")
         progress["value"] = (config["wait_unit"][2]-(cont_time-cur_time))/(config["wait"]*config["wait_unit"][2])*100
     # Update the window
     m.update_idletasks()
