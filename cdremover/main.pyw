@@ -268,7 +268,7 @@ else:
     # Create the reddit PRAW instance
     try:
         reddit = praw.Reddit("credentials",
-                            user_agent=config["os"] + ":claimdoneremover:v" + version + " (by u/MurdoMaclachlan edited by u/--B_L_A_N_K--)")
+                            user_agent=config["os"] + ":claimdoneremover:v" + version + " (by u/MurdoMaclachlan heavily modified by u/--B_L_A_N_K--)")
     except praw.exceptions.MissingRequiredAttributeException as e:
         reddit = None
         log.append_log(repr(e))
