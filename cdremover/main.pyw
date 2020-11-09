@@ -17,11 +17,11 @@ from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 from sys import platform
 
-version = "3.13.41"
+version = "3.13.42"
 
 deleted_num = []
 cutoff_num = []
-time_against = []
+checks_against = []
 
 def create_main_window(recreate=False):
     """Function to create main window"""
@@ -203,10 +203,10 @@ def close_window():
 def show_graph():
     """Function to show a graph of the number of deletions and cutoff waiting against time"""
     # Plot deleted and cutoff numbers against time
-    plt.plot(time_against, deleted_num, label="Deleted", color="red")
-    plt.plot(time_against, cutoff_num, label="Cutoff", color="orange")
+    plt.plot(checks_against, deleted_num, label="Deleted", color="red")
+    plt.plot(checks_against, cutoff_num, label="Cutoff", color="orange")
     # Set axis labels
-    plt.xlabel("Time (minutes)")
+    plt.xlabel("Checks")
     plt.ylabel("Amount")
     # Set graph title and show legend
     plt.title("CDRemover Delete/Cutoff Stats")
@@ -376,7 +376,7 @@ while True:
         # Add to graph plotting lists
         deleted_num.append(deleted)
         cutoff_num.append(non_cutoff)
-        time_against.append((cur_time-start_time)/60)
+        checks_against.append((cur_time - start_time) / 60)
         # Update the window
         update_text("Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: {:,}\n\n"
                     "Waiting {} {}."
