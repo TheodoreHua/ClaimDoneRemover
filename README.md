@@ -2,6 +2,8 @@
 
 **This is an unofficial program and is not officially endorsed by the Transcribers of Reddit; they are in no way involved with this program and are not liable for any matters relating to it.**
 
+**WARNING: use of this program has been discovered to cause the ToR discord bot (ToR-Stats, not the subreddit bot) to freeze if the program deletes a comment while the bot is processing it. This has currently happened to two users that we know of.**
+
 Also known as CDRemover, this program removes "claim" and "done" comments after a period of time. It is designed with r/TranscribersOfReddit transcribers in mind; specifically those  who are tired of these comments clogging up their profiles.
 
 If you've been a transcriber for a while, chances are this program will not remove every "claim" or "done" you've ever posted, the max is 1000 comments back depending on the setting you chose, and if you have it running in the background, it should check for `claim` and `done` every certain amount of seconds you set.
