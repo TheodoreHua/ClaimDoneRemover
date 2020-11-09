@@ -15,6 +15,7 @@ def reset_config(txt:Text=None):
                     "case_sensitive": True,"cutoff": 5, "cutoff_secs": 60, "limit": 100, "wait": 1,
                     "wait_unit": ["minute", "minutes", 60],
                     "real_time_checking": True,
+                    "start_paused": False,
                     "mode": "light"}
     # Write to JSON file
     with open("config.json","w") as f:
