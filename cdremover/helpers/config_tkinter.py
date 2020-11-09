@@ -54,7 +54,10 @@ def submit_survey(top:Toplevel,txt:Text=None):
         elif name == "wait_unit":
             con[name] = val.replace(", ",",").split(",")[:-1] + [int(val.replace(", ",",").split(",")[-1])]
         elif name in ["cutoff","cutoff_secs","wait"]:
-            con[name] = int(val)
+            try:
+                con[name] = int(val)
+            except ValueError:
+                showerror("ValueError", "Please enter a number in {} field.".format(name.lower().replace("_"," ")))
         elif name in ["real_time_checking","case_sensitive","start_paused","topmost"]:
             if val.title() == "True":
                 con[name] = True
@@ -64,10 +67,13 @@ def submit_survey(top:Toplevel,txt:Text=None):
                 showerror("Error","Invalid Value in Real Time Checking or Case Sensitive (True/False)")
                 return
         elif name == "limit":
-            if val.title() == "None":
-                con[name] = None
-            else:
-                con[name] = int(val)
+            try:
+                if val.title() == "None" or int(val) >= 1000:
+                    con[name] = None
+                else:
+                    con[name] = int(val)
+            except ValueError:
+                showerror("ValueError", "Please enter a number in limit field.")
         else:
             con[name] = val
     # Write to JSON file

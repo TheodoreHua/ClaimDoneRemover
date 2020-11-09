@@ -18,7 +18,7 @@ from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 from sys import platform
 
-version = "3.13.44"
+version = "3.13.45"
 
 deleted_num = []
 cutoff_num = []
