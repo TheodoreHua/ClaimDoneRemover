@@ -17,7 +17,7 @@ from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 from sys import platform
 
-version = "3.13.42"
+version = "3.13.43"
 
 deleted_num = []
 cutoff_num = []
@@ -55,7 +55,10 @@ def create_main_window(recreate=False):
     progress.grid(row=1, column=0, columnspan=2, pady=4)
 
     # Create the button widgets
-    pause = ttk.Button(m, text="Pause", command=toggle_pause)
+    if config["start_paused"]:
+        pause = ttk.Button(m, text="Unpause", command=toggle_pause)
+    else:
+        pause = ttk.Button(m, text="Pause", command=toggle_pause)
     opts = ttk.Button(m, text="Options", command=options)
     # Render it on the window
     pause.grid(row=2, column=0)
@@ -295,7 +298,7 @@ with open("data/lifetime_totals.json") as f:
     del d
 total_counted = 0
 total_deleted = 0
-paused = False
+paused = config["start_paused"]
 ignore_cutoff = False
 cont_time = time.time()
 start_time = time.time()
