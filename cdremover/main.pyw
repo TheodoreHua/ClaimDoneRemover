@@ -17,7 +17,7 @@ from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 from sys import platform
 
-version = "3.13.43"
+version = "3.13.44"
 
 deleted_num = []
 cutoff_num = []
@@ -36,7 +36,8 @@ def create_main_window(recreate=False):
     m.title("Claim Done Remover")
     m.geometry("180x218")
     m.resizable(0, 0)
-    m.wm_attributes("-topmost", 1)
+    if config["topmost"]:
+        m.wm_attributes("-topmost", 1)
     if platform.startswith("win32"):
         m.wm_attributes("-toolwindow", 1)
     m.protocol("WM_DELETE_WINDOW", close_window)
@@ -116,7 +117,8 @@ def submit_change_theme(theme,win,txt:Text=None):
 def change_theme_window(txt:Text=None):
     """Function to create theme change config window"""
     win = Toplevel(m)
-    win.wm_attributes("-topmost", 1)
+    if config["topmost"]:
+        win.wm_attributes("-topmost", 1)
     win.wm_attributes("-toolwindow", 1)
     theme = StringVar()
     theme.set(config["mode"])
@@ -220,7 +222,8 @@ def show_graph():
 def options():
     # Create the toplevel options window and set it's attributes
     opt_win = Toplevel(m)
-    opt_win.wm_attributes("-topmost", 1)
+    if config["topmost"]:
+        opt_win.wm_attributes("-topmost", 1)
     # Create the confirmation Text widget
     confirm_txt = Text(opt_win, height=1, width=30, background=m.cget("background"), foreground=get_foreground(config),
            highlightbackground=m.cget("background"), highlightcolor=m.cget("background"), highlightthickness=1)
