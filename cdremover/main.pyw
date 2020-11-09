@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
-# Credit to /u/MurdoMaclachlan for making the original unedited version, and the unit system.
-# Credit to /u/DasherPack for being a handsome boy...
-# Credit to /u/metaquarx for making funny comments about programming misery and typing for a whole night...
-# Credit to /u/LukeAbby for making the discord ToR-Stats bot.
+# Credits
+# /u/MurdoMaclachlan for making the original unedited version, and the unit system.
+# /u/DasherPack for being a handsome boy...
+# /u/metaquarx for making funny comments about programming misery and typing for a whole night...
+# /u/LukeAbby for making the discord ToR-Stats bot.
 
 import praw
 import time
