@@ -20,7 +20,7 @@ class Logger:
 
     def write_log(self,erase=True, txt:Text=None):
         """Method to append the current log to the file"""
-        with open("data/logs.txt", "a") as f:
+        with open(DATA_PATH + "/data/logs.txt", "a") as f:
             f.write("\n" + "\n".join(self.log))
         if erase:
             self.erase_cached()
