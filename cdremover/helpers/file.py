@@ -32,7 +32,7 @@ def assert_data(log,txt:Text=None):
         mkdir(DATA_PATH)
         log.append_log("Created AppData Folder")
     if not isdir(DATA_PATH + "/data"):
-        mkdir(DATA_PATH + "data")
+        mkdir(DATA_PATH + "/data")
         log.append_log("Created Data Folder")
     if not isfile(DATA_PATH + "/data/logs.txt"):
         with open(DATA_PATH + "/data/logs.txt", "a"):
