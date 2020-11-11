@@ -54,6 +54,13 @@ This is normal if you have a large amount of comments that match the blacklist t
 #### Can I use this to delete past comments?
 Yes, if you would like it to go back and delete all of your comments, set the limit to `None` then let it run 3-10 times (You can skip the wait by pressing the check now button in the options menu).
 #### I messed up something in the configuration settings and now it won't start/is crashing, what should I do?
-Try and look at the error and correct it by editing `config.json` or `praw.ini` by yourself. If the error cannot be resolved by yourself, delete the `config.json` and/or `praw.ini` files, then run `main.pyw`. The program will re-create the files and you'll be good to go. You **WILL** have to re-setup the config and PRAW files.
+Try and look at the error and correct it by editing `config.json` or `praw.ini` by yourself (See below FAQ on where the files are located). If the error cannot be resolved by yourself, delete the `config.json` and/or `praw.ini` files, then run `main.pyw`. The program will re-create the files and you'll be good to go. You **WILL** have to re-setup the config and PRAW files.
+#### Where are the config and data files located?
+##### Windows:
+C:\Users\your_username\AppData\Roaming\ClaimDoneRemover
+##### Linux:
+/home/your_username/.config
+##### MacOS:
+Should be /home/your_username/.config although I'm not certain
 #### Where can I contact the developer?
 You can send me an email at `theodorehuadev@gmail.com`.
