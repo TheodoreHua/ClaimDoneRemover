@@ -1,6 +1,7 @@
 import configparser
 import json
 from tkinter import Text, NORMAL, END, INSERT, DISABLED
+from .global_vars import DATA_PATH
 
 """Functions to take care of resetting the files back to their default states"""
 
@@ -19,7 +20,7 @@ def reset_config(txt:Text=None):
                     "topmost": True,
                     "mode": "light"}
     # Write to JSON file
-    with open("config.json","w") as f:
+    with open(DATA_PATH + "/config.json","w") as f:
         json.dump(default_vals,f,indent=2)
     # Update option menu log
     if txt is not None:
@@ -40,7 +41,7 @@ def reset_praw(txt=None):
                              "password":"",
                              "refresh_token":""}
     # Write to INI file
-    with open("praw.ini","w") as f:
+    with open(DATA_PATH + "/praw.ini","w") as f:
         config.write(f)
     # Update option menu log
     if txt is not None:

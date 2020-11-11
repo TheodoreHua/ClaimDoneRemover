@@ -2,7 +2,7 @@ import json
 from tkinter import *
 from tkinter import ttk
 from tkinter.messagebox import showinfo,showerror
-from .misc import get_config
+from .file import get_config, write_config
 
 """Functions to take care of the config file tkinter menu option"""
 
@@ -21,8 +21,7 @@ def create_survey_config(main: Tk, txt:Text=None):
     "Enter the corresponding value for the config name. The current value is already entered into the field."
     " Instructions are in README.md/on the GitHub", justify="center", wraplength=400).grid(row=0, column=0, columnspan=3)
     # Get the original values for each text
-    with open("config.json","r") as f:
-        old = json.load(f)
+    old = get_config()
     row = 1
     # Create the labels and entry widgets for each option
     for name, old_val in old.items():
@@ -80,8 +79,7 @@ def submit_survey(top:Toplevel,txt:Text=None):
         else:
             con[name] = val
     # Write to JSON file
-    with open("config.json","w") as f:
-        json.dump(con,f,indent=2)
+    write_config(con)
     # Destroy the toplevel window
     top.destroy()
     # Give a notice that it needs to be restarted to take effect

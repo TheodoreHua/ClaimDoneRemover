@@ -2,6 +2,8 @@ import configparser
 from tkinter import *
 from tkinter import ttk
 from tkinter.messagebox import showinfo,askyesno,showerror
+from .file import get_config
+from .global_vars import DATA_PATH
 
 """Function to take care of the PRAW config file tkinter menu option"""
 
@@ -13,7 +15,9 @@ def create_survey_praw(main: Tk, txt:Text=None):
     refresh = askyesno("Prompt", "Are you using refresh tokens?\nChoose No if you don't understand.")
     # Create toplevel window then configure it
     top = Toplevel(main)
-    top.wm_attributes("-topmost", 1)
+    config = get_config()
+    if config["topmost"]:
+        top.wm_attributes("-topmost", 1)
     entries = {}
     # Create instructions label
     ttk.Label(top, text=
@@ -21,7 +25,7 @@ def create_survey_praw(main: Tk, txt:Text=None):
     " Instructions are in README.md/on the GitHub", justify="center", wraplength=400).grid(row=0, column=0, columnspan=3)
     # Get the original values for each text
     config = configparser.ConfigParser()
-    config.read("praw.ini")
+    config.read(DATA_PATH + "/praw.ini")
     old = config["credentials"]
     row = 1
     # Create the labels and entry widgets for each option
@@ -58,7 +62,7 @@ def submit_survey(top:Toplevel,txt:Text=None):
     # Write to INI file
     config = configparser.ConfigParser()
     config["credentials"] = con
-    with open("praw.ini","w") as configfile:
+    with open(DATA_PATH + "/praw.ini","w") as configfile:
         config.write(configfile)
     # Destroy the toplevel window
     top.destroy()

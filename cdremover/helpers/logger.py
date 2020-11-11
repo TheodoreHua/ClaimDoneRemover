@@ -1,6 +1,7 @@
 import datetime
 from tkinter import *
-from .misc import assert_data
+from .file import assert_data
+from .global_vars import DATA_PATH
 
 class Logger:
     """Class to take care of logging functions of the program"""
@@ -13,7 +14,7 @@ class Logger:
 
     def append_log(self, msg):
         """Method to append a line to the log"""
-        dt = datetime.datetime.now().strftime("%B %d, %Y %H:%M:%S.%f")
+        dt = datetime.datetime.now().strftime("%B %d, %Y %H:%M:%S.%f %Z")
         m = "{} - {}".format(dt,msg)
         self.log.append(m)
 
@@ -42,7 +43,7 @@ class Logger:
             txt.see("end")
 
     def erase_stored(self, txt:Text=None):
-        open("data/logs.txt", "w").close()
+        open(DATA_PATH + "/data/logs.txt", "w").close()
         if txt is not None:
             txt.config(state=NORMAL)
             txt.delete("1.0", END)
