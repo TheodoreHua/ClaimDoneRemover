@@ -8,4 +8,4 @@ PLATFORM_LOCATIONS = {"linux": ".config",
 if sysplatform[:3] == "win":
     DATA_PATH = environ["APPDATA"] + "\\ClaimDoneRemover"
 else:
-    DATA_PATH = PLATFORM_LOCATIONS[sysplatform] + "\\ClaimDoneRemover"
+    DATA_PATH = home + "/" + PLATFORM_LOCATIONS[sysplatform] + "/ClaimDoneRemover"
