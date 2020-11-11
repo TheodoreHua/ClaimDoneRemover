@@ -2,6 +2,7 @@ import json
 from tkinter import *
 from tkinter import ttk
 from tkinter.messagebox import showinfo,showerror
+from .misc import get_config
 
 """Functions to take care of the config file tkinter menu option"""
 
@@ -11,7 +12,9 @@ def create_survey_config(main: Tk, txt:Text=None):
     global entries
     # Create toplevel window then configure it
     top = Toplevel(main)
-    top.wm_attributes("-topmost", 1)
+    config = get_config()
+    if config["topmost"]:
+        top.wm_attributes("-topmost", 1)
     entries = {}
     # Create instructions label
     ttk.Label(top, text=
