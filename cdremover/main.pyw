@@ -11,6 +11,7 @@ import time
 import json
 import matplotlib.pyplot as plt
 from helpers import *
+from helpers.global_vars import DATA_PATH
 from tkinter import *
 from tkinter import ttk
 from tkinter.messagebox import askyesno, showinfo, showerror
@@ -18,7 +19,7 @@ from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 from sys import platform
 
-version = "3.13.46"
+version = "3.14.46"
 
 deleted_num = []
 cutoff_num = []
@@ -94,11 +95,9 @@ def submit_change_theme(theme,win,txt:Text=None):
     """Function to update theme from config window"""
     val = theme.get()
     if val.casefold() in ["light", "dark"]:
-        with open("config.json","r") as f:
-            con = json.load(f)
+        con = get_config()
         con["mode"] = val.casefold()
-        with open("config.json","w") as f:
-            json.dump(con,f)
+        write_config(con)
         win.destroy()
         global config
         config = get_config()
@@ -245,6 +244,7 @@ def options():
         ttk.Button(opt_win, text=text, command=command).grid(row=row, column=0, sticky="we")
         row += 1
 
+
 # Create logger instance
 log = Logger()
 
@@ -264,8 +264,7 @@ elif config["user"] in [None,""]:
 else:
     # Create the reddit PRAW instance
     try:
-        reddit = praw.Reddit("credentials",
-                            user_agent=config["os"] + ":claimdoneremover:v" + version + " (by u/MurdoMaclachlan heavily modified by u/--B_L_A_N_K--)")
+        reddit = praw.Reddit(user_agent=config["os"] + ":claimdoneremover:v" + version + " (by u/MurdoMaclachlan heavily modified by u/--B_L_A_N_K--)", **get_praw())
     except praw.exceptions.MissingRequiredAttributeException as e:
         reddit = None
         log.append_log(repr(e))
@@ -288,7 +287,7 @@ create_main_window()
 assert_data(log)
 
 # Set the default values for the variables
-with open("data/lifetime_totals.json") as f:
+with open(DATA_PATH + "/data/lifetime_totals.json") as f:
     d = json.load(f)
     lifetime_total_counted = d["counted"]
     lifetime_total_deleted = d["deleted"]
