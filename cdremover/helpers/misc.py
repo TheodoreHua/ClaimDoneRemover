@@ -41,3 +41,11 @@ def assert_config_praw(log):
     if not isfile("praw.ini"):
         reset_praw()
         log.append_log("Created Config PRAW INI file")
+
+def get_config() -> dict:
+    """Get config"""
+    with open("config.json", "r") as f:
+        config = json.load(f)
+    if not config["case_sensitive"]:
+        config["blacklist"] = [x.casefold() for x in config["blacklist"]]
+    return config

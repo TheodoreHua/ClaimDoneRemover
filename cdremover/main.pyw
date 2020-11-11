@@ -18,7 +18,7 @@ from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 from sys import platform
 
-version = "3.13.45"
+version = "3.13.46"
 
 deleted_num = []
 cutoff_num = []
@@ -90,14 +90,6 @@ def reset_window():
     m.destroy()
     create_main_window(True)
 
-def load_config():
-    """Load/Reload configuration file from disk"""
-    global config
-    with open("config.json","r") as f:
-        config = json.load(f)
-    if not config["case_sensitive"]:
-        config["blacklist"] = [x.casefold() for x in config["blacklist"]]
-
 def submit_change_theme(theme,win,txt:Text=None):
     """Function to update theme from config window"""
     val = theme.get()
@@ -108,7 +100,8 @@ def submit_change_theme(theme,win,txt:Text=None):
         with open("config.json","w") as f:
             json.dump(con,f)
         win.destroy()
-        load_config()
+        global config
+        config = get_config()
         reset_window()
         update_txt("Success: Theme Updated", txt)
     else:
@@ -259,7 +252,7 @@ log = Logger()
 assert_config_praw(log)
 
 # Get data from config
-load_config()
+config = get_config()
 
 # Check if basic config is set
 if config["os"] in [None,""]:
