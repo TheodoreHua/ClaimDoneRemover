@@ -59,8 +59,8 @@ Try and look at the error and correct it by editing `config.json` or `praw.ini` 
 ##### Windows:
 C:\Users\your_username\AppData\Roaming\ClaimDoneRemover
 ##### Linux:
-/home/your_username/.config
+/home/your_username/.config/ClaimDoneRemover
 ##### MacOS:
-Should be /home/your_username/.config although I'm not certain
+Should be /home/your_username/.config/ClaimDoneRemover although I'm not certain
 #### Where can I contact the developer?
 You can send me an email at `theodorehuadev@gmail.com`.
