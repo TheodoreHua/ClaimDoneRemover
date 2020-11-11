@@ -10,6 +10,8 @@ import praw
 import time
 import json
 import matplotlib.pyplot as plt
+import sys
+from traceback import format_exc
 from helpers import *
 from helpers.global_vars import DATA_PATH
 from tkinter import *
@@ -17,13 +19,25 @@ from tkinter import ttk
 from tkinter.messagebox import askyesno, showinfo, showerror
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
-from sys import platform
 
-version = "3.14.50"
+version = "3.14.52"
 
 deleted_num = []
 cutoff_num = []
 checks_against = []
+
+def except_hook(exc_class, message, traceback):
+    """Global exception handler"""
+    # Log all errors that occur
+    log.append_log("\n---\nError occurred.\nError Name: {}\nError Message: {}\nError Traceback: {}---"
+                   .format(exc_class.__name__, message, format_exc()))
+    if exc_class is TclError:
+        # Catch errors that happen when closing the window and pass
+        pass
+    else:
+        log.write_log()
+        sys.__excepthook__(exc_class, message, traceback)
+        exit()
 
 def create_main_window(recreate=False):
     """Function to create main window"""
@@ -40,7 +54,7 @@ def create_main_window(recreate=False):
     m.resizable(0, 0)
     if config["topmost"]:
         m.wm_attributes("-topmost", 1)
-    if platform.startswith("win32"):
+    if sys.platform.startswith("win"):
         m.wm_attributes("-toolwindow", 1)
     m.protocol("WM_DELETE_WINDOW", close_window)
     log.append_log("Created Main Window")
@@ -192,7 +206,7 @@ def close_window():
     # Write the log to file
     log.write_log()
     # Add total to lifetime total
-    with open("data/lifetime_totals.json","w") as f:
+    with open(DATA_PATH + "/data/lifetime_totals.json","w") as f:
         json.dump({"counted":lifetime_total_counted,"deleted":lifetime_total_deleted},f,indent=2)
     # Destroy the main window then exit
     m.destroy()
@@ -247,6 +261,9 @@ def options():
 
 # Create logger instance
 log = Logger()
+
+# Setup global error handler
+sys.excepthook = except_hook
 
 # Assert that config and PRAW files exist
 assert_config_praw(log)
