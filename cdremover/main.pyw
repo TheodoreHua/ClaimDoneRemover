@@ -20,11 +20,11 @@ from tkinter.messagebox import askyesno, showinfo, showerror
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.14.53"
+version = "3.14.54"
 
 deleted_num = []
 cutoff_num = []
-checks_against = []
+time_against = []
 
 def except_hook(exc_class, message, traceback):
     """Global exception handler"""
@@ -215,10 +215,10 @@ def close_window():
 def show_graph():
     """Function to show a graph of the number of deletions and cutoff waiting against time"""
     # Plot deleted and cutoff numbers against time
-    plt.plot(checks_against, deleted_num, label="Deleted", color="red")
-    plt.plot(checks_against, cutoff_num, label="Cutoff", color="orange")
+    plt.plot(time_against, deleted_num, label="Deleted", color="red")
+    plt.plot(time_against, cutoff_num, label="Cutoff", color="orange")
     # Set axis labels
-    plt.xlabel("Checks")
+    plt.xlabel("Time (minutes)")
     plt.ylabel("Amount")
     # Set graph title and show legend
     plt.title("CDRemover Delete/Cutoff Stats")
@@ -392,7 +392,7 @@ while True:
         # Add to graph plotting lists
         deleted_num.append(deleted)
         cutoff_num.append(non_cutoff)
-        checks_against.append((cur_time - start_time) / 60)
+        time_against.append((cur_time - start_time) / 60)
         # Update the window
         update_text("Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: {:,}\n\n"
                     "Waiting {} {}."
