@@ -20,7 +20,7 @@ from tkinter.messagebox import askyesno, showinfo, showerror
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.14.52"
+version = "3.14.53"
 
 deleted_num = []
 cutoff_num = []
@@ -311,6 +311,9 @@ with open(DATA_PATH + "/data/lifetime_totals.json") as f:
     del d
 total_counted = 0
 total_deleted = 0
+counted = 0
+deleted = 0
+non_cutoff = 0
 paused = config["start_paused"]
 ignore_cutoff = False
 cont_time = time.time()
