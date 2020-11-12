@@ -5,7 +5,7 @@ from sys import platform as sysplatform
 home = expanduser("~")
 PLATFORM_LOCATIONS = {"linux": ".config",
                       "darwin": ".config"}
-if sysplatform[:3] == "win":
+if sysplatform.startswith("win"):
     DATA_PATH = environ["APPDATA"] + "\\ClaimDoneRemover"
 else:
     DATA_PATH = home + "/" + PLATFORM_LOCATIONS[sysplatform] + "/ClaimDoneRemover"
