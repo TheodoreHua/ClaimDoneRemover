@@ -29,18 +29,18 @@ Once you're done, just navigate to the folder where `main.pyw` is and run the fi
 ## Other Instructions
 ### Config Options Description
 **IMPORTANT: Do not put commas anywhere in any value except when used as a separator**
-- User: Your username.
-- OS: Your operating system name (doesn't have to be exact).
-- Blacklist: Exact, word-for-word body of the comments to be deleted. Separated by commas (`,`).
-- Case Sensitive: Whether or not the blacklist should be case sensitive.
-- Cutoff: How many units of time old the comments must be before they are deleted.
-- Cutoff Secs: How many seconds each unit of time for the cutoff is. E.g. a second would be 1, a minute would be 60, a hour would be 3600, etc.
-- Limit: How many comments to check through in the users history, max 1000 (enter `None` for 1000). Keep in mind the larger this is, the longer it will take to check per run.
-- Wait: How many units of time the program should wait before checking for new comments again.
-- Wait Unit: The unit of time used for the wait configuration. This should be in the format `singular unit name, plural unit name, number of seconds per unit`. E.g. `minute, minutes, 60` for minutes.
-- Real Time Checking: Whether you want to app to run continuously in the background and check OR check once when run/when check now button is pressed. Set `True` OR `False`.
-- Start Paused: Start the program paused instead of starting scanning as soon as the program starts.
-- Topmost: Whether or not the window show's ontop of every other window.
+- ***User:*** Your username.
+- ***OS:*** Your operating system name (doesn't have to be exact).
+- ***Blacklist:*** Exact, word-for-word body of the comments to be deleted. Separated by commas (`,`).
+- ***Case Sensitive:*** Whether or not the blacklist should be case sensitive.
+- ***Cutoff:*** How many units of time old the comments must be before they are deleted.
+- ***Cutoff Secs:*** How many seconds each unit of time for the cutoff is. E.g. a second would be 1, a minute would be 60, a hour would be 3600, etc.
+- ***Limit:*** How many comments to check through in the users history, max 1000 (enter `None` for 1000). Keep in mind the larger this is, the longer it will take to check per run.
+- ***Wait:*** How many units of time the program should wait before checking for new comments again.
+- ***Wait Unit:*** The unit of time used for the wait configuration. This should be in the format `singular unit name, plural unit name, number of seconds per unit`. E.g. `minute, minutes, 60` for minutes.
+- ***Real Time Checking:*** Whether you want to app to run continuously in the background and check OR check once when run/when check now button is pressed. Set `True` OR `False`.
+- ***Start Paused:*** Start the program paused instead of starting scanning as soon as the program starts.
+- ***Topmost:*** Whether or not the window show's ontop of every other window.
 
 ### Get a Refresh Token
 1. Run `get_refresh.py`.
