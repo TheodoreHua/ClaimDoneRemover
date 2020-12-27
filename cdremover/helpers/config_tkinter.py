@@ -6,7 +6,7 @@
 
 from tkinter import *
 from tkinter import ttk
-from tkinter.messagebox import showinfo,showerror
+from tkinter.messagebox import showinfo, showerror
 from .file import get_config, write_config
 
 """Functions to take care of the config file tkinter menu option"""
@@ -30,7 +30,8 @@ opt_data = {
     "update_check": {"type": bool}
 }
 
-def create_survey_config(main: Tk, txt:Text=None):
+
+def create_survey_config(main: Tk, txt: Text = None):
     global entries
     # Create toplevel window then configure it
     top = Toplevel(main)
@@ -51,7 +52,7 @@ def create_survey_config(main: Tk, txt:Text=None):
     for name, old_val in old.items():
         entries[name] = StringVar()
         # Check if the value/name is special and execute special instructions if needed
-        if name in ["blacklist","wait_unit"]:
+        if name in ["blacklist", "wait_unit"]:
             entries[name].set(",".join(str(x) for x in old_val))
         else:
             entries[name].set(str(old_val))
@@ -65,32 +66,34 @@ def create_survey_config(main: Tk, txt:Text=None):
         ttk.Entry(top, textvariable=entries[name], width=50).grid(row=row, column=1, columnspan=2)
         row += 1
     # Create submit button
-    ttk.Button(top, text="Submit", command=lambda: submit_survey(top,txt)).grid(row=row, column=0, columnspan=3, sticky="we", padx=2)
+    ttk.Button(top, text="Submit", command=lambda: submit_survey(top, txt)).grid(row=row, column=0, columnspan=3,
+                                                                                 sticky="we", padx=2)
 
-def submit_survey(top:Toplevel,txt:Text=None):
+
+def submit_survey(top: Toplevel, txt: Text = None):
     con = {}
     # Iterate through all of the StringVars and add it to a dictionary in the correct formatting
-    for name,var in entries.items():
+    for name, var in entries.items():
         val = var.get().strip()
         if val == "":
-            showerror("Error","There is a empty field.")
+            showerror("Error", "There is a empty field.")
             return
         elif name == "blacklist":
-            con[name] = val.replace(", ",",").split(",")
+            con[name] = val.replace(", ", ",").split(",")
         elif name == "wait_unit":
-            con[name] = val.replace(", ",",").split(",")[:-1] + [int(val.replace(", ",",").split(",")[-1])]
-        elif name in ["cutoff","cutoff_secs","wait"]:
+            con[name] = val.replace(", ", ",").split(",")[:-1] + [int(val.replace(", ", ",").split(",")[-1])]
+        elif name in ["cutoff", "cutoff_secs", "wait"]:
             try:
                 con[name] = int(val)
             except ValueError:
-                showerror("ValueError", "Please enter a number in {} field.".format(name.lower().replace("_"," ")))
-        elif name in ["real_time_checking","case_sensitive","start_paused","topmost","tor_only", "update_check"]:
+                showerror("ValueError", "Please enter a number in {} field.".format(name.lower().replace("_", " ")))
+        elif name in ["real_time_checking", "case_sensitive", "start_paused", "topmost", "tor_only", "update_check"]:
             if val.title() == "True":
                 con[name] = True
             elif val.title() == "False":
                 con[name] = False
             else:
-                showerror("Error","Invalid Value in Real Time Checking or Case Sensitive (True/False)")
+                showerror("Error", "Invalid Value in Real Time Checking or Case Sensitive (True/False)")
                 return
         elif name == "limit":
             try:
@@ -107,7 +110,7 @@ def submit_survey(top:Toplevel,txt:Text=None):
     # Destroy the toplevel window
     top.destroy()
     # Give a notice that it needs to be restarted to take effect
-    showinfo("Notice","Application restart needed to put changes into effect.")
+    showinfo("Notice", "Application restart needed to put changes into effect.")
     # Update option menu log
     if txt is not None:
         txt.config(state=NORMAL)
