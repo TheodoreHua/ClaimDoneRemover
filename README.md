@@ -7,7 +7,7 @@ involved with this program and are not liable for any matters relating to it.**
 freeze if the program deletes a comment while the bot is processing it. This has currently happened to two users that we
 know of. There is currently nothing we can do about this until an update is made on the bot's side**
 
-Also known as CDRemover, this program removes "claim" and "done" comments after a period of time. It is designed with
+Also known as CDRemover or CDR, this program removes "claim" and "done" comments after a period of time. It is designed with
 r/TranscribersOfReddit transcribers in mind; specifically those who are tired of these comments clogging up their
 profiles.
 
