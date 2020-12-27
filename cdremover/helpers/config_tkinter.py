@@ -14,7 +14,7 @@ from .file import get_config, write_config
 entries = {}
 opt_data = {
     "user": {"type": str},
-    "os": {"type": str, "method": lambda i: i.upper()},
+    "os": {"type": str, "namemethod": lambda i: i.upper()},
     "blacklist": {"type": list},
     "case_sensitive": {"type": bool},
     "cutoff": {"type": int},
@@ -50,20 +50,32 @@ def create_survey_config(main: Tk, txt: Text = None):
     row = 1
     # Create the labels and entry widgets for each option
     for name, old_val in old.items():
+        # Set alias for dictionary item for current item
+        fdat = opt_data[name.lower()]
+        # Skip if template says to skip
+        if "skip" in fdat.keys():
+            if fdat["skip"]:
+                continue
+        # Create StringVar and edit name variables
         entries[name] = StringVar()
-        # Check if the value/name is special and execute special instructions if needed
-        if name in ["blacklist", "wait_unit"]:
-            entries[name].set(",".join(str(x) for x in old_val))
+        # Call namemethod if it exists
+        if "namemethod" in fdat.keys():
+            lb_name = fdat["namemethod"](name)
         else:
+            lb_name = name.title()
+        # Create field name label
+        ttk.Label(top, text=lb_name.replace("_", " ")).grid(row=row, column=0)
+        # Different choosing types for different values
+        if fdat["type"] in [str, int] or type(fdat["type"]) is list:
             entries[name].set(str(old_val))
-        # Skip Theme Option
-        if name == "mode":
-            continue
-        if name == "os":
-            ttk.Label(top, text=name.replace("_", " ").upper()).grid(row=row, column=0)
-        else:
-            ttk.Label(top, text=name.replace("_", " ").title()).grid(row=row, column=0)
-        ttk.Entry(top, textvariable=entries[name], width=50).grid(row=row, column=1, columnspan=2)
+            ttk.Entry(top, textvariable=entries[name], width=50).grid(row=row, column=1, columnspan=2)
+        elif fdat["type"] is bool:
+            entries[name].set(str(old_val))
+            ttk.Radiobutton(top, text="True", variable=entries[name], value="True", width=6).grid(row=row, column=1)
+            ttk.Radiobutton(top, text="False", variable=entries[name], value="False", width=6).grid(row=row, column=2)
+        elif fdat["type"] is list:
+            entries[name].set(",".join([str(i) for i in old_val]))
+            ttk.Entry(top, textvariable=entries[name], width=50).grid(row=row, column=1, columnspan=2)
         row += 1
     # Create submit button
     ttk.Button(top, text="Submit", command=lambda: submit_survey(top, txt)).grid(row=row, column=0, columnspan=3,
