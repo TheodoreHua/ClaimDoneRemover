@@ -141,6 +141,8 @@ def change_theme_window():
     if config["topmost"]:
         win.wm_attributes("-topmost", 1)
     win.wm_attributes("-toolwindow", 1)
+    win.wait_visibility()
+    win.grab_set()
     theme = StringVar()
     theme.set(config["mode"])
     ttk.Label(win, text="Theme (Light/Dark)").grid(row=0, column=1, padx=6)
@@ -253,6 +255,9 @@ def options():
     opt_win = Toplevel(m)
     if config["topmost"]:
         opt_win.wm_attributes("-topmost", 1)
+    # Set focus on options window when opened
+    opt_win.wait_visibility()
+    opt_win.grab_set()
     # Create the confirmation Text widget
     confirm_txt = Text(opt_win, height=1, width=30, background=m.cget("background"), foreground=get_foreground(config),
                        highlightbackground=m.cget("background"), highlightcolor=m.cget("background"),
