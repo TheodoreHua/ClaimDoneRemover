@@ -88,36 +88,50 @@ def submit_survey(top: Toplevel, txt: Text = None):
     # Iterate through all of the StringVars and add it to a dictionary in the correct formatting
     for name, var in entries.items():
         val = var.get().strip()
+        fdat = opt_data[name.lower()]
+        if "namemethod" in fdat.keys():
+            lb_name = fdat["namemethod"](name)
+        else:
+            lb_name = name.title()
         if val == "":
             showerror("Error", "There is a empty field.")
             return
-        elif name == "blacklist":
-            con[name] = val.replace(", ", ",").split(",")
-        elif name == "wait_unit":
-            con[name] = val.replace(", ", ",").split(",")[:-1] + [int(val.replace(", ", ",").split(",")[-1])]
-        elif name in ["cutoff", "cutoff_secs", "wait"]:
+        elif type(fdat["type"]) is list:
+            pass
+        elif fdat["type"] is str:
+            con[name] = val
+        elif fdat["type"] is int:
             try:
                 con[name] = int(val)
             except ValueError:
-                showerror("ValueError", "Please enter a number in {} field.".format(name.lower().replace("_", " ")))
-        elif name in ["real_time_checking", "case_sensitive", "start_paused", "topmost", "tor_only", "update_check"]:
-            if val.title() == "True":
-                con[name] = True
-            elif val.title() == "False":
-                con[name] = False
-            else:
-                showerror("Error", "Invalid Value in Real Time Checking or Case Sensitive (True/False)")
-                return
-        elif name == "limit":
-            try:
-                if val.title() == "None" or int(val) >= 1000:
-                    con[name] = None
-                else:
-                    con[name] = int(val)
-            except ValueError:
-                showerror("ValueError", "Please enter a number in limit field.")
-        else:
-            con[name] = val
+                showerror("ValueError", "Invalid value {} in {} field".format(val, lb_name))
+        # elif name == "blacklist":
+        #     con[name] = val.replace(", ", ",").split(",")
+        # elif name == "wait_unit":
+        #     con[name] = val.replace(", ", ",").split(",")[:-1] + [int(val.replace(", ", ",").split(",")[-1])]
+        # elif name in ["cutoff", "cutoff_secs", "wait"]:
+        #     try:
+        #         con[name] = int(val)
+        #     except ValueError:
+        #         showerror("ValueError", "Please enter a number in {} field.".format(name.lower().replace("_", " ")))
+        # elif name in ["real_time_checking", "case_sensitive", "start_paused", "topmost", "tor_only", "update_check"]:
+        #     if val.title() == "True":
+        #         con[name] = True
+        #     elif val.title() == "False":
+        #         con[name] = False
+        #     else:
+        #         showerror("Error", "Invalid Value in Real Time Checking or Case Sensitive (True/False)")
+        #         return
+        # elif name == "limit":
+        #     try:
+        #         if val.title() == "None" or int(val) >= 1000:
+        #             con[name] = None
+        #         else:
+        #             con[name] = int(val)
+        #     except ValueError:
+        #         showerror("ValueError", "Please enter a number in limit field.")
+        # else:
+        #     con[name] = val
     # Write to JSON file
     write_config(con)
     # Destroy the toplevel window
