@@ -308,6 +308,7 @@ else:
                                                                                          "u/MurdoMaclachlan heavily "
                                                                                          "modified by u/--B_L_A_N_K--)",
                              **get_praw())
+        log.append_log("Running on " + config["os"])
     except praw.exceptions.MissingRequiredAttributeException as e:
         reddit = None
         log.append_log(repr(e))
