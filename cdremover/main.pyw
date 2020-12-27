@@ -16,7 +16,6 @@ import praw
 import time
 import json
 import matplotlib.pyplot as plt
-import sys
 from traceback import format_exc
 from helpers import *
 from helpers.global_vars import DATA_PATH
