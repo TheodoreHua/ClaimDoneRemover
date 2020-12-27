@@ -48,7 +48,8 @@ class Logger:
             txt.config(state=DISABLED)
             txt.see("end")
 
-    def erase_stored(self, txt:Text=None):
+    @staticmethod
+    def erase_stored(txt:Text=None):
         open(DATA_PATH + "/data/logs.txt", "w").close()
         if txt is not None:
             txt.config(state=NORMAL)
