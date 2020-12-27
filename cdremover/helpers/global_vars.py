@@ -13,6 +13,13 @@ PLATFORM_LOCATIONS = {"linux": ".config",
                       "darwin": ".config"}
 VERSION = "3.14.63"
 if sysplatform.startswith("win"):
+    OS = "Windows"
     DATA_PATH = environ["APPDATA"] + "\\ClaimDoneRemover"
 else:
+    if sysplatform.startswith("linux"):
+        OS = "Linux"
+    elif sysplatform == "darwin":
+        OS = "Mac"
+    else:
+        OS = sysplatform.title()
     DATA_PATH = home + "/" + PLATFORM_LOCATIONS[sysplatform] + "/ClaimDoneRemover"
