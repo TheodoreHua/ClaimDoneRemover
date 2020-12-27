@@ -373,7 +373,7 @@ while True:
             if check_body in config["blacklist"]:
                 # If ToR only is on then check if the subreddit is ToR
                 if config["tor_only"] and comment.subreddit.name.casefold() != "transcribersofreddit":
-                    log.append_log("Found cutoff comment \"{}\" not on ToR subreddit with ToR_Only mode on, skipped"
+                    log.append_log("Found cutoff comment \"{}\" not on ToR subreddit with ToR_Only mode on, skipped."
                                    .format(comment.body))
                 # If ignore_cutoff is true, delete all matching values and update stats
                 elif ignore_cutoff:
