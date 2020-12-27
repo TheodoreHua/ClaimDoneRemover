@@ -28,3 +28,9 @@
 
 - Funny comments about programming misery
 - Typing for an entire day (see [/r/typingforhours](https://www.reddit.com/r/typingforhours/))
+
+### TimJentzsch
+[GitHub](https://github.com/TimJentzsch) |
+[Reddit](https://www.reddit.com/user/Tim3303)
+
+- Making [ToR-User-Stats](https://timjentzsch.github.io/tor-user-stats/)
