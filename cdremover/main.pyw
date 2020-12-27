@@ -47,6 +47,7 @@ def except_hook(exc_class, message, traceback):
 
 def create_main_window(recreate=False):
     """Function to create main window"""
+    # noinspection PyGlobalUndefined
     global m, ent, progress, pause, opts
     # Create the main Tkinter window and set it's attributes
     if config["mode"] == "light":
@@ -127,7 +128,7 @@ def submit_change_theme(theme,win,txt:Text=None):
         showerror("Error", "Invalid Value in Mode (Light/Dark)")
         return
 
-def change_theme_window(txt:Text=None):
+def change_theme_window():
     """Function to create theme change config window"""
     win = Toplevel(m)
     if config["topmost"]:
@@ -254,7 +255,7 @@ def options():
             "Erase Cached Log": lambda: log.erase_cached(confirm_txt),
             "Erase Stored Log": lambda: log.erase_stored(confirm_txt),
             "Assert Data": lambda: assert_data(log,confirm_txt),
-            "Change Theme": lambda: change_theme_window(confirm_txt),
+            "Change Theme": change_theme_window,
             "Edit Config": lambda: create_survey_config(m, confirm_txt),
             "Edit PRAW Config": lambda: create_survey_praw(m, confirm_txt),
             "Reset Config": lambda: reset_config(confirm_txt),
@@ -371,9 +372,14 @@ while True:
             else:
                 check_body = comment.body.casefold()
             if check_body in config["blacklist"]:
+                # If ToR only is on then check if the subreddit is ToR
+                if config["tor_only"] and comment.subreddit.name.casefold() != "transcribersofreddit":
+                    log.append_log("Found cutoff comment \"{}\" not on ToR subreddit with ToR_Only mode on, skipped"
+                                   .format(comment.body))
                 # If ignore_cutoff is true, delete all matching values and update stats
-                if ignore_cutoff:
-                    log.append_log("Deleted \"{}\". Comment Time {}. Cutoff Ignored.".format(comment.body, get_date(comment)))
+                elif ignore_cutoff:
+                    log.append_log("Deleted \"{}\". Comment Time {}. Cutoff Ignored.".format(comment.body,
+                                                                                             get_date(comment)))
                     comment.delete()
                     deleted += 1
                 # If the sell-by date is passed, delete the comment and update stats
@@ -383,7 +389,10 @@ while True:
                     deleted += 1
                 # If the sell-by date hasn't passed, don't delete and update stats
                 else:
-                    log.append_log("Waiting for cutoff \"{}\". Comment Time {}. Time Left Until Delete {}. Delete At {}.".format(comment.body,get_date(comment),cur_time - get_date(comment),cur_time + (cur_time - get_date(comment))))
+                    log.append_log("Waiting for cutoff \"{}\". Comment Time {}. Time Left Until Delete {}. "
+                                   "Delete At {}.".format(comment.body,get_date(comment),
+                                                          cur_time - get_date(comment),cur_time +
+                                                          (cur_time - get_date(comment))))
                     non_cutoff += 1
             # Update counted stats
             counted += 1
@@ -400,8 +409,8 @@ while True:
         cutoff_num.append(non_cutoff)
         time_against.append((cur_time - start_time) / 60)
         # Update the window
-        update_text("Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: {:,}\n\n"
-                    "Waiting {} {}."
+        update_text("Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: "
+                    "{:,}\n\nWaiting {} {}."
                     .format(total_counted, total_deleted, counted, deleted, non_cutoff,
                             str(config["wait"]), config["wait_unit"][0] if config["wait"] == 1 else config["wait_unit"][1]))
         log.append_log("Finished Check. Totals {:,}, {:,}. This Run {:,}, {:,}, {:,}"
