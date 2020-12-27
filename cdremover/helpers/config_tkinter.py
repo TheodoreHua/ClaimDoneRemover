@@ -42,9 +42,9 @@ def create_survey_config(main: Tk, txt: Text = None):
     top.grab_set()
     entries = {}
     # Create instructions label
-    ttk.Label(top, text=
-    "Enter the corresponding value for the config name. The current value is already entered into the field."
-    " Instructions are in README.md", justify="center", wraplength=400).grid(row=0, column=0, columnspan=3)
+    ttk.Label(top, text="Enter the corresponding value for the config name. The current value is already entered into"
+                        " the field. Instructions are in README.md", justify="center", wraplength=400).grid(
+        row=0, column=0, columnspan=3)
     # Get the original values for each text
     old = get_config()
     row = 1
