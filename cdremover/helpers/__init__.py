@@ -4,9 +4,9 @@
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # ------------------------------------------------------------------------------
 
-from .logger import Logger
 from .config_tkinter import create_survey_config
+from .file import get_config, write_config, assert_data, assert_config_praw, get_praw
+from .logger import Logger
+from .misc import get_foreground
 from .praw_tkinter import create_survey_praw
 from .set_defaults import reset_config, reset_praw
-from .misc import get_foreground
-from .file import get_config, write_config, assert_data, assert_config_praw, get_praw

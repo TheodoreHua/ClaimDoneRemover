@@ -6,12 +6,15 @@
 
 import datetime
 from tkinter import *
+
 from .file import assert_data
 from .global_vars import DATA_PATH
 
+
 class Logger:
     """Class to take care of logging functions of the program"""
-    def __init__(self, log:list=None):
+
+    def __init__(self, log: list = None):
         if log is None:
             self.log = []
         else:
@@ -21,10 +24,10 @@ class Logger:
     def append_log(self, msg):
         """Method to append a line to the log"""
         dt = datetime.datetime.now().strftime("%B %d, %Y %H:%M:%S.%f %Z")
-        m = "{} - {}".format(dt,msg)
+        m = "{} - {}".format(dt, msg)
         self.log.append(m)
 
-    def write_log(self,erase=True, txt:Text=None):
+    def write_log(self, erase=True, txt: Text = None):
         """Method to append the current log to the file"""
         with open(DATA_PATH + "/data/logs.txt", "a") as f:
             f.write("\n" + "\n".join(self.log))
@@ -38,7 +41,7 @@ class Logger:
             txt.config(state=DISABLED)
             txt.see("end")
 
-    def erase_cached(self, txt:Text=None):
+    def erase_cached(self, txt: Text = None):
         self.log = []
         if txt is not None:
             txt.config(state=NORMAL)
@@ -49,7 +52,7 @@ class Logger:
             txt.see("end")
 
     @staticmethod
-    def erase_stored(txt:Text=None):
+    def erase_stored(txt: Text = None):
         open(DATA_PATH + "/data/logs.txt", "w").close()
         if txt is not None:
             txt.config(state=NORMAL)

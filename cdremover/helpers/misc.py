@@ -4,7 +4,7 @@
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # ------------------------------------------------------------------------------
 
-def get_foreground(config:dict):
+def get_foreground(config: dict):
     """Function to get the foreground color for the current theme"""
     if config["mode"] == "light":
         return "#5c616c"
@@ -13,7 +13,8 @@ def get_foreground(config:dict):
     else:
         return None
 
-def format_config(data:dict, name:str, value):
+
+def format_config(data: dict, name: str, value):
     dat = data[name]
     if "method" in dat.keys():
         value = dat["method"](value)
@@ -27,7 +28,7 @@ def format_config(data:dict, name:str, value):
     if dat["type"] is int:
         return int(value)
     if name == "wait_unit":
-        return value.replace(", ",",").split(",")[:-1] + [int(value.replace(", ",",").split(",")[-1])]
+        return value.replace(", ", ",").split(",")[:-1] + [int(value.replace(", ", ",").split(",")[-1])]
     if dat["type"] is list:
         return value.replace(", ", ",").split(",")
     if dat["type"] is bool:

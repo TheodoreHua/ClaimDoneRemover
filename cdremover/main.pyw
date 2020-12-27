@@ -6,21 +6,23 @@
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # ------------------------------------------------------------------------------
 
-import praw
-import time
 import json
-import requests
-import matplotlib.pyplot as plt
-from traceback import format_exc
-from helpers import *
-from helpers.global_vars import DATA_PATH, VERSION
+import time
 from tkinter import *
 from tkinter import ttk
 from tkinter.messagebox import askyesno, showinfo, showerror
-from ttkthemes import ThemedTk
+from traceback import format_exc
 from webbrowser import open as wbopen
+
+import matplotlib.pyplot as plt
+import praw
+import requests
 from packaging import version
 from praw.exceptions import MissingRequiredAttributeException
+from ttkthemes import ThemedTk
+
+from helpers import *
+from helpers.global_vars import DATA_PATH, VERSION
 
 deleted_num = []
 cutoff_num = []
