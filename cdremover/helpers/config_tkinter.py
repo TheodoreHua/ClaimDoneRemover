@@ -56,6 +56,7 @@ def create_survey_config(main: Tk, txt: Text = None):
         # Skip if template says to skip
         if "skip" in fdat.keys():
             if fdat["skip"]:
+                entries[name] = StringVar(value=old_val)
                 continue
         # Create StringVar and edit name variables
         entries[name] = StringVar()
@@ -97,41 +98,41 @@ def submit_survey(top: Toplevel, txt: Text = None):
             showerror("Error", "There is a empty field.")
             return
         elif type(fdat["type"]) is list:
-            pass
+            if fdat["type"][0] is int and isinstance(fdat["type"][1], type(None)):
+                try:
+                    if val.title() == "None" or int(val) >= 1000:
+                        con[name] = None
+                    else:
+                        con[name] = int(val)
+                except ValueError:
+                    showerror("ValueError",
+                              "Invalid value {} in {} field, see README for proper values".format(val, lb_name))
+                    return
         elif fdat["type"] is str:
             con[name] = val
         elif fdat["type"] is int:
             try:
                 con[name] = int(val)
             except ValueError:
-                showerror("ValueError", "Invalid value {} in {} field".format(val, lb_name))
-        # elif name == "blacklist":
-        #     con[name] = val.replace(", ", ",").split(",")
-        # elif name == "wait_unit":
-        #     con[name] = val.replace(", ", ",").split(",")[:-1] + [int(val.replace(", ", ",").split(",")[-1])]
-        # elif name in ["cutoff", "cutoff_secs", "wait"]:
-        #     try:
-        #         con[name] = int(val)
-        #     except ValueError:
-        #         showerror("ValueError", "Please enter a number in {} field.".format(name.lower().replace("_", " ")))
-        # elif name in ["real_time_checking", "case_sensitive", "start_paused", "topmost", "tor_only", "update_check"]:
-        #     if val.title() == "True":
-        #         con[name] = True
-        #     elif val.title() == "False":
-        #         con[name] = False
-        #     else:
-        #         showerror("Error", "Invalid Value in Real Time Checking or Case Sensitive (True/False)")
-        #         return
-        # elif name == "limit":
-        #     try:
-        #         if val.title() == "None" or int(val) >= 1000:
-        #             con[name] = None
-        #         else:
-        #             con[name] = int(val)
-        #     except ValueError:
-        #         showerror("ValueError", "Please enter a number in limit field.")
-        # else:
-        #     con[name] = val
+                showerror("ValueError",
+                          "Invalid value {} in {} field, see README for proper values".format(val, lb_name))
+                return
+        elif fdat["type"] is bool:
+            try:
+                con[name] = {"True": True, "False": False}[val]
+            except KeyError:
+                showerror("ValueError",
+                          "Invalid value {} in {} field, see README for proper values".format(val, lb_name))
+                return
+        elif name == "wait_unit":
+            try:
+                con[name] = val.replace(", ", ",").split(",")[:-1] + [int(val.replace(", ", ",").split(",")[-1])]
+            except ValueError:
+                showerror("ValueError",
+                          "Invalid value {} in {} field, see README for proper values".format(val, lb_name))
+                return
+        elif fdat["type"] is list:
+            con[name] = val.replace(", ", ",").split(",")
     # Write to JSON file
     write_config(con)
     # Destroy the toplevel window
