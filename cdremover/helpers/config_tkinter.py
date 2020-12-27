@@ -21,6 +21,8 @@ def create_survey_config(main: Tk, txt:Text=None):
     config = get_config()
     if config["topmost"]:
         top.wm_attributes("-topmost", 1)
+    top.wait_visibility()
+    top.grab_set()
     entries = {}
     # Create instructions label
     ttk.Label(top, text=
