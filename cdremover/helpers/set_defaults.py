@@ -25,7 +25,8 @@ def reset_config(txt:Text=None):
                     "start_paused": False,
                     "topmost": True,
                     "mode": "light",
-                    "tor_only": True}
+                    "tor_only": True,
+                    "update_check": True}
     # Write to JSON file
     with open(DATA_PATH + "/config.json","w") as f:
         json.dump(default_vals,f,indent=2)

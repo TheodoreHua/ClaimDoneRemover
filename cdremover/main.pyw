@@ -15,6 +15,7 @@
 import praw
 import time
 import json
+import requests
 import matplotlib.pyplot as plt
 from traceback import format_exc
 from helpers import *
@@ -23,6 +24,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter.messagebox import askyesno, showinfo, showerror
 from ttkthemes import ThemedTk
+from webbrowser import open as browseropen
 from praw.exceptions import MissingRequiredAttributeException
 
 deleted_num = []
@@ -325,6 +327,21 @@ create_main_window()
 
 # Assert data
 assert_data(log)
+
+# Check for updates
+if config["update_check"]:
+    resp = requests.get("https://api.github.com/repos/TheodoreHua/ClaimDoneRemover/releases/latest")
+    if resp.status_code == 200:
+        resp_js = resp.json()
+        if resp_js["tag_name"][1:] != VERSION:
+            log.append_log("Update found, current version {}, new version {}".format(VERSION, resp_js["tag_name"][1:]))
+            yn_resp = askyesno("New Version",
+                               "A new version ({}) is available.\n\nPress yes to open page and no to ignore.\nUpdate "
+                               "checking can be disabled in config.".format(resp_js["tag_name"]))
+            if yn_resp:
+                browseropen("https://github.com/TheodoreHua/ClaimDoneRemover/releases/latest")
+    else:
+        log.append_log("Received status code {} while trying to check for updates.".format(resp.status_code))
 
 # Set the default values for the variables
 with open(DATA_PATH + "/data/lifetime_totals.json") as f:
