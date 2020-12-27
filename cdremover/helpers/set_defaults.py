@@ -7,14 +7,14 @@
 import configparser
 import json
 from tkinter import Text, NORMAL, END, INSERT, DISABLED
-from .global_vars import DATA_PATH
+from .global_vars import DATA_PATH, OS
 
 """Functions to take care of resetting the files back to their default states"""
 
 def reset_config(txt:Text=None):
     # Set the dict with default values
     default_vals = {"user": "",
-                    "os": "",
+                    "os": OS,
                     "blacklist": ["claim", "done", "unclaim",
                                   "claim -- this was a automated action. please contact me with any questions.",
                                   "done -- this was a automated action. please contact me with any questions.",
