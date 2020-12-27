@@ -7,7 +7,7 @@
 # ------------------------------------------------------------------------------
 
 # --- Credits ---
-# /u/MurdoMaclachlan for making the original unedited version, and the unit system.
+# /u/MurdoMaclachlan for making the original unedited version, providing help with Linux compatability, and the unit system.
 # /u/DasherPack for being a handsome boy...
 # /u/metaquarx for making funny comments about programming misery and typing for a whole night...
 # /u/LukeAbby for making the discord ToR-Stats bot.
