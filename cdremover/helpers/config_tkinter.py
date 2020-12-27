@@ -7,6 +7,7 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter.messagebox import showinfo, showerror
+
 from .file import get_config, write_config
 
 """Functions to take care of the config file tkinter menu option"""
