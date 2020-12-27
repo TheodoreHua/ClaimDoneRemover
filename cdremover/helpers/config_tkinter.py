@@ -12,6 +12,23 @@ from .file import get_config, write_config
 """Functions to take care of the config file tkinter menu option"""
 
 entries = {}
+opt_data = {
+    "user": {"type": str},
+    "os": {"type": str, "method": lambda i: i.upper()},
+    "blacklist": {"type": list},
+    "case_sensitive": {"type": bool},
+    "cutoff": {"type": int},
+    "cutoff_secs": {"type": int},
+    "limit": {"type": [int, type(None)]},
+    "wait": {"type": int},
+    "real_time_checking": {"type": bool},
+    "start_paused": {"type": bool},
+    "topmost": {"type": bool},
+    "mode": {"type": str, "skip": True},
+    "wait_unit": {"type": list},
+    "tor_only": {"type": bool},
+    "update_check": {"type": bool}
+}
 
 def create_survey_config(main: Tk, txt:Text=None):
     global entries
@@ -26,7 +43,7 @@ def create_survey_config(main: Tk, txt:Text=None):
     # Create instructions label
     ttk.Label(top, text=
     "Enter the corresponding value for the config name. The current value is already entered into the field."
-    " Instructions are in README.md/on the GitHub", justify="center", wraplength=400).grid(row=0, column=0, columnspan=3)
+    " Instructions are in README.md", justify="center", wraplength=400).grid(row=0, column=0, columnspan=3)
     # Get the original values for each text
     old = get_config()
     row = 1
