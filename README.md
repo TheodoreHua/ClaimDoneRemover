@@ -69,7 +69,7 @@ as you reach the cutoff, or you can manually run it every now and then in order 
 ### Get a Refresh Token
 
 1. Run `get_refresh.py`.
-2. Follow the step-by-step instructions. If it asks for a scope, enter `edit,history`.
+2. Follow the step-by-step instructions. If it asks for a scope, enter `read,edit,history`.
 3. Copy the refresh token.
 
 ## FAQ
