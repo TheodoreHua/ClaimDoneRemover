@@ -25,6 +25,7 @@ from tkinter import ttk
 from tkinter.messagebox import askyesno, showinfo, showerror
 from ttkthemes import ThemedTk
 from webbrowser import open as browseropen
+from packaging import version
 from praw.exceptions import MissingRequiredAttributeException
 
 deleted_num = []
@@ -333,7 +334,7 @@ if config["update_check"]:
     resp = requests.get("https://api.github.com/repos/TheodoreHua/ClaimDoneRemover/releases/latest")
     if resp.status_code == 200:
         resp_js = resp.json()
-        if resp_js["tag_name"][1:] != VERSION:
+        if version.parse(resp_js["tag_name"][1:]) > version.parse(VERSION):
             log.append_log("Update found, current version {}, new version {}".format(VERSION, resp_js["tag_name"][1:]))
             yn_resp = askyesno("New Version",
                                "A new version ({}) is available.\n\nPress yes to open page and no to ignore.\nUpdate "
