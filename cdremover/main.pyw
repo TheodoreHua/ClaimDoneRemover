@@ -474,4 +474,4 @@ while True:
     m.update_idletasks()
     m.update()
     # Small delay to reduce CPU usage
-    time.sleep(0.02)
+    time.sleep(0.028)
