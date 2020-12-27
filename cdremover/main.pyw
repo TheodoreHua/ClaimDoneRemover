@@ -57,7 +57,7 @@ def create_main_window(recreate=False):
     else:
         m = ThemedTk(theme="equilux", background=True, toplevel=True)
         log.append_log("Using Dark Mode")
-    m.title("Claim Done Remover")
+    m.title("CDR v" + VERSION)
     m.geometry("180x218")
     m.resizable(0, 0)
     if config["topmost"]:
