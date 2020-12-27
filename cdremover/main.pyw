@@ -25,7 +25,7 @@ from tkinter.messagebox import askyesno, showinfo, showerror
 from ttkthemes import ThemedTk
 from praw.exceptions import MissingRequiredAttributeException
 
-version = "3.14.54"
+version = "3.14.57"
 
 deleted_num = []
 cutoff_num = []
