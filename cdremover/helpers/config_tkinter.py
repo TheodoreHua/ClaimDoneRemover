@@ -66,7 +66,7 @@ def submit_survey(top:Toplevel,txt:Text=None):
                 con[name] = int(val)
             except ValueError:
                 showerror("ValueError", "Please enter a number in {} field.".format(name.lower().replace("_"," ")))
-        elif name in ["real_time_checking","case_sensitive","start_paused","topmost"]:
+        elif name in ["real_time_checking","case_sensitive","start_paused","topmost","tor_only"]:
             if val.title() == "True":
                 con[name] = True
             elif val.title() == "False":

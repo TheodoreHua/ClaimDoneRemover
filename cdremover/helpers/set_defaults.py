@@ -19,12 +19,13 @@ def reset_config(txt:Text=None):
                                   "claim -- this was a automated action. please contact me with any questions.",
                                   "done -- this was a automated action. please contact me with any questions.",
                                   "unclaim -- this was a automated action. please contact me with any questions."],
-                    "case_sensitive": True,"cutoff": 5, "cutoff_secs": 60, "limit": 100, "wait": 1,
+                    "case_sensitive": True, "cutoff": 5, "cutoff_secs": 60, "limit": 100, "wait": 1,
                     "wait_unit": ["minute", "minutes", 60],
                     "real_time_checking": True,
                     "start_paused": False,
                     "topmost": True,
-                    "mode": "light"}
+                    "mode": "light",
+                    "tor_only": True}
     # Write to JSON file
     with open(DATA_PATH + "/config.json","w") as f:
         json.dump(default_vals,f,indent=2)
