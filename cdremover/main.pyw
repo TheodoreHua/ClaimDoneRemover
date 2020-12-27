@@ -25,7 +25,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter.messagebox import askyesno, showinfo, showerror
 from ttkthemes import ThemedTk
-from webbrowser import open as browseropen
+from webbrowser import open as wbopen
 from packaging import version
 from praw.exceptions import MissingRequiredAttributeException
 
@@ -273,6 +273,7 @@ def options():
                                                      "Total Counted: {:,}\nTotal Deleted: {:,}".format(
                                                          lifetime_total_counted, lifetime_total_deleted)),
             "Show Graph": show_graph,
+            "Open Data Folder": lambda: wbopen(DATA_PATH),
             "Save Logs": lambda: log.write_log(txt=confirm_txt),
             "Erase Cached Log": lambda: log.erase_cached(confirm_txt),
             "Erase Stored Log": lambda: log.erase_stored(confirm_txt),
@@ -350,7 +351,7 @@ if config["update_check"]:
                                "A new version ({}) is available.\n\nPress yes to open page and no to ignore.\nUpdate "
                                "checking can be disabled in config.".format(resp_js["tag_name"]))
             if yn_resp:
-                browseropen("https://github.com/TheodoreHua/ClaimDoneRemover/releases/latest")
+                wbopen("https://github.com/TheodoreHua/ClaimDoneRemover/releases/latest")
     else:
         log.append_log("Received status code {} while trying to check for updates.".format(resp.status_code))
 
