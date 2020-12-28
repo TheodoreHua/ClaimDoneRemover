@@ -4,7 +4,7 @@
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # ------------------------------------------------------------------------------
 
-def get_foreground(config:dict):
+def get_foreground(config: dict):
     """Function to get the foreground color for the current theme"""
     if config["mode"] == "light":
         return "#5c616c"
