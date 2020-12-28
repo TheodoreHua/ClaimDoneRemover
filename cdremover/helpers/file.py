@@ -50,6 +50,12 @@ def assert_data(log, txt: Text = None):
         with open(DATA_PATH + "/data/lifetime_totals.json", "w") as f:
             json.dump({"counted": 0, "deleted": 0}, f, indent=2)
             log.append_log("Created Lifetime Totals JSON file")
+    if not isfile(DATA_PATH + "/config.json"):
+        reset_config()
+        log.append_log("Created Config JSON File")
+    if not isfile(DATA_PATH + "/praw.ini"):
+        reset_praw()
+        log.append_log("Created Config PRAW INI file")
     if txt is not None:
         txt.config(state=NORMAL)
         txt.delete("1.0", END)
@@ -57,13 +63,3 @@ def assert_data(log, txt: Text = None):
         txt.tag_add("center", "1.0", "end")
         txt.config(state=DISABLED)
         txt.see("end")
-
-
-def assert_config_praw(log):
-    """Method to check if the config files exists, if it doesn't exist, create it"""
-    if not isfile(DATA_PATH + "/config.json"):
-        reset_config()
-        log.append_log("Created Config JSON File")
-    if not isfile(DATA_PATH + "/praw.ini"):
-        reset_praw()
-        log.append_log("Created Config PRAW INI file")
