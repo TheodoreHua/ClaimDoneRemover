@@ -5,7 +5,7 @@ involved with this program and are not liable for any matters relating to it.**
 
 **WARNING: use of this program has been discovered to cause the ToR discord bot (ToR-Stats, not the subreddit bot) to
 freeze if the program deletes a comment while the bot is processing it. This has currently happened to two users that we
-know of. There is currently nothing we can do about this until an update is made on the bot's side**
+know of. There is currently nothing we can do about this until an update is made on the bots side**
 
 Also known as CDRemover or CDR, this program removes "claim" and "done" comments after a period of time. It is designed
 with r/TranscribersOfReddit transcribers in mind; specifically those who are tired of these comments clogging up their
@@ -33,7 +33,7 @@ back depending on the setting you chose, and if you have it running in the backg
    should be located just under the text `personal use script` and the client secret should be next to the
    word `secret`) and then click generate to create a refresh token. Note that after you click generate the window will
    not respond until you've finished authorizing the application, a prompt may come up stating that the window is not
-   responding and whether you want to close the program, do not close it. Currently there's nothing I can do to avoid
+   responding and whether you want to close the program, do not close it. Currently, there's nothing I can do to avoid
    this.
 7. Restart the program
 8. Done
@@ -56,7 +56,7 @@ as you reach the cutoff, or you can manually run it now and then in order to del
 - ***Case Sensitive:*** Whether the blacklist should be case-sensitive.
 - ***Cutoff:*** How many units of time old the comments must be before they are deleted.
 - ***Cutoff Secs:*** How many seconds each unit of time for the cutoff is. E.g. a second would be 1, a minute would be
-  60, a hour would be 3600, etc.
+  60, an hour would be 3600, etc.
 - ***Limit:*** How many comments to check through in the users' history, max 1000 (enter `None` for 1000). Keep in mind
   the larger this is, the longer it will take to check per run.
 - ***Wait:*** How many units of time the program should wait before checking for new comments again.
@@ -78,18 +78,18 @@ dialog pops up asking if you want to close it, choose no/wait. It should finish 
 #### Can I use this to delete past comments?
 
 Yes, if you would like it to go back and delete all of your comments, set the limit to `None` then let it run 3-10
-times (You can skip the wait by pressing the check now button in the options menu).
+times (You can skip the wait by pressing the check now button in the options' menu).
 
 #### I messed up something in the configuration settings and now it won't start/is crashing, what should I do?
 
-Try and look at the error and correct it by editing `config.json` or `praw.ini` by yourself (See below FAQ on where the
+Try to look at the error and correct it by editing `config.json` or `praw.ini` by yourself (See below FAQ on where the
 files are located). If the error cannot be resolved by yourself, delete the `config.json` and/or `praw.ini` files, then
-run `main.pyw`. The program will re-create the files and you'll be good to go. You **WILL** have to re-setup the config
+run `main.pyw`. The program will re-create the files, and you'll be good to go. You **WILL** have to re-setup the config
 and PRAW files.
 
 #### Where are the config and data files located?
 
-You can open the folder manually by opening CDR, going into the options menu, and clicking `Open Data Folder`. However,
+You can open the folder manually by opening CDR, going into the options' menu, and clicking `Open Data Folder`. However,
 if you for some reason can't do that or have another reason not to, the folders are located in the following paths (
 different depending on the platform).
 
