@@ -4,17 +4,35 @@
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 # ------------------------------------------------------------------------------
 
-import json
 from tkinter import *
 from tkinter import ttk
-from tkinter.messagebox import showinfo,showerror
+from tkinter.messagebox import showinfo, showerror
+
 from .file import get_config, write_config
 
 """Functions to take care of the config file tkinter menu option"""
 
 entries = {}
+opt_data = {
+    "user": {"type": str},
+    "os": {"type": str, "namemethod": lambda i: i.upper()},
+    "blacklist": {"type": list},
+    "case_sensitive": {"type": bool},
+    "cutoff": {"type": int},
+    "cutoff_secs": {"type": int},
+    "limit": {"type": [int, type(None)]},
+    "wait": {"type": int},
+    "real_time_checking": {"type": bool},
+    "start_paused": {"type": bool},
+    "topmost": {"type": bool},
+    "mode": {"type": str, "skip": True},
+    "wait_unit": {"type": list},
+    "tor_only": {"type": bool},
+    "update_check": {"type": bool}
+}
 
-def create_survey_config(main: Tk, txt:Text=None):
+
+def create_survey_config(main: Tk, txt: Text = None):
     global entries
     # Create toplevel window then configure it
     top = Toplevel(main)
@@ -25,73 +43,102 @@ def create_survey_config(main: Tk, txt:Text=None):
     top.grab_set()
     entries = {}
     # Create instructions label
-    ttk.Label(top, text=
-    "Enter the corresponding value for the config name. The current value is already entered into the field."
-    " Instructions are in README.md/on the GitHub", justify="center", wraplength=400).grid(row=0, column=0, columnspan=3)
+    ttk.Label(top, text="Enter the corresponding value for the config name. The current value is already entered into"
+                        " the field. Instructions are in README.md", justify="center", wraplength=400).grid(
+        row=0, column=0, columnspan=3)
     # Get the original values for each text
     old = get_config()
     row = 1
     # Create the labels and entry widgets for each option
     for name, old_val in old.items():
+        # Set alias for dictionary item for current item
+        fdat = opt_data[name.lower()]
+        # Skip if template says to skip
+        if "skip" in fdat.keys():
+            if fdat["skip"]:
+                entries[name] = StringVar(value=old_val)
+                continue
+        # Create StringVar and edit name variables
         entries[name] = StringVar()
-        # Check if the value/name is special and execute special instructions if needed
-        if name in ["blacklist","wait_unit"]:
-            entries[name].set(",".join(str(x) for x in old_val))
+        # Call namemethod if it exists
+        if "namemethod" in fdat.keys():
+            lb_name = fdat["namemethod"](name)
         else:
+            lb_name = name.title()
+        # Create field name label
+        ttk.Label(top, text=lb_name.replace("_", " ")).grid(row=row, column=0)
+        # Different choosing types for different values
+        if fdat["type"] in [str, int] or type(fdat["type"]) is list:
             entries[name].set(str(old_val))
-        # Skip Theme Option
-        if name == "mode":
-            continue
-        if name == "os":
-            ttk.Label(top, text=name.replace("_", " ").upper()).grid(row=row, column=0)
-        else:
-            ttk.Label(top, text=name.replace("_", " ").title()).grid(row=row, column=0)
-        ttk.Entry(top, textvariable=entries[name], width=50).grid(row=row, column=1, columnspan=2)
+            ttk.Entry(top, textvariable=entries[name], width=50).grid(row=row, column=1, columnspan=2)
+        elif fdat["type"] is bool:
+            entries[name].set(str(old_val))
+            ttk.Radiobutton(top, text="True", variable=entries[name], value="True", width=6).grid(row=row, column=1)
+            ttk.Radiobutton(top, text="False", variable=entries[name], value="False", width=6).grid(row=row, column=2)
+        elif fdat["type"] is list:
+            entries[name].set(",".join([str(i) for i in old_val]))
+            ttk.Entry(top, textvariable=entries[name], width=50).grid(row=row, column=1, columnspan=2)
         row += 1
     # Create submit button
-    ttk.Button(top, text="Submit", command=lambda: submit_survey(top,txt)).grid(row=row, column=0, columnspan=3, sticky="we", padx=2)
+    ttk.Button(top, text="Submit", command=lambda: submit_survey(top, txt)).grid(row=row, column=0, columnspan=3,
+                                                                                 sticky="we", padx=2)
 
-def submit_survey(top:Toplevel,txt:Text=None):
+
+def submit_survey(top: Toplevel, txt: Text = None):
     con = {}
     # Iterate through all of the StringVars and add it to a dictionary in the correct formatting
-    for name,var in entries.items():
+    for name, var in entries.items():
         val = var.get().strip()
+        fdat = opt_data[name.lower()]
+        if "namemethod" in fdat.keys():
+            lb_name = fdat["namemethod"](name)
+        else:
+            lb_name = name.title()
         if val == "":
-            showerror("Error","There is a empty field.")
+            showerror("Error", "There is a empty field.")
             return
-        elif name == "blacklist":
-            con[name] = val.replace(", ",",").split(",")
-        elif name == "wait_unit":
-            con[name] = val.replace(", ",",").split(",")[:-1] + [int(val.replace(", ",",").split(",")[-1])]
-        elif name in ["cutoff","cutoff_secs","wait"]:
+        elif type(fdat["type"]) is list:
+            if fdat["type"][0] is int and isinstance(fdat["type"][1], type(None)):
+                try:
+                    if val.title() == "None" or int(val) >= 1000:
+                        con[name] = None
+                    else:
+                        con[name] = int(val)
+                except ValueError:
+                    showerror("ValueError",
+                              "Invalid value {} in {} field, see README for proper values".format(val, lb_name))
+                    return
+        elif fdat["type"] is str:
+            con[name] = val
+        elif fdat["type"] is int:
             try:
                 con[name] = int(val)
             except ValueError:
-                showerror("ValueError", "Please enter a number in {} field.".format(name.lower().replace("_"," ")))
-        elif name in ["real_time_checking","case_sensitive","start_paused","topmost","tor_only", "update_check"]:
-            if val.title() == "True":
-                con[name] = True
-            elif val.title() == "False":
-                con[name] = False
-            else:
-                showerror("Error","Invalid Value in Real Time Checking or Case Sensitive (True/False)")
+                showerror("ValueError",
+                          "Invalid value {} in {} field, see README for proper values".format(val, lb_name))
                 return
-        elif name == "limit":
+        elif fdat["type"] is bool:
             try:
-                if val.title() == "None" or int(val) >= 1000:
-                    con[name] = None
-                else:
-                    con[name] = int(val)
+                con[name] = {"True": True, "False": False}[val]
+            except KeyError:
+                showerror("ValueError",
+                          "Invalid value {} in {} field, see README for proper values".format(val, lb_name))
+                return
+        elif name == "wait_unit":
+            try:
+                con[name] = val.replace(", ", ",").split(",")[:-1] + [int(val.replace(", ", ",").split(",")[-1])]
             except ValueError:
-                showerror("ValueError", "Please enter a number in limit field.")
-        else:
-            con[name] = val
+                showerror("ValueError",
+                          "Invalid value {} in {} field, see README for proper values".format(val, lb_name))
+                return
+        elif fdat["type"] is list:
+            con[name] = val.replace(", ", ",").split(",")
     # Write to JSON file
     write_config(con)
     # Destroy the toplevel window
     top.destroy()
     # Give a notice that it needs to be restarted to take effect
-    showinfo("Notice","Application restart needed to put changes into effect.")
+    showinfo("Notice", "Application restart needed to put changes into effect.")
     # Update option menu log
     if txt is not None:
         txt.config(state=NORMAL)
