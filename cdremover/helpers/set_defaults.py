@@ -13,19 +13,20 @@ from .global_vars import DATA_PATH, OS
 """Functions to take care of resetting the files back to their default states"""
 
 config_defaults = {"user": "",
-                    "os": OS,
-                    "blacklist": ["claim", "done", "unclaim",
-                                  "claim -- this was a automated action. please contact me with any questions.",
-                                  "done -- this was a automated action. please contact me with any questions.",
-                                  "unclaim -- this was a automated action. please contact me with any questions."],
-                    "case_sensitive": True, "cutoff": 5, "cutoff_secs": 60, "limit": 100, "wait": 1,
-                    "wait_unit": ["minute", "minutes", 60],
-                    "real_time_checking": True,
-                    "start_paused": False,
-                    "topmost": True,
-                    "mode": "light",
-                    "tor_only": True,
-                    "update_check": True}
+                   "os": OS,
+                   "blacklist": ["claim", "done", "unclaim",
+                                 "claim -- this was a automated action. please contact me with any questions.",
+                                 "done -- this was a automated action. please contact me with any questions.",
+                                 "unclaim -- this was a automated action. please contact me with any questions."],
+                   "case_sensitive": True, "cutoff": 5, "cutoff_secs": 60, "limit": 100, "wait": 1,
+                   "wait_unit": ["minute", "minutes", 60],
+                   "real_time_checking": True,
+                   "start_paused": False,
+                   "topmost": True,
+                   "mode": "light",
+                   "tor_only": True,
+                   "update_check": True}
+
 
 def reset_config(txt: Text = None):
     # Write to JSON file
@@ -39,6 +40,7 @@ def reset_config(txt: Text = None):
         txt.tag_add("center", "1.0", "end")
         txt.config(state=DISABLED)
         txt.see("end")
+
 
 def double_check_config(log):
     with open(DATA_PATH + "/config.json", "r") as f:
@@ -65,8 +67,6 @@ def reset_praw(txt=None):
     # Set the dicts with default values
     config["credentials"] = {"client_id": "",
                              "client_secret": "",
-                             "username": "",
-                             "password": "",
                              "refresh_token": ""}
     # Write to INI file
     with open(DATA_PATH + "/praw.ini", "w") as f:

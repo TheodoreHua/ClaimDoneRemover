@@ -7,8 +7,8 @@ involved with this program and are not liable for any matters relating to it.**
 freeze if the program deletes a comment while the bot is processing it. This has currently happened to two users that we
 know of. There is currently nothing we can do about this until an update is made on the bot's side**
 
-Also known as CDRemover or CDR, this program removes "claim" and "done" comments after a period of time. It is designed with
-r/TranscribersOfReddit transcribers in mind; specifically those who are tired of these comments clogging up their
+Also known as CDRemover or CDR, this program removes "claim" and "done" comments after a period of time. It is designed
+with r/TranscribersOfReddit transcribers in mind; specifically those who are tired of these comments clogging up their
 profiles.
 
 If you've been a transcriber for a while, chances are this program will not remove every "claim" or "done" you've ever
@@ -23,16 +23,18 @@ back depending on the setting you chose, and if you have it running in the backg
    root/admin).
 3. Before doing anything else, you should now create an app for your Reddit account. You can do this by going to
    `https://www.reddit.com/prefs/apps/` and creating a new app. Give it a name ("ClaimDoneRemover" or "CDRemover" are
-   easy to remember). Choose "script". Give it a description (which can really be anything you want). Set an about url
-   and redirect url. They don't really matter for a personal script unless you're using 2FA. I linked to this GitHub
-   page. However if you are using 2FA/refresh tokens, set the redirect url to `http://localhost:8080` as this will be
-   important later on.
+   easy to remember). Choose "script". Give it a description (which can really be anything you want). Set the redirect
+   url to `http://localhost:8080` as this will be important later on. You can set the about url as whatever you want (I
+   set it to the CDR repo link).
 4. Now run the `main.pyw` program, don't worry if it says error.
 5. Click the options button then click the `Edit Config` button and fill in each field. There's a description of what
    each field does [here](#config-options-description).
-6. Now click the `Edit PRAW Config` button. It will ask you if you are using a refresh token (if you are go to
-   [get a refresh token](#get-a-refresh-token) then come back and click yes, if you aren't click no). Fill in the
-   options with the information you got from step #3 (and you just got if using refresh token).
+6. Now click the `Edit PRAW Config` button. Fill in the options with the information you got from step #3 (Client ID
+   should be located just under the text `personal use script` and the client secret should be next to the
+   word `secret`) and then click generate to create a refresh token. Note that after you click generate the window will
+   not respond until you've finished authorizing the application, a prompt may come up stating that the window is not
+   responding and whether you want to close the program, do not close it. Currently there's nothing I can do to avoid
+   this.
 7. Restart the program
 8. Done
 
@@ -40,7 +42,7 @@ Once you're done, just navigate to the folder where `main.pyw` is and run the fi
 installed, or simply run itself, or you can run it from the command line. On Linux, you do this like so: `./main.pyw`
 or `python main.pyw` on Windows. You will see an output after a few seconds. Each comment older than your cutoff should
 be deleted. You can then either leave the program running in the background to delete posts while you are transcribing
-as you reach the cutoff, or you can manually run it every now and then in order to delete in batches.
+as you reach the cutoff, or you can manually run it now and then in order to delete in batches.
 
 ## Other Instructions
 
@@ -65,12 +67,6 @@ as you reach the cutoff, or you can manually run it every now and then in order 
 - ***Start Paused:*** Start the program paused instead of starting scanning as soon as the program starts.
 - ***Topmost:*** Whether the window shows on top of every other window.
 - ***ToR Only:*** Whether the program only deletes comments on the ToR subreddit.
-
-### Get a Refresh Token
-
-1. Run `get_refresh.py`.
-2. Follow the step-by-step instructions. If it asks for a scope, enter `read,edit,history`.
-3. Copy the refresh token.
 
 ## FAQ
 
