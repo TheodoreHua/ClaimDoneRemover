@@ -290,8 +290,8 @@ log = Logger()
 # Setup global error handler
 sys.excepthook = except_hook
 
-# Assert that config and PRAW files exist
-assert_config_praw(log)
+# Assert data
+assert_data(log)
 
 # Get data from config
 config = get_config()
@@ -328,9 +328,6 @@ log.append_log("Case Sensitive set to " + str(config["case_sensitive"]))
 
 # Create main window
 create_main_window()
-
-# Assert data
-assert_data(log)
 
 # Check for updates
 if config["update_check"]:
