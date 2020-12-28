@@ -12,10 +12,7 @@ from .global_vars import DATA_PATH, OS
 
 """Functions to take care of resetting the files back to their default states"""
 
-
-def reset_config(txt: Text = None):
-    # Set the dict with default values
-    default_vals = {"user": "",
+config_defaults = {"user": "",
                     "os": OS,
                     "blacklist": ["claim", "done", "unclaim",
                                   "claim -- this was a automated action. please contact me with any questions.",
@@ -29,9 +26,12 @@ def reset_config(txt: Text = None):
                     "mode": "light",
                     "tor_only": True,
                     "update_check": True}
+
+def reset_config(txt: Text = None):
+    # Set the dict with default values
     # Write to JSON file
     with open(DATA_PATH + "/config.json", "w") as f:
-        json.dump(default_vals, f, indent=2)
+        json.dump(config_defaults, f, indent=2)
     # Update option menu log
     if txt is not None:
         txt.config(state=NORMAL)
@@ -40,6 +40,24 @@ def reset_config(txt: Text = None):
         txt.tag_add("center", "1.0", "end")
         txt.config(state=DISABLED)
         txt.see("end")
+
+def double_check_config(log):
+    with open(DATA_PATH + "/config.json", "r") as f:
+        old_data = json.load(f)
+    missing_keys = []
+    for needed_key in config_defaults.keys():
+        if needed_key not in old_data.keys():
+            log.append_log("Missing config value \"{}\" found".format(needed_key))
+            missing_keys.append(needed_key)
+    if len(missing_keys) > 0:
+        with open(DATA_PATH + "/config.json", "w") as f:
+            new_data = old_data.copy()
+            for missing_key in missing_keys:
+                log.append_log("Missing config value \"{}\" added with default".format(missing_key))
+                new_data[missing_key] = config_defaults[missing_key]
+            json.dump(new_data, f, indent=2)
+    else:
+        log.append_log("No missing config values found")
 
 
 def reset_praw(txt=None):
