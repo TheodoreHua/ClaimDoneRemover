@@ -7,23 +7,30 @@
 import configparser
 from tkinter import *
 from tkinter import ttk
-from tkinter.messagebox import showinfo, askyesno, showerror
+from tkinter.messagebox import showinfo, showerror
 
 from .file import get_config
 from .global_vars import DATA_PATH
+from .misc import get_refresh_token
 
 """Function to take care of the PRAW config file tkinter menu option"""
 
 entries = {}
-opt_data = {"common": [("client_id", "Client ID"), ("client_secret", "Client Secret")],
-            "password": [("username", "Username"), ("password", "Password")],
-            "refresh": [("refresh_token", "Refresh Token")]}
+
+
+def set_refresh():
+    if entries["client_id"].get().strip() in [None, ""] or entries["client_secret"].get().strip() in [None, ""]:
+        showerror("Missing Argument", "Client ID and Client Secret are needed to generate refresh token")
+        return
+    result = get_refresh_token(entries["client_id"].get().strip(), entries["client_secret"].get().strip())
+    if result is None:
+        showerror("Error", "Was not able to get refresh token")
+        return
+    entries["refresh_token"].set(result)
 
 
 def create_survey_praw(main: Tk, txt: Text = None):
     global entries
-    # Ask if they are using refresh or username & password
-    refresh = askyesno("Prompt", "Are you using refresh tokens?\nChoose No if you don't understand.")
     # Create toplevel window then configure it
     top = Toplevel(main)
     config = get_config()
@@ -42,11 +49,16 @@ def create_survey_praw(main: Tk, txt: Text = None):
     old = config["credentials"]
     row = 1
     # Create the labels and entry widgets for each option
-    for name, displayname in opt_data["common"] + opt_data["refresh"] if refresh else opt_data["password"]:
+    for name, displayname in [("client_id", "Client ID"), ("client_secret", "Client Secret"),
+                              ("refresh_token", "Refresh Token")]:
         entries[name] = StringVar()
         entries[name].set(old.get(name, ""))
         ttk.Label(top, text=displayname).grid(row=row, column=0)
-        ttk.Entry(top, textvariable=entries[name], width=50).grid(row=row, column=1, columnspan=2)
+        if name == "refresh_token":
+            ttk.Entry(top, textvariable=entries[name], width=25).grid(row=row, column=1, sticky="we")
+            ttk.Button(top, text="Generate", command=set_refresh).grid(row=row, column=2, sticky="we")
+        else:
+            ttk.Entry(top, textvariable=entries[name], width=50).grid(row=row, column=1, columnspan=2)
         row += 1
     # Create submit button
     ttk.Button(top, text="Submit", command=lambda: submit_survey(top, txt)).grid(row=row, column=0, columnspan=3,
