@@ -51,7 +51,7 @@ as you reach the cutoff, or you can manually run it now and then in order to del
 **IMPORTANT: Do not put commas anywhere in any value except when used as a separator**
 
 - ***User:*** Your username.
-- ***OS:*** Your operating system name (doesn't have to be exact).
+- ***OS:*** Your operating system name (should be automatically filled in).
 - ***Blacklist:*** Exact, word-for-word body of the comments to be deleted. Separated by commas (`,`).
 - ***Case Sensitive:*** Whether the blacklist should be case-sensitive.
 - ***Cutoff:*** How many units of time old the comments must be before they are deleted.
