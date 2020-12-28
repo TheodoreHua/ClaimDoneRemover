@@ -11,7 +11,7 @@ from os.path import isfile, isdir
 from tkinter import NORMAL, END, INSERT, DISABLED, Text
 
 from .global_vars import DATA_PATH
-from .set_defaults import reset_config, reset_praw
+from .set_defaults import reset_config, reset_praw, double_check_config
 
 
 def get_config() -> dict:
@@ -53,6 +53,8 @@ def assert_data(log, txt: Text = None):
     if not isfile(DATA_PATH + "/config.json"):
         reset_config()
         log.append_log("Created Config JSON File")
+    else:
+        double_check_config(log)
     if not isfile(DATA_PATH + "/praw.ini"):
         reset_praw()
         log.append_log("Created Config PRAW INI file")
