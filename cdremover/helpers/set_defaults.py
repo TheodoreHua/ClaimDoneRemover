@@ -28,7 +28,6 @@ config_defaults = {"user": "",
                     "update_check": True}
 
 def reset_config(txt: Text = None):
-    # Set the dict with default values
     # Write to JSON file
     with open(DATA_PATH + "/config.json", "w") as f:
         json.dump(config_defaults, f, indent=2)
