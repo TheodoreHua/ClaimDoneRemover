@@ -15,6 +15,9 @@ from .global_vars import DATA_PATH
 """Function to take care of the PRAW config file tkinter menu option"""
 
 entries = {}
+opt_data = {"common": [("client_id", "Client ID"), ("client_secret", "Client Secret")],
+            "password": [("username", "Username"), ("password", "Password")],
+            "refresh": [("refresh_token", "Refresh Token")]}
 
 
 def create_survey_praw(main: Tk, txt: Text = None):
@@ -30,31 +33,19 @@ def create_survey_praw(main: Tk, txt: Text = None):
     top.grab_set()
     entries = {}
     # Create instructions label
-    ttk.Label(top, text=
-    "Enter the corresponding value for the config name. The current value is already entered into the field."
-    " Instructions are in README.md/on the GitHub", justify="center", wraplength=400).grid(row=0, column=0,
-                                                                                           columnspan=3)
+    ttk.Label(top, text="Enter the corresponding value for the config name. The current value is already entered into"
+                        " the field. Instructions are in README.md", justify="center", wraplength=400).grid(
+        row=0, column=0, columnspan=3)
     # Get the original values for each text
     config = configparser.ConfigParser()
     config.read(DATA_PATH + "/praw.ini")
     old = config["credentials"]
     row = 1
     # Create the labels and entry widgets for each option
-    for name in ["client_id", "client_secret", "username", "password", "refresh_token"]:
-        # Only show refresh token or username & password fields corresponding to the one used
-        if name in ["username", "password"] and refresh:
-            continue
-        elif name == "refresh_token" and not refresh:
-            continue
+    for name, displayname in opt_data["common"] + opt_data["refresh"] if refresh else opt_data["password"]:
         entries[name] = StringVar()
-        try:
-            entries[name].set(str(old[name]))
-        except KeyError:
-            pass
-        if name == "client_id":
-            ttk.Label(top, text=name.replace("_", " ").title().replace("Id", "ID")).grid(row=row, column=0)
-        else:
-            ttk.Label(top, text=name.replace("_", " ").title()).grid(row=row, column=0)
+        entries[name].set(old.get(name, ""))
+        ttk.Label(top, text=displayname).grid(row=row, column=0)
         ttk.Entry(top, textvariable=entries[name], width=50).grid(row=row, column=1, columnspan=2)
         row += 1
     # Create submit button
