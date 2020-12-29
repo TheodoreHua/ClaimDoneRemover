@@ -2,6 +2,7 @@
 
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/TheodoreHua/ClaimDoneRemover/graphs/commit-activity)
+![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability-percentage/TheodoreHua/ClaimDoneRemover)
 ![GitHub last commit](https://img.shields.io/github/last-commit/TheodoreHua/ClaimDoneRemover)
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/theodorehuadev@gmail.com)
 
@@ -11,7 +12,6 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/TheodoreHua/ClaimDoneRemover)
 ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/TheodoreHua/ClaimDoneRemover/latest)
 ![GitHub repo size](https://img.shields.io/github/repo-size/TheodoreHua/ClaimDoneRemover)
-![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability-percentage/TheodoreHua/ClaimDoneRemover)
 
 **This is an unofficial program and is not officially endorsed by the Transcribers of Reddit; they are in no way
 involved with this program and are not liable for any matters relating to it.**
