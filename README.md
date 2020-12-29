@@ -4,6 +4,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/TheodoreHua/ClaimDoneRemover)](https://github.com/TheodoreHua/ClaimDoneRemover/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/TheodoreHua/ClaimDoneRemover)](https://github.com/TheodoreHua/ClaimDoneRemover/issues)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/TheodoreHua/ClaimDoneRemover)
+
 [![GitHub license](https://img.shields.io/github/license/TheodoreHua/ClaimDoneRemover)](https://github.com/TheodoreHua/ClaimDoneRemover/blob/master/LICENSE)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/TheodoreHua/ClaimDoneRemover)
 ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/TheodoreHua/ClaimDoneRemover/latest)
