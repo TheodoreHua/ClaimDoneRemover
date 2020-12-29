@@ -1,5 +1,18 @@
 # Claim/Done Remover
 
+[![GitHub forks](https://img.shields.io/github/forks/TheodoreHua/ClaimDoneRemover)](https://github.com/TheodoreHua/ClaimDoneRemover/network)
+[![GitHub stars](https://img.shields.io/github/stars/TheodoreHua/ClaimDoneRemover)](https://github.com/TheodoreHua/ClaimDoneRemover/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/TheodoreHua/ClaimDoneRemover)](https://github.com/TheodoreHua/ClaimDoneRemover/issues) 
+[![GitHub license](https://img.shields.io/github/license/TheodoreHua/ClaimDoneRemover)](https://github.com/TheodoreHua/ClaimDoneRemover/blob/master/LICENSE)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/TheodoreHua/ClaimDoneRemover)
+![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/TheodoreHua/ClaimDoneRemover/latest)
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/5b28fc593d7065cb0416/maintainability)](https://codeclimate.com/github/TheodoreHua/ClaimDoneRemover/maintainability)
+
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/theodorehuadev@gmail.com)
+
 **This is an unofficial program and is not officially endorsed by the Transcribers of Reddit; they are in no way
 involved with this program and are not liable for any matters relating to it.**
 
