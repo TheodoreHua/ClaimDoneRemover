@@ -1,10 +1,9 @@
 # Claim/Done Remover
 
-
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/TheodoreHua/ClaimDoneRemover/graphs/commit-activity)
-![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability-percentage/TheodoreHua/ClaimDoneRemover)
 ![CodeQL](https://github.com/TheodoreHua/ClaimDoneRemover/workflows/CodeQL/badge.svg)
 ![OSSAR](https://github.com/TheodoreHua/ClaimDoneRemover/workflows/OSSAR/badge.svg)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/TheodoreHua/ClaimDoneRemover/graphs/commit-activity)
+![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability-percentage/TheodoreHua/ClaimDoneRemover)
 ![GitHub last commit](https://img.shields.io/github/last-commit/TheodoreHua/ClaimDoneRemover)
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/theodorehuadev@gmail.com)
 
