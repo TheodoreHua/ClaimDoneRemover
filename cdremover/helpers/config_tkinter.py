@@ -54,8 +54,7 @@ def create_survey_config(main: Tk, txt: Text = None):
         # Set alias for dictionary item for current item
         fdat = opt_data[name.lower()]
         # Skip if template says to skip
-        if "skip" in fdat.keys():
-            if fdat["skip"]:
+        if "skip" in fdat.keys() and fdat["skip"]:
                 entries[name] = StringVar(value=old_val)
                 continue
         # Create StringVar and edit name variables
