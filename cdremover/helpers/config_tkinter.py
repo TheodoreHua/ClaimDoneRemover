@@ -94,45 +94,30 @@ def submit_survey(top: Toplevel, txt: Text = None):
             lb_name = fdat["namemethod"](name)
         else:
             lb_name = name.title()
-        if val == "":
-            showerror("Error", "There is a empty field.")
-            return
-        elif type(fdat["type"]) is list:
-            if fdat["type"][0] is int and isinstance(fdat["type"][1], type(None)):
-                try:
+        try:
+            if val == "":
+                showerror("Error", "There is a empty field.")
+                return
+            elif type(fdat["type"]) is list:
+                if fdat["type"][0] is int and isinstance(fdat["type"][1], type(None)):
                     if val.title() == "None" or int(val) >= 1000:
                         con[name] = None
                     else:
                         con[name] = int(val)
-                except ValueError:
-                    showerror("ValueError",
-                              "Invalid value {} in {} field, see README for proper values".format(val, lb_name))
-                    return
-        elif fdat["type"] is str:
-            con[name] = val
-        elif fdat["type"] is int:
-            try:
+            elif fdat["type"] is int:
                 con[name] = int(val)
-            except ValueError:
-                showerror("ValueError",
-                          "Invalid value {} in {} field, see README for proper values".format(val, lb_name))
-                return
-        elif fdat["type"] is bool:
-            try:
-                con[name] = {"True": True, "False": False}[val]
-            except KeyError:
-                showerror("ValueError",
-                          "Invalid value {} in {} field, see README for proper values".format(val, lb_name))
-                return
-        elif name == "wait_unit":
-            try:
+            elif name == "wait_unit":
                 con[name] = val.replace(", ", ",").split(",")[:-1] + [int(val.replace(", ", ",").split(",")[-1])]
-            except ValueError:
-                showerror("ValueError",
-                          "Invalid value {} in {} field, see README for proper values".format(val, lb_name))
-                return
-        elif fdat["type"] is list:
-            con[name] = val.replace(", ", ",").split(",")
+            elif fdat["type"] is str:
+                con[name] = val
+            elif fdat["type"] is bool:
+                con[name] = {"True": True, "False": False}[val]
+            elif fdat["type"] is list:
+                con[name] = val.replace(", ", ",").split(",")
+        except (ValueError, KeyError):
+            showerror("ValueError",
+                      "Invalid value {} in {} field, see README for proper values".format(val, lb_name))
+            return
     # Write to JSON file
     write_config(con)
     # Destroy the toplevel window
