@@ -6,7 +6,6 @@
 [![GitHub license](https://img.shields.io/github/license/TheodoreHua/ClaimDoneRemover)](https://github.com/TheodoreHua/ClaimDoneRemover/blob/master/LICENSE)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/TheodoreHua/ClaimDoneRemover)
 ![GitHub commits since latest release (by date)](https://img.shields.io/github/commits-since/TheodoreHua/ClaimDoneRemover/latest)
-
 [![Maintainability](https://api.codeclimate.com/v1/badges/5b28fc593d7065cb0416/maintainability)](https://codeclimate.com/github/TheodoreHua/ClaimDoneRemover/maintainability)
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/TheodoreHua/ClaimDoneRemover/graphs/commit-activity)
