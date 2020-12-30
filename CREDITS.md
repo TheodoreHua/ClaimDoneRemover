@@ -16,6 +16,7 @@
 [Reddit](https://www.reddit.com/user/lukeabby)
 
 - Making the Discord ToR-Stats bot
+- Being an all around great guy :) (I miss you)
 
 ### DasherPack
 [Reddit](https://www.reddit.com/user/DasherPack)
