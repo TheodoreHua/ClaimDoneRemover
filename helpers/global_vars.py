@@ -11,7 +11,7 @@ from sys import platform as sysplatform
 home = expanduser("~")
 PLATFORM_LOCATIONS = {"linux": ".config",
                       "darwin": ".config"}
-VERSION = "4.14.72"
+VERSION = "4.14.73"
 if sysplatform.startswith("win"):
     OS = "Windows"
     DATA_PATH = environ["APPDATA"] + "\\ClaimDoneRemover"
