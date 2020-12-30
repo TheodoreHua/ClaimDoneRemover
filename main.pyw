@@ -135,7 +135,8 @@ def change_theme_window():
     win = Toplevel(m)
     if config["topmost"]:
         win.wm_attributes("-topmost", 1)
-    win.wm_attributes("-toolwindow", 1)
+    if sys.platform.startswith("win"):
+        m.wm_attributes("-toolwindow", 1)
     win.wait_visibility()
     win.grab_set()
     theme = StringVar()
