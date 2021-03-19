@@ -101,7 +101,7 @@ and PRAW files.
 
 #### Where are the config and data files located?
 
-You can open the folder manually by opening CDR, going into the options' menu, and clicking `Open Data Folder`. However,
+You can open the folder automatically by opening CDR, going into the options' menu, and clicking `Open Data Folder`. However,
 if you for some reason can't do that or have another reason not to, the folders are located in the following paths
 (different depending on the platform).
 
