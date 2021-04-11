@@ -24,6 +24,7 @@ DATABASE_COLUMNS = {"id": "text",  # Comment ID
                     "deleted_time": "integer"  # Comment deletion time in UNIX
                     }
 
+
 def get_config() -> dict:
     """Return config file"""
     with open(DATA_PATH + "/config.json", "r") as f:
@@ -45,7 +46,7 @@ def get_praw() -> dict:
     return dict(config["credentials"])
 
 
-def assert_data(log, database_connection:sqlite3.Connection=None, txt: Text = None):
+def assert_data(log, database_connection: sqlite3.Connection = None, txt: Text = None):
     """Method to check if the data files exists, if it doesn't exist, create it"""
     if not isdir(DATA_PATH):
         mkdir(DATA_PATH)
@@ -72,8 +73,10 @@ def assert_data(log, database_connection:sqlite3.Connection=None, txt: Text = No
         log.append_log("Provided database connection")
         cursor = database_connection.cursor()
         # If table doesn't exist, create it
-        if cursor.execute("SELECT name FROM sqlite_master WHERE type='table' and name='delete_data'").fetchone() is None:
-            cursor.execute("CREATE TABLE delete_data ({})".format(",".join("{} {}".format(name, t) for name, t in DATABASE_COLUMNS.items())))
+        if cursor.execute(
+                "SELECT name FROM sqlite_master WHERE type='table' and name='delete_data'").fetchone() is None:
+            cursor.execute("CREATE TABLE delete_data ({})".format(
+                ",".join("{} {}".format(name, t) for name, t in DATABASE_COLUMNS.items())))
             database_connection.commit()
             log.append_log("Created delete_data table")
         # Get all columns in table
