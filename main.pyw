@@ -7,6 +7,7 @@
 # ------------------------------------------------------------------------------
 
 import json
+import sqlite3
 import time
 from tkinter import *
 from tkinter import ttk
@@ -39,6 +40,8 @@ def except_hook(exc_class, message, traceback):
         pass
     else:
         log.write_log()
+        conn.commit()
+        conn.close()
         sys.__excepthook__(exc_class, message, traceback)
         exit()
 
@@ -223,6 +226,9 @@ def close_window():
     log.append_log("Exit")
     # Write the log to file
     log.write_log()
+    # Commit and close database connection
+    conn.commit()
+    conn.close()
     # Add total to lifetime total
     with open(DATA_PATH + "/data/lifetime_totals.json", "w") as f:
         json.dump({"counted": lifetime_total_counted, "deleted": lifetime_total_deleted}, f, indent=2)
@@ -273,7 +279,7 @@ def options():
             "Save Logs": lambda: log.write_log(txt=confirm_txt),
             "Erase Cached Log": lambda: log.erase_cached(confirm_txt),
             "Erase Stored Log": lambda: log.erase_stored(confirm_txt),
-            "Assert Data": lambda: assert_data(log, confirm_txt),
+            "Assert Data": lambda: assert_data(log, database_connection=conn, txt=confirm_txt),
             "Change Theme": change_theme_window,
             "Edit Config": lambda: create_survey_config(m, confirm_txt),
             "Edit PRAW Config": lambda: create_survey_praw(m, confirm_txt),
@@ -291,8 +297,12 @@ log = Logger()
 # Setup global error handler
 sys.excepthook = except_hook
 
+# Create database connection
+conn = sqlite3.connect(DATA_PATH + "/data/database.db")
+dcurs = conn.cursor()
+
 # Assert data
-assert_data(log)
+assert_data(log, database_connection=conn)
 
 # Get data from config
 config = get_config()

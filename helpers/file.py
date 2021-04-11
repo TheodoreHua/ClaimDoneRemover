@@ -6,6 +6,7 @@
 
 import configparser
 import json
+import sqlite3
 from os import mkdir
 from os.path import isfile, isdir
 from tkinter import NORMAL, END, INSERT, DISABLED, Text
@@ -13,6 +14,12 @@ from tkinter import NORMAL, END, INSERT, DISABLED, Text
 from .global_vars import DATA_PATH
 from .set_defaults import reset_config, reset_praw, double_check_config
 
+DATABASE_COLUMNS = {"id": "text",
+                    "author": "text",
+                    "body": "text",
+                    "score": "text",
+                    "created": "text",
+                    "subreddit": "text"}
 
 def get_config() -> dict:
     """Return config file"""
@@ -35,7 +42,7 @@ def get_praw() -> dict:
     return dict(config["credentials"])
 
 
-def assert_data(log, txt: Text = None):
+def assert_data(log, database_connection:sqlite3.Connection=None, txt: Text = None):
     """Method to check if the data files exists, if it doesn't exist, create it"""
     if not isdir(DATA_PATH):
         mkdir(DATA_PATH)
@@ -58,6 +65,20 @@ def assert_data(log, txt: Text = None):
     if not isfile(DATA_PATH + "/praw.ini"):
         reset_praw()
         log.append_log("Created Config PRAW INI file")
+    if database_connection is not None:
+        log.append_log("Provided database connection")
+        cursor = database_connection.cursor()
+        if cursor.execute("SELECT name FROM sqlite_master WHERE type='table' and name='delete_data'").fetchone() is None:
+            cursor.execute("CREATE TABLE delete_data ({})".format(",".join("{} {}".format(name, t) for name, t in DATABASE_COLUMNS.items())))
+            database_connection.commit()
+            log.append_log("Created delete_data table")
+        columns = [i[1] for i in cursor.execute("PRAGMA table_info(delete_data);").fetchall()]
+        for column in DATABASE_COLUMNS.keys():
+            if column not in columns:
+                cursor.execute("""ALTER TABLE delete_data
+                                ADD {} {}""".format(column, DATABASE_COLUMNS[column]))
+                database_connection.commit()
+                log.append_log("Added column {} to table".format(column))
     if txt is not None:
         txt.config(state=NORMAL)
         txt.delete("1.0", END)
