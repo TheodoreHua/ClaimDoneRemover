@@ -14,12 +14,15 @@ from tkinter import NORMAL, END, INSERT, DISABLED, Text
 from .global_vars import DATA_PATH
 from .set_defaults import reset_config, reset_praw, double_check_config
 
-DATABASE_COLUMNS = {"id": "text",
-                    "author": "text",
-                    "body": "text",
-                    "score": "text",
-                    "created": "text",
-                    "subreddit": "text"}
+DATABASE_COLUMNS = {"id": "text",  # Comment ID
+                    "author": "text",  # Comment author name
+                    "body": "text",  # Comment body text
+                    "score": "integer",  # Comment score
+                    "created": "integer",  # Comment creation time in UNIX
+                    "subreddit": "text", # Subreddit name
+                    "bot_replied": "integer", # Whether not the bot replied (bool|0-1)
+                    "deleted_time": "integer"  # Comment deletion time in UNIX
+                    }
 
 def get_config() -> dict:
     """Return config file"""
@@ -68,11 +71,14 @@ def assert_data(log, database_connection:sqlite3.Connection=None, txt: Text = No
     if database_connection is not None:
         log.append_log("Provided database connection")
         cursor = database_connection.cursor()
+        # If table doesn't exist, create it
         if cursor.execute("SELECT name FROM sqlite_master WHERE type='table' and name='delete_data'").fetchone() is None:
             cursor.execute("CREATE TABLE delete_data ({})".format(",".join("{} {}".format(name, t) for name, t in DATABASE_COLUMNS.items())))
             database_connection.commit()
             log.append_log("Created delete_data table")
+        # Get all columns in table
         columns = [i[1] for i in cursor.execute("PRAGMA table_info(delete_data);").fetchall()]
+        # Check whether the database contains all expected columns (for updates)
         for column in DATABASE_COLUMNS.keys():
             if column not in columns:
                 cursor.execute("""ALTER TABLE delete_data
