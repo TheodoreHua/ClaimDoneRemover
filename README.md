@@ -38,7 +38,7 @@ back depending on the setting you chose, and if you have it running in the backg
    easy to remember). Choose "script". Give it a description (which can really be anything you want). Set the redirect
    url to `http://localhost:8080` as this will be important later on. You can set the about url as whatever you want (I
    set it to the CDR repo link).
-4. Now run the `main.pyw` program, don't worry if it says error.
+4. Now run the `ClaimDoneRemover.pyw` program, don't worry if it says error.
 5. Click the options button then click the `Edit Config` button and fill in each field. There's a description of what
    each field does [here](#config-options-description).
 6. Now click the `Edit PRAW Config` button. Fill in the options with the information you got from step #3 (Client ID
@@ -50,9 +50,9 @@ back depending on the setting you chose, and if you have it running in the backg
 7. Restart the program
 8. Done
 
-Once you're done, just navigate to the folder where `main.pyw` is and run the file. You might run with an IDE you have
-installed, or simply run itself, or you can run it from the command line. On Linux, you do this like so: `./main.pyw`
-or `python main.pyw` on Windows. You will see an output after a few seconds. Each comment older than your cutoff should
+Once you're done, just navigate to the folder where `ClaimDoneRemover.pyw` is and run the file. You might run with an IDE you have
+installed, or simply run itself, or you can run it from the command line. On Linux, you do this like so: `./ClaimDoneRemover.pyw`
+or `python ClaimDoneRemover.pyw` on Windows. You will see an output after a few seconds. Each comment older than your cutoff should
 be deleted. You can then either leave the program running in the background to delete posts while you are transcribing
 as you reach the cutoff, or you can manually run it now and then in order to delete in batches.
 
@@ -96,7 +96,7 @@ times (You can skip the wait by pressing the check now button in the options' me
 
 Try to look at the error and correct it by editing `config.json` or `praw.ini` by yourself (See below FAQ on where the
 files are located). If the error cannot be resolved by yourself, delete the `config.json` and/or `praw.ini` files, then
-run `main.pyw`. The program will re-create the files, and you'll be good to go. You **WILL** have to re-setup the config
+run `ClaimDoneRemover.pyw`. The program will re-create the files, and you'll be good to go. You **WILL** have to re-setup the config
 and PRAW files.
 
 #### Where are the config and data files located?
