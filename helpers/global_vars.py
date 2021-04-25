@@ -7,6 +7,8 @@
 from os import environ
 from os.path import expanduser
 from sys import platform as sysplatform
+from tkinter import Tk
+from tkinter.messagebox import showerror
 
 home = expanduser("~")
 PLATFORM_LOCATIONS = {"linux": ".config",
@@ -21,5 +23,7 @@ else:
     elif sysplatform == "darwin":
         OS = "Mac"
     else:
-        OS = sysplatform.title()
+        Tk().withdraw()
+        showerror("Unsupported Operating System", sysplatform + " is not supported")
+        exit()
     DATA_PATH = home + "/" + PLATFORM_LOCATIONS[sysplatform] + "/ClaimDoneRemover"
