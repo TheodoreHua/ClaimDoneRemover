@@ -3,4 +3,4 @@ configparser~=5.0.2
 ttkthemes~=3.2.0
 matplotlib~=3.4.1
 requests~=2.25.1
-packaging~=20.8
+packaging~=20.9
