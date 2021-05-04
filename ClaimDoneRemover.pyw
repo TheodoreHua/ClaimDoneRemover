@@ -436,6 +436,9 @@ while True:
                 elif cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
                     log.append_log("Deleted \"{}\". Comment Time {}.".format(comment.body, get_date(comment)))
                     comment.delete()
+                    insert_database(dcurs, [comment.id, comment.author, comment.body, comment.score,
+                                            comment.created_utc, comment.subreddit, check_bot_response(comment),
+                                            cur_time])
                     deleted += 1
                 # If the sell-by date hasn't passed, don't delete and update stats
                 else:

@@ -20,7 +20,7 @@ DATABASE_COLUMNS = {"id": "text",  # Comment ID
                     "score": "integer",  # Comment score
                     "created": "integer",  # Comment creation time in UNIX
                     "subreddit": "text",  # Subreddit name
-                    "bot_replied": "integer",  # Whether not the bot replied (bool|0-1)
+                    "bot_replied": "integer",  # Whether not the bot replied, any response (bool|0-1)
                     "deleted_time": "integer"  # Comment deletion time in UNIX
                     }
 

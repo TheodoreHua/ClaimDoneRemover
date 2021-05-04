@@ -20,6 +20,21 @@ def get_foreground(config: dict):
     else:
         return None
 
+def check_bot_response(comment) -> bool:
+    for c in comment.replies:
+        if c.author.name.casefold() == "transcribersofreddit":
+            return True
+    return False
+
+def insert_database(curs, data:list):
+    """Insert data into delete_data table"""
+    formatted_data = []
+    for i in data:
+        if type(i) is str:
+            formatted_data.append("'{}'".format(i))
+        else:
+            formatted_data.append(i)
+    curs.execute("INSERT INTO delete_data VALUES ({})".format(", ".join(formatted_data)))
 
 def receive_connection():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
