@@ -24,7 +24,7 @@ def get_foreground(config: dict):
 def receive_connection():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server.bind(("localhost", 8080))
+    server.bind(("localhost", 9575))
     server.listen(1)
     client = server.accept()[0]
     server.close()
@@ -36,7 +36,7 @@ def get_refresh_token(client_id, client_secret):
     reddit = praw.Reddit(
         client_id=client_id,
         client_secret=client_secret,
-        redirect_uri="http://localhost:8080",
+        redirect_uri="http://localhost:9575",
         user_agent="CDR_Get_Refresh_Token"
     )
     state = str(randint(0, 65000))
