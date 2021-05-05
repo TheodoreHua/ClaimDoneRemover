@@ -25,7 +25,8 @@ config_defaults = {"user": "",
                    "topmost": True,
                    "mode": "light",
                    "tor_only": True,
-                   "update_check": True}
+                   "update_check": True,
+                   "reply_trigger": False}
 
 
 def reset_config(txt: Text = None):

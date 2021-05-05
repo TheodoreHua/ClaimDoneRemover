@@ -28,7 +28,8 @@ opt_data = {
     "mode": {"type": str, "skip": True},
     "wait_unit": {"type": list},
     "tor_only": {"type": bool},
-    "update_check": {"type": bool}
+    "update_check": {"type": bool},
+    "reply_trigger": {"type": bool}
 }
 
 

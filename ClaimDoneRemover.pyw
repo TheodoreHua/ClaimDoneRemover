@@ -436,21 +436,25 @@ while True:
                                             cur_time, True], log)
                     comment.delete()
                     deleted += 1
-                # If the sell-by date is passed, delete the comment and update stats
-                elif cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
-                    log.append_log("Deleted \"{}\". Comment Time {}.".format(comment.body, get_date(comment)))
-                    insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
-                                            comment.created_utc, str(comment.subreddit), check_bot_response(comment),
-                                            cur_time, False], log)
-                    comment.delete()
-                    deleted += 1
-                # If the sell-by date hasn't passed, don't delete and update stats
+                elif config["reply_trigger"]:
+                    # TODO: Create reply trigger code
+                    pass
                 else:
-                    log.append_log("Waiting for cutoff \"{}\". Comment Time {}. Time Left Until Delete {}. "
-                                   "Delete At {}.".format(comment.body, get_date(comment),
-                                                          cur_time - get_date(comment), cur_time +
-                                                          (cur_time - get_date(comment))))
-                    non_cutoff += 1
+                    # If the sell-by date is passed, delete the comment and update stats
+                    if cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
+                        log.append_log("Deleted \"{}\". Comment Time {}.".format(comment.body, get_date(comment)))
+                        insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
+                                                comment.created_utc, str(comment.subreddit), check_bot_response(comment),
+                                                cur_time, False], log)
+                        comment.delete()
+                        deleted += 1
+                    # If the sell-by date hasn't passed, don't delete and update stats
+                    else:
+                        log.append_log("Waiting for cutoff \"{}\". Comment Time {}. Time Left Until Delete {}. "
+                                       "Delete At {}.".format(comment.body, get_date(comment),
+                                                              cur_time - get_date(comment), cur_time +
+                                                              (cur_time - get_date(comment))))
+                        non_cutoff += 1
             # Update counted stats
             counted += 1
         # If ignore_cutoff was True, set to False now that it's run
