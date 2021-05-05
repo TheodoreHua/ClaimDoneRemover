@@ -13,7 +13,7 @@ from tkinter.messagebox import showerror
 home = expanduser("~")
 PLATFORM_LOCATIONS = {"linux": ".config",
                       "darwin": ".config"}
-VERSION = "4.14.77"
+VERSION = "4.14.80"
 if sysplatform.startswith("win"):
     OS = "Windows"
     DATA_PATH = environ["APPDATA"] + "\\ClaimDoneRemover"
