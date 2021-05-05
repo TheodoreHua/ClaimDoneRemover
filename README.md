@@ -62,9 +62,17 @@ then in order to delete in batches.
 
 ### Config Options Description
 
-**IMPORTANT: Do not put commas anywhere in any value except when used as a separator**
+#### One of the config values is comma separated, but the value I want to input has a comma in it, what do I do?
 
-Your edit config window may not be in this order, especially if you've update versions.
+In order to put a comma in a comma delimited list (seperated by commas), you're going to need to escape it! To escape a
+comma, put a backslash (\) infront of the comma (e.g. `value1,value2\,value2 continued,value3`).
+
+#### One of the config values is comma separated, but the value I want to input has a backslash (\) in it, what do I do?
+
+Currently, a backslash is used as an escape character so to avoid any unwanted issues, you should put another backslash 
+in front of the existing backslash (so \\ instead of \).
+
+#### Description
 
 - ***User:*** Your username.
 - ***OS:*** Your operating system name (should be automatically filled in).
@@ -118,6 +126,12 @@ has replied to it (currently it deletes regardless of what the reply is, even if
 add a separate feature in the future to only delete if your transcription was found. For now, you can use another
 program ([ACN](https://www.github.com/TheodoreHua/AlreadyClaimedNotifier)) to notify you if your transcription wasn't
 found.)
+
+#### One of my blacklisted values is a sequence of numbers, and it's not working. What do I do?
+
+Congrats! You've just had something that has a 1 in a million chance of happening happen! Restart the application, and
+the issue should go away. Although, if this issue happened just after you changed your config values, double check that
+the config values are correct. If not, correct them.
 
 #### Where are the config and data files located?
 
