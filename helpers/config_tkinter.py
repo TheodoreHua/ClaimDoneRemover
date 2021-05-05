@@ -9,6 +9,7 @@ from tkinter import ttk
 from tkinter.messagebox import showinfo, showerror
 
 from .file import get_config, write_config
+from .misc import split_escape
 
 """Functions to take care of the config file tkinter menu option"""
 
@@ -108,13 +109,13 @@ def submit_survey(top: Toplevel, txt: Text = None):
             elif fdat["type"] is int:
                 con[name] = int(val)
             elif name == "wait_unit":
-                con[name] = val.replace(", ", ",").split(",")[:-1] + [int(val.replace(", ", ",").split(",")[-1])]
+                con[name] = split_escape(",", val.replace(", ", ","))[:-1] + [int(split_escape(",", val.replace(", ", ","))[-1])]
             elif fdat["type"] is str:
                 con[name] = val
             elif fdat["type"] is bool:
                 con[name] = {"True": True, "False": False}[val]
             elif fdat["type"] is list:
-                con[name] = val.replace(", ", ",").split(",")
+                con[name] = split_escape(",", val.replace(", ", ","))
         except (ValueError, KeyError):
             showerror("ValueError",
                       "Invalid value {} in {} field, see README for proper values".format(val, lb_name))
