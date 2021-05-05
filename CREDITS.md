@@ -1,5 +1,12 @@
 # Credits
 ## Codebase
+### TheodoreHua
+[GitHub](https://github.com/TheodoreHua) |
+[Twitch]() |
+[Reddit]() |
+
+- Original Creator & Primary Maintainer
+
 ### MurdoMaclachlan 
 [GitHub](https://github.com/MurdoMaclachlan) |
 [Twitch](https://www.twitch.tv/murdomaclachlan) |
