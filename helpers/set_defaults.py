@@ -37,7 +37,7 @@ def reset_config(txt: Text = None):
     if txt is not None:
         txt.config(state=NORMAL)
         txt.delete("1.0", END)
-        txt.insert(INSERT, "Success: Resetted Config", "a")
+        txt.insert(INSERT, "Success: Reset Config", "a")
         txt.tag_add("center", "1.0", "end")
         txt.config(state=DISABLED)
         txt.see("end")
@@ -76,7 +76,7 @@ def reset_praw(txt=None):
     if txt is not None:
         txt.config(state=NORMAL)
         txt.delete("1.0", END)
-        txt.insert(INSERT, "Success: Resetted PRAW Config", "a")
+        txt.insert(INSERT, "Success: Reset PRAW Config", "a")
         txt.tag_add("center", "1.0", "end")
         txt.config(state=DISABLED)
         txt.see("end")
