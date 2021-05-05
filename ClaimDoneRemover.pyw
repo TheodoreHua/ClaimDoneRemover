@@ -440,6 +440,7 @@ while True:
                     comment.delete()
                     deleted += 1
                 elif config["reply_trigger"]:
+                    # If the bot replied to the comment, delete it and update stats
                     if check_bot_response(comment):
                         log.append_log("Deleted \"{}\". Comment Time {}.".format(comment.body, get_date(comment)))
                         insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
