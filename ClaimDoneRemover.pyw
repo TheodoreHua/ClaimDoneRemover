@@ -438,7 +438,7 @@ while True:
                     comment.delete()
                     insert_database(dcurs, [comment.id, comment.author, comment.body, comment.score,
                                             comment.created_utc, comment.subreddit, check_bot_response(comment),
-                                            cur_time])
+                                            cur_time], log)
                     deleted += 1
                 # If the sell-by date hasn't passed, don't delete and update stats
                 else:
@@ -461,6 +461,8 @@ while True:
         deleted_num.append(deleted)
         cutoff_num.append(non_cutoff)
         time_against.append((cur_time - start_time) / 60)
+        # Commit to database
+        conn.commit()
         # Update the window
         update_text("Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: "
                     "{:,}\n\nWaiting {} {}."

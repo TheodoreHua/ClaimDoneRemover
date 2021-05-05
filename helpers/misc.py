@@ -26,7 +26,7 @@ def check_bot_response(comment) -> bool:
             return True
     return False
 
-def insert_database(curs, data:list):
+def insert_database(curs, data:list, log):
     """Insert data into delete_data table"""
     formatted_data = []
     for i in data:
@@ -37,6 +37,7 @@ def insert_database(curs, data:list):
         else:
             formatted_data.append(i)
     curs.execute("INSERT INTO delete_data VALUES ({})".format(", ".join(formatted_data)))
+    log.append_log("Added data {} into database".format(repr(formatted_data)))
 
 def receive_connection():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
