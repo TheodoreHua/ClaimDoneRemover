@@ -92,8 +92,8 @@ def create_main_window(recreate=False):
         update_text(
             "Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: {:,}\n\n"
             "Waiting {} {}."
-                .format(total_counted, total_deleted, counted, deleted, non_cutoff,
-                        str(config["wait"]), config["wait_unit"][0] if config["wait"] == 1 else config["wait_unit"][1]))
+            .format(total_counted, total_deleted, counted, deleted, non_cutoff,
+                    str(config["wait"]), config["wait_unit"][0] if config["wait"] == 1 else config["wait_unit"][1]))
         log.append_log("Window Recreated")
 
 
@@ -384,6 +384,7 @@ while True:
 
     # Check if reddit instance exists
     if reddit is None:
+        # noinspection PyUnboundLocalVariable
         if "No Reddit Instance" not in ent.get("1.0", END).strip():
             update_text("No Reddit Instance\nOR\nConfiguration Error\n\nSet Config\nand/or\nPRAW Config")
             log.append_log("No Reddit Instance")
@@ -407,8 +408,10 @@ while True:
         # Set the window to show that a deletion is in progress
         update_text("In Progress")
         # Set the progress bar to 100 to show that it's running
+        # noinspection PyUnboundLocalVariable
         progress["value"] = 100
         # Refresh window to show running indicators
+        # noinspection PyUnboundLocalVariable
         m.update_idletasks()
         m.update()
         # Set the current run default values
@@ -454,7 +457,8 @@ while True:
                     if cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
                         log.append_log("Deleted \"{}\". Comment Time {}.".format(comment.body, get_date(comment)))
                         insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
-                                                comment.created_utc, str(comment.subreddit), check_bot_response(comment),
+                                                comment.created_utc, str(comment.subreddit),
+                                                check_bot_response(comment),
                                                 cur_time, False], log)
                         comment.delete()
                         deleted += 1
