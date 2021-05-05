@@ -26,7 +26,7 @@ from helpers import *
 from helpers.global_vars import DATA_PATH, VERSION
 
 deleted_num = []
-cutoff_num = []
+trigger_num = []
 time_against = []
 
 
@@ -92,7 +92,7 @@ def create_main_window(recreate=False):
         update_text(
             "Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: {:,}\n\n"
             "Waiting {} {}."
-            .format(total_counted, total_deleted, counted, deleted, non_cutoff,
+            .format(total_counted, total_deleted, counted, deleted, non_trigger,
                     str(config["wait"]), config["wait_unit"][0] if config["wait"] == 1 else config["wait_unit"][1]))
         log.append_log("Window Recreated")
 
@@ -203,18 +203,18 @@ def set_cont(txt: Text = None):
     update_txt("Success: Scanning", txt)
 
 
-def set_ignore_cutoff(txt: Text = None):
-    """Function to set the variable that ignores cutoff and deletes once for option menu"""
+def set_ignore_trigger(txt: Text = None):
+    """Function to set the variable that ignores trigger and deletes once for option menu"""
     if reddit is None:
         update_txt("Fail: Not Configured", txt)
         return
-    if not askyesno("Prompt", "Are you sure you want to ignore cutoff and delete now once?"):
+    if not askyesno("Prompt", "Are you sure you want to ignore the trigger and delete now once?"):
         # If the text widget is provided, update it
         update_txt("Fail: Canceled", txt)
         return
-    global ignore_cutoff
-    # Set ignore_cutoff to True
-    ignore_cutoff = True
+    global ignore_trigger
+    # Set ignore_trigger to True
+    ignore_trigger = True
     # Call set_cont function to unpause and run now
     set_cont()
     # If the text widget is provided, update it
@@ -239,15 +239,15 @@ def close_window():
 
 
 def show_graph():
-    """Function to show a graph of the number of deletions and cutoff waiting against time"""
-    # Plot deleted and cutoff numbers against time
+    """Function to show a graph of the number of deletions and trigger waiting against time"""
+    # Plot deleted and trigger numbers against time
     plt.plot(time_against, deleted_num, label="Deleted", color="red")
-    plt.plot(time_against, cutoff_num, label="Cutoff", color="orange")
+    plt.plot(time_against, trigger_num, label="Awaiting Trigger", color="orange")
     # Set axis labels
     plt.xlabel("Time (minutes)")
     plt.ylabel("Amount")
     # Set graph title and show legend
-    plt.title("CDRemover Delete/Cutoff Stats")
+    plt.title("CDRemover Delete/Trigger Stats")
     plt.legend()
     # Show the graph
     plt.show(block=False)
@@ -271,7 +271,7 @@ def options():
     row = 1
     # Set the dictionary full of all of the options and it's action
     btns = {"Scan Now": lambda: set_cont(confirm_txt),
-            "Scan Now Ignore Cutoff": lambda: set_ignore_cutoff(confirm_txt),
+            "Scan Now Ignore Trigger": lambda: set_ignore_trigger(confirm_txt),
             "Show Lifetime Totals": lambda: showinfo("Lifetime Totals",
                                                      "Total Counted: {:,}\nTotal Deleted: {:,}".format(
                                                          lifetime_total_counted, lifetime_total_deleted)),
@@ -370,9 +370,9 @@ total_counted = 0
 total_deleted = 0
 counted = 0
 deleted = 0
-non_cutoff = 0
+non_trigger = 0
 paused = config["start_paused"]
-ignore_cutoff = False
+ignore_trigger = False
 cont_time = time.time()
 start_time = time.time()
 log.append_log("Created Default Totals")
@@ -417,7 +417,7 @@ while True:
         # Set the current run default values
         deleted = 0
         counted = 0
-        non_cutoff = 0
+        non_trigger = 0
         # Iterate through each comment in the redditor up until the limit
         for comment in reddit.redditor(config["user"]).comments.new(limit=config["limit"]):
             # Check if the comment is in the blacklist
@@ -430,9 +430,9 @@ while True:
                 if config["tor_only"] and str(comment.subreddit).casefold() != "transcribersofreddit":
                     log.append_log("Found comment \"{}\" not on ToR subreddit with ToR_Only mode on, skipped."
                                    .format(comment.body))
-                # If ignore_cutoff is true, delete all matching values and update stats
-                elif ignore_cutoff:
-                    log.append_log("Deleted \"{}\". Comment Time {}. Cutoff Ignored.".format(comment.body,
+                # If ignore_trigger is true, delete all matching values and update stats
+                elif ignore_trigger:
+                    log.append_log("Deleted \"{}\". Comment Time {}. Trigger Ignored.".format(comment.body,
                                                                                              get_date(comment)))
                     insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
                                             comment.created_utc, str(comment.subreddit), check_bot_response(comment),
@@ -452,7 +452,7 @@ while True:
                     else:
                         log.append_log("Waiting for reply trigger \"{}\". Comment Time {}.".format(comment.body,
                                                                                                    get_date(comment)))
-                        non_cutoff += 1
+                        non_trigger += 1
                 else:
                     # If the sell-by date is passed, delete the comment and update stats
                     if cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
@@ -469,11 +469,11 @@ while True:
                                        "Delete At {}.".format(comment.body, get_date(comment),
                                                               cur_time - get_date(comment), cur_time +
                                                               (cur_time - get_date(comment))))
-                        non_cutoff += 1
+                        non_trigger += 1
             # Update counted stats
             counted += 1
-        # If ignore_cutoff was True, set to False now that it's run
-        ignore_cutoff = False
+        # If ignore_trigger was True, set to False now that it's run
+        ignore_trigger = False
         # Add the current run stats to the total
         total_counted += counted
         total_deleted += deleted
@@ -482,18 +482,18 @@ while True:
         lifetime_total_deleted += deleted
         # Add to graph plotting lists
         deleted_num.append(deleted)
-        cutoff_num.append(non_cutoff)
+        trigger_num.append(non_trigger)
         time_against.append((cur_time - start_time) / 60)
         # Commit to database
         conn.commit()
         # Update the window
         update_text("Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: "
                     "{:,}\n\nWaiting {} {}."
-                    .format(total_counted, total_deleted, counted, deleted, non_cutoff,
+                    .format(total_counted, total_deleted, counted, deleted, non_trigger,
                             str(config["wait"]), config["wait_unit"][0] if config["wait"] == 1
                             else config["wait_unit"][1]))
         log.append_log("Finished Check. Totals {:,}, {:,}. This Run {:,}, {:,}, {:,}"
-                       .format(total_counted, total_deleted, counted, deleted, non_cutoff))
+                       .format(total_counted, total_deleted, counted, deleted, non_trigger))
         # Set the next check time
         cont_time = cur_time + (config["wait"] * config["wait_unit"][2])
         # Reset progress bar
