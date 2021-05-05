@@ -33,9 +33,10 @@ def insert_database(curs, data:list, log):
         if type(i) is str:
             formatted_data.append("'{}'".format(i))
         elif type(i) is bool:
-            formatted_data.append(1 if i else 0)
+            formatted_data.append("1" if i else "0")
         else:
-            formatted_data.append(i)
+            formatted_data.append(str(i))
+    print(repr(formatted_data))
     curs.execute("INSERT INTO delete_data VALUES ({})".format(", ".join(formatted_data)))
     log.append_log("Added data {} into database".format(repr(formatted_data)))
 
