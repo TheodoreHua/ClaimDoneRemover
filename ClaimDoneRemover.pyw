@@ -14,6 +14,7 @@ from tkinter import ttk
 from tkinter.messagebox import askyesno, showinfo, showerror
 from traceback import format_exc
 from webbrowser import open as wbopen
+from os import execv
 
 import matplotlib.pyplot as plt
 import praw
@@ -238,6 +239,24 @@ def close_window():
     exit()
 
 
+def restart_window():
+    """Function to be called in order to properly restart CDR"""
+    # Update the log
+    log.append_log("Restart")
+    # Write the log to file
+    log.write_log()
+    # Commit and close database connection
+    conn.commit()
+    conn.close()
+    # Add total to lifetime total
+    with open(DATA_PATH + "/data/lifetime_totals.json", "w") as f:
+        json.dump({"counted": lifetime_total_counted, "deleted": lifetime_total_deleted}, f, indent=2)
+    # Destroy the main window then exit
+    m.destroy()
+    execv(sys.executable, ["python"] + sys.argv)
+    exit()
+
+
 def show_graph():
     """Function to show a graph of the number of deletions and trigger waiting against time"""
     # Plot deleted and trigger numbers against time
@@ -285,7 +304,8 @@ def options():
             "Edit Config": lambda: create_survey_config(m, confirm_txt),
             "Edit PRAW Config": lambda: create_survey_praw(m, confirm_txt),
             "Reset Config": lambda: reset_config(confirm_txt),
-            "Reset PRAW Config": lambda: reset_praw(confirm_txt)}
+            "Reset PRAW Config": lambda: reset_praw(confirm_txt),
+            "Restart CDR": restart_window}
     # Iterate through the dictionary and create the corresponding button
     for text, command in btns.items():
         ttk.Button(opt_win, text=text, command=command).grid(row=row, column=0, sticky="we")
