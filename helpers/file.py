@@ -20,8 +20,9 @@ DATABASE_COLUMNS = {"id": "text",  # Comment ID
                     "score": "integer",  # Comment score
                     "created": "integer",  # Comment creation time in UNIX
                     "subreddit": "text",  # Subreddit name
-                    "bot_replied": "integer",  # Whether not the bot replied, any response (bool|0-1)
-                    "deleted_time": "integer"  # Comment deletion time in UNIX
+                    "bot_replied": "integer",  # Whether or not the bot replied, any response (bool|0-1)
+                    "deleted_time": "integer",  # Comment deletion time in UNIX
+                    "cutoff_ignored": "integer"  # Whether or not the cutoff was ignored for the comment (may be obsolete soon)
                     }
 
 
