@@ -439,6 +439,7 @@ while True:
                                             cur_time, True], log)
                     comment.delete()
                     deleted += 1
+                # If reply trigger mode is on, check for that instead of cutoff
                 elif config["reply_trigger"]:
                     # If the bot replied to the comment, delete it and update stats
                     if check_bot_response(comment):
