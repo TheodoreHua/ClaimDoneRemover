@@ -57,8 +57,8 @@ def create_survey_config(main: Tk, txt: Text = None):
         fdat = opt_data[name.lower()]
         # Skip if template says to skip
         if "skip" in fdat.keys() and fdat["skip"]:
-                entries[name] = StringVar(value=old_val)
-                continue
+            entries[name] = StringVar(value=old_val)
+            continue
         # Create StringVar and edit name variables
         entries[name] = StringVar()
         # Call namemethod if it exists

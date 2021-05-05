@@ -92,8 +92,8 @@ def create_main_window(recreate=False):
         update_text(
             "Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: {:,}\n\n"
             "Waiting {} {}."
-            .format(total_counted, total_deleted, counted, deleted, non_trigger,
-                    str(config["wait"]), config["wait_unit"][0] if config["wait"] == 1 else config["wait_unit"][1]))
+                .format(total_counted, total_deleted, counted, deleted, non_trigger,
+                        str(config["wait"]), config["wait_unit"][0] if config["wait"] == 1 else config["wait_unit"][1]))
         log.append_log("Window Recreated")
 
 
@@ -434,10 +434,11 @@ while True:
                 # If ignore_trigger is true, delete all matching values and update stats
                 elif ignore_trigger:
                     log.append_log("Deleted \"{}\". Comment Time {}. Trigger Ignored.".format(comment.body,
-                                                                                             get_date(comment)))
+                                                                                              get_date(comment)))
                     if config["database_logging"]:
                         insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
-                                                comment.created_utc, str(comment.subreddit), check_bot_response(comment),
+                                                comment.created_utc, str(comment.subreddit),
+                                                check_bot_response(comment),
                                                 cur_time, True], log)
                     comment.delete()
                     deleted += 1
