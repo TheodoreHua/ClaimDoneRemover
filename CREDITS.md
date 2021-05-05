@@ -2,8 +2,8 @@
 ## Codebase
 ### TheodoreHua
 [GitHub](https://github.com/TheodoreHua) |
-[Twitch]() |
-[Reddit]() |
+[Twitch](https://www.twitch.tv/blank_dvth) |
+[Reddit](https://www.reddit.com/user/--B_L_A_N_K--)
 
 - Original Creator & Primary Maintainer
 
