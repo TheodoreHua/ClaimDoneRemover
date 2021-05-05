@@ -36,7 +36,6 @@ def insert_database(curs, data:list, log):
             formatted_data.append("1" if i else "0")
         else:
             formatted_data.append(str(i))
-    print(repr(formatted_data))
     curs.execute("INSERT INTO delete_data VALUES ({})".format(", ".join(formatted_data)))
     log.append_log("Added data {} into database".format(repr(formatted_data)))
 
