@@ -444,8 +444,7 @@ while True:
                         log.append_log("Deleted \"{}\". Comment Time {}.".format(comment.body, get_date(comment)))
                         insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
                                                 comment.created_utc, str(comment.subreddit),
-                                                check_bot_response(comment),
-                                                cur_time, False], log)
+                                                True, cur_time, False], log)
                         comment.delete()
                         deleted += 1
                     else:
