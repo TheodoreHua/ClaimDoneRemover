@@ -64,6 +64,8 @@ then in order to delete in batches.
 
 **IMPORTANT: Do not put commas anywhere in any value except when used as a separator**
 
+Your edit config window may not be in this order, especially if you've update versions.
+
 - ***User:*** Your username.
 - ***OS:*** Your operating system name (should be automatically filled in).
 - ***Blacklist:*** Exact, word-for-word body of the comments to be deleted. Separated by commas (`,`).
@@ -86,6 +88,8 @@ then in order to delete in batches.
 - ***ToR Only:*** Whether the program only deletes comments on the ToR subreddit.
 - ***Update Check:*** Whether the program will check for newer versions of the program on startup.
 - ***Reply Trigger:*** If set to True, will check for replies from the bot instead of waiting for a cutoff.
+- ***Database Logging:*** Whether the program will log deleted comments into a database (when set to False, the database
+  will still exist, it just won't be inserted into)
 
 ## FAQ
 
