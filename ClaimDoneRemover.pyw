@@ -434,9 +434,10 @@ while True:
                 elif ignore_trigger:
                     log.append_log("Deleted \"{}\". Comment Time {}. Trigger Ignored.".format(comment.body,
                                                                                              get_date(comment)))
-                    insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
-                                            comment.created_utc, str(comment.subreddit), check_bot_response(comment),
-                                            cur_time, True], log)
+                    if config["database_logging"]:
+                        insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
+                                                comment.created_utc, str(comment.subreddit), check_bot_response(comment),
+                                                cur_time, True], log)
                     comment.delete()
                     deleted += 1
                 # If reply trigger mode is on, check for that instead of cutoff
@@ -444,9 +445,10 @@ while True:
                     # If the bot replied to the comment, delete it and update stats
                     if check_bot_response(comment):
                         log.append_log("Deleted \"{}\". Comment Time {}.".format(comment.body, get_date(comment)))
-                        insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
-                                                comment.created_utc, str(comment.subreddit),
-                                                True, cur_time, False], log)
+                        if config["database_logging"]:
+                            insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
+                                                    comment.created_utc, str(comment.subreddit),
+                                                    True, cur_time, False], log)
                         comment.delete()
                         deleted += 1
                     else:
@@ -457,10 +459,11 @@ while True:
                     # If the sell-by date is passed, delete the comment and update stats
                     if cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
                         log.append_log("Deleted \"{}\". Comment Time {}.".format(comment.body, get_date(comment)))
-                        insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
-                                                comment.created_utc, str(comment.subreddit),
-                                                check_bot_response(comment),
-                                                cur_time, False], log)
+                        if config["database_logging"]:
+                            insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
+                                                    comment.created_utc, str(comment.subreddit),
+                                                    check_bot_response(comment),
+                                                    cur_time, False], log)
                         comment.delete()
                         deleted += 1
                     # If the sell-by date hasn't passed, don't delete and update stats

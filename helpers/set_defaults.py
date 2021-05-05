@@ -26,7 +26,8 @@ config_defaults = {"user": "",
                    "mode": "light",
                    "tor_only": True,
                    "update_check": True,
-                   "reply_trigger": False}
+                   "reply_trigger": False,
+                   "database_logging": True}
 
 
 def reset_config(txt: Text = None):
