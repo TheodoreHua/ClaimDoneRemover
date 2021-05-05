@@ -21,6 +21,7 @@ def get_foreground(config: dict):
         return None
 
 def check_bot_response(comment) -> bool:
+    """Check if the ToR bot replied to a comment (directly, not indirectly)"""
     comment.refresh()
     for c in comment.replies:
         if c.author.name.casefold() == "transcribersofreddit":
