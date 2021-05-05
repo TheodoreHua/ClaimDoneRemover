@@ -198,6 +198,7 @@ def set_cont(txt: Text = None):
     # If paused, unpause
     if paused:
         paused = False
+        pause.config(text="Pause")
     # If the text widget is provided, update it
     update_txt("Success: Scanning", txt)
 
