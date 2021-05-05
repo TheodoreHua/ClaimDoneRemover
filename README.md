@@ -19,8 +19,8 @@ involved with this program and are not liable for any matters relating to it.**
 freeze if the program deletes a comment while the bot is processing it. This has currently happened to two users that we
 know of. There is currently nothing we can do about this until an update is made on the bots side**
 
-Also known as CDRemover or CDR, this program removes "claim" and "done" comments after a period of time or a bot 
-response. It is designed with r/TranscribersOfReddit transcribers in mind; specifically those who are tired of these 
+Also known as CDRemover or CDR, this program removes "claim" and "done" comments after a period of time or a bot
+response. It is designed with r/TranscribersOfReddit transcribers in mind; specifically those who are tired of these
 comments clogging up their profiles.
 
 If you've been a transcriber for a while, chances are this program will not remove every "claim" or "done" you've ever
@@ -50,11 +50,12 @@ back depending on the setting you chose, and if you have it running in the backg
 7. Restart the program
 8. Done
 
-Once you're done, just navigate to the folder where `ClaimDoneRemover.pyw` is and run the file. You might run with an IDE you have
-installed, or simply run itself, or you can run it from the command line. On Linux, you do this like so: `./ClaimDoneRemover.pyw`
-or `python ClaimDoneRemover.pyw` on Windows. You will see an output after a few seconds. Each comment older than your 
-cutoff or has a bot reply (depending on the config) should be deleted. You can then either leave the program running in 
-the background to delete posts while you are transcribing as you reach the cutoff, or you can manually run it now and 
+Once you're done, just navigate to the folder where `ClaimDoneRemover.pyw` is and run the file. You might run with an
+IDE you have installed, or simply run itself, or you can run it from the command line. On Linux, you do this like
+so: `./ClaimDoneRemover.pyw`
+or `python ClaimDoneRemover.pyw` on Windows. You will see an output after a few seconds. Each comment older than your
+cutoff or has a bot reply (depending on the config) should be deleted. You can then either leave the program running in
+the background to delete posts while you are transcribing as you reach the cutoff, or you can manually run it now and
 then in order to delete in batches.
 
 ## Other Instructions
@@ -67,11 +68,11 @@ then in order to delete in batches.
 - ***OS:*** Your operating system name (should be automatically filled in).
 - ***Blacklist:*** Exact, word-for-word body of the comments to be deleted. Separated by commas (`,`).
 - ***Case Sensitive:*** Whether the blacklist should be case-sensitive.
-- ***Cutoff:*** How many units of time old the comments must be before they are deleted. This option is still required 
-  to be filled even if you're using the `reply trigger` option, it just won't be used. Feel free to leave it at its 
+- ***Cutoff:*** How many units of time old the comments must be before they are deleted. This option is still required
+  to be filled even if you're using the `reply trigger` option, it just won't be used. Feel free to leave it at its
   default.
 - ***Cutoff Secs:*** How many seconds each unit of time for the cutoff is. E.g. a second would be 1, a minute would be
-  60, an hour would be 3600, etc. This option is still required to be filled even if you're using the `reply trigger` 
+  60, an hour would be 3600, etc. This option is still required to be filled even if you're using the `reply trigger`
   option, it just won't be used. Feel free to leave it at its default.
 - ***Limit:*** How many comments to check through in the users' history, max 1000 (enter `None` for 1000). Keep in mind
   the larger this is, the longer it will take to check per run.
@@ -102,13 +103,23 @@ times (You can skip the wait by pressing the check now button in the options' me
 
 Try to look at the error and correct it by editing `config.json` or `praw.ini` by yourself (See below FAQ on where the
 files are located). If the error cannot be resolved by yourself, delete the `config.json` and/or `praw.ini` files, then
-run `ClaimDoneRemover.pyw`. The program will re-create the files, and you'll be good to go. You **WILL** have to re-setup the config
-and PRAW files.
+run `ClaimDoneRemover.pyw`. The program will re-create the files, and you'll be good to go. You **WILL** have to
+re-setup the config and PRAW files.
+
+#### What's the difference between cutoff mode and bot reply mode?
+
+In cutoff mode, the program will delete comments older than set amount of time regardless of whether the ToR bot
+responded or not. In bot reply mode, it ignores how old the comment is and will only delete the comment if the ToR bot
+has replied to it (currently it deletes regardless of what the reply is, even if it can't find your transcription. I may
+add a separate feature in the future to only delete if your transcription was found. For now, you can use another
+program ([ACN](https://www.github.com/TheodoreHua/AlreadyClaimedNotifier)) to notify you if your transcription wasn't
+found.)
 
 #### Where are the config and data files located?
 
-You can open the folder automatically by opening CDR, going into the options' menu, and clicking `Open Data Folder`. However,
-if you for some reason can't do that or have another reason not to, the folders are located in the following paths
+You can open the folder automatically by opening CDR, going into the options' menu, and clicking `Open Data Folder`.
+However, if you for some reason can't do that or have another reason not to, the folders are located in the following
+paths
 (different depending on the platform).
 
 ##### Windows:
