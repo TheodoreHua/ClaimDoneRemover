@@ -305,8 +305,9 @@ dcurs = conn.cursor()
 # Assert data
 assert_data(log, database_connection=conn)
 
-# Get data from config
+# Get data from config and output into logs
 config = get_config()
+log.append_log("Config: " + repr(config))
 
 # Check if basic config is set
 if config["os"] in [None, ""]:
