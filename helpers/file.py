@@ -47,6 +47,19 @@ def get_praw() -> dict:
     return dict(config["credentials"])
 
 
+def get_redact_praw() -> dict:
+    """Redact portions of PRAW data for logging (to protect user privacy)"""
+    config = configparser.ConfigParser()
+    config.read(DATA_PATH + "/praw.ini")
+    creds = dict(config["credentials"])
+    for i in ["client_secret", "refresh_token"]:
+        total_length_cs = len(creds[i])
+        if total_length_cs >= 5:
+            redact_portion = int(total_length_cs / 5)
+            creds[i] = creds[i][:redact_portion] + ("*" * (total_length_cs - redact_portion))
+    return creds
+
+
 def assert_data(log, database_connection: sqlite3.Connection = None, txt: Text = None):
     """Method to check if the data files exists, if it doesn't exist, create it"""
     if not isdir(DATA_PATH):

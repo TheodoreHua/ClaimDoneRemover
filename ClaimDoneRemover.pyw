@@ -328,6 +328,7 @@ assert_data(log, database_connection=conn)
 # Get data from config and output into logs
 config = get_config()
 log.append_log("Config: " + repr(config))
+log.append_log("PRAW: " + repr(get_redact_praw()))
 
 # Check if basic config is set
 if config["os"] in [None, ""]:
