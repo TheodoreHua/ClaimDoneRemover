@@ -15,6 +15,7 @@ from tkinter.messagebox import askyesno, showinfo, showerror
 from traceback import format_exc
 from webbrowser import open as wbopen
 from os import execv
+from traceback import format_exception
 
 import matplotlib.pyplot as plt
 import praw
@@ -34,8 +35,8 @@ time_against = []
 def except_hook(exc_class, message, traceback):
     """Global exception handler"""
     # Log all errors that occur
-    log.append_log("\n---\nError occurred.\nError Name: {}\nError Message: {}\nError Traceback: {}---"
-                   .format(exc_class.__name__, message, format_exc()))
+    log.append_log("\n---\nError occurred.\nError Name: {}\nError Message: {}\n{}---"
+                   .format(exc_class.__name__, message, "".join(format_exception(exc_class, message, traceback))))
     if exc_class is TclError:
         # Catch errors that happen when closing the window and pass
         pass
