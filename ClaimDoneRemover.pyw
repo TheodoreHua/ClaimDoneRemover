@@ -9,13 +9,12 @@
 import json
 import sqlite3
 import time
+from os import execv
 from tkinter import *
 from tkinter import ttk
 from tkinter.messagebox import askyesno, showinfo, showerror
-from traceback import format_exc
-from webbrowser import open as wbopen
-from os import execv
 from traceback import format_exception
+from webbrowser import open as wbopen
 
 import matplotlib.pyplot as plt
 import praw
