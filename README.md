@@ -137,6 +137,11 @@ Congrats! You've just had something that has a 1 in a million chance of happenin
 the issue should go away. Although, if this issue happened just after you changed your config values, double check that
 the config values are correct. If not, correct them.
 
+#### How do I update CDR?
+
+Unless otherwise noted in the release's release notes, all you have to do is extract CDR to the folder it was originally
+installed in and replace the original files.
+
 #### Where are the config and data files located?
 
 You can open the folder automatically by opening CDR, going into the options' menu, and clicking `Open Data Folder`.
