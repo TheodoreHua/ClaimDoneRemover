@@ -92,9 +92,9 @@ def create_main_window(recreate=False):
     if recreate:
         update_text(
             "Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: {:,}\n\n"
-            "Waiting {} {}."
-                .format(total_counted, total_deleted, counted, deleted, non_trigger,
-                        str(config["wait"]), config["wait_unit"][0] if config["wait"] == 1 else config["wait_unit"][1]))
+            "Waiting {} {}.".format(total_counted, total_deleted, counted, deleted, non_trigger,
+                                    str(config["wait"]),
+                                    config["wait_unit"][0] if config["wait"] == 1 else config["wait_unit"][1]))
         log.append_log("Window Recreated")
 
 
