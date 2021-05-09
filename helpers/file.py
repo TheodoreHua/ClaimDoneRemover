@@ -54,9 +54,8 @@ def get_redact_praw() -> dict:
     creds = dict(config["credentials"])
     for i in ["client_secret", "refresh_token"]:
         total_length_cs = len(creds[i])
-        if total_length_cs >= 5:
-            redact_portion = int(total_length_cs / 5)
-            creds[i] = creds[i][:redact_portion] + ("*" * (total_length_cs - redact_portion))
+        if total_length_cs > 0:
+            creds[i] = creds[i][:3] + ("*" * (total_length_cs - 6)) + creds[-3:]
     return creds
 
 
