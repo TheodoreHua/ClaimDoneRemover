@@ -74,7 +74,8 @@ in front of the existing backslash (so \\ instead of \).
 
 #### Description
 
-- ***User:*** Your username.
+- ***User:*** Your username (make sure **NOT** to include the `/u/`, if my Reddit username is `/u/example`, then you 
+  should enter `example`).
 - ***OS:*** Your operating system name (should be automatically filled in).
 - ***Blacklist:*** Exact, word-for-word body of the comments to be deleted. Separated by commas (`,`).
 - ***Case Sensitive:*** Whether the blacklist should be case-sensitive.
@@ -104,7 +105,10 @@ in front of the existing backslash (so \\ instead of \).
 #### Why is the window not responding?
 
 This is normal if you have a large amount of comments that match the blacklist that hasn't been deleted yet. If any
-dialog pops up asking if you want to close it, choose no/wait. It should finish within 2 seconds-2 minutes.
+dialog pops up asking if you want to close it, choose no/wait. It should finish within 2 seconds-2 minutes. If you're
+wondering why the window's not responding, it's because there's a bug where while CDR is busy deleting/processing
+comments, it's not processing window events which causes it to be marked as not responding. It is in fact responding in
+the background, it's just the GUI that isn't responding.
 
 #### Can I use this to delete past comments?
 
