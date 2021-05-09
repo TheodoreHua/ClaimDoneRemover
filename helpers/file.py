@@ -55,7 +55,7 @@ def get_redact_praw() -> dict:
     for i in ["client_secret", "refresh_token"]:
         total_length_cs = len(creds[i])
         if total_length_cs > 0:
-            creds[i] = creds[i][:3] + ("*" * (total_length_cs - 6)) + creds[-3:]
+            creds[i] = creds[i][:5] + ("*" * (total_length_cs - 10)) + creds[i][-5:]
     return creds
 
 
