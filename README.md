@@ -23,7 +23,7 @@ Also known as CDRemover or CDR, this program removes blacklisted comments after 
 response. It is designed with r/TranscribersOfReddit transcribers in mind; specifically those who are tired of these
 comments clogging up their profiles. While you can use this for other purposes, it will require quite a bit of config
 tweaking, and it isn't really specialized for use otherwise. You can also try 
-[Murdo Maclachlan's OSCR program](https://github.com/MurdoMaclachlan/oscr) which while also designed for ToR users, it's
+[Murdo MacLachlan's OSCR program](https://github.com/MurdoMaclachlan/oscr) which while also designed for ToR users, it's
 slightly more generalized and may be easier to setup for non-ToR use.
 
 If you've been a transcriber for a while, chances are this program will not remove every blacklisted comment you've ever
