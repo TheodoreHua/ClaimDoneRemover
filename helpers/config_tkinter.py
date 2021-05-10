@@ -127,7 +127,6 @@ def submit_survey(top: Toplevel, txt: Text = None):
             for enforce in fdat["incompatible_enforce"]["enforced"]:
                 ignore.append(enforce[0])
                 con[enforce[0]] = enforce[1]
-            continue
         try:
             if val == "":
                 showerror("Error", "There is a empty field.")
