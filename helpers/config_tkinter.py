@@ -21,7 +21,7 @@ opt_data = {
     "case_sensitive": {"type": bool},
     "cutoff": {"type": int},
     "cutoff_secs": {"type": int},
-    "limit": {"type": [int, type(None)]},
+    "limit": {"type": [int, None]},
     "wait": {"type": int},
     "real_time_checking": {"type": bool},
     "start_paused": {"type": bool},
@@ -101,7 +101,7 @@ def submit_survey(top: Toplevel, txt: Text = None):
                 showerror("Error", "There is a empty field.")
                 return
             elif type(fdat["type"]) is list:
-                if fdat["type"][0] is int and isinstance(fdat["type"][1], type(None)):
+                if fdat["type"][0] is int and fdat["type"][1] is None:
                     if val.title() == "None" or int(val) >= 1000:
                         con[name] = None
                     else:
