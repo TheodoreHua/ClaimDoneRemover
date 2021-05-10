@@ -28,10 +28,11 @@ opt_data = {
     "topmost": {"type": bool},
     "mode": {"type": str, "skip": True},
     "wait_unit": {"type": list},
-    "tor_only": {"type": bool},
+    "tor_only": {"type": bool, "namemethod": lambda i: "ToR Only"},
     "update_check": {"type": bool},
     "reply_trigger": {"type": bool},
-    "database_logging": {"type": bool}
+    "database_logging": {"type": bool},
+    "regex_mode": {"type": bool}
 }
 
 

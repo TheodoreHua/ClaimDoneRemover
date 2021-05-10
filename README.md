@@ -93,6 +93,9 @@ to override the trigger and delete it regardless of whether the bot responded or
 - ***Reply Trigger:*** If set to True, will check for replies from the bot instead of waiting for a cutoff.
 - ***Database Logging:*** Whether the program will log deleted comments into a database (when set to False, the database
   will still exist, it just won't be inserted into)
+- ***Regex Mode:*** Whether the program will parse the blacklist values as Regex. The case-sensitive config option will
+  be overridden to `True` regardless of what your current setting is as case-sensitive has to be true for Regex to work.
+  Also please note that this mode is **experimental**, and you should **only use it if you know what you're doing**.
 
 ## FAQ
 
