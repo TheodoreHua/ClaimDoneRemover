@@ -9,7 +9,7 @@ from tkinter import ttk
 from tkinter.messagebox import showinfo, showerror
 
 from .file import get_config, write_config
-from .misc import split_escape
+from .misc import get_foreground
 
 """Functions to take care of the config file tkinter menu option"""
 
@@ -35,6 +35,26 @@ opt_data = {
 }
 
 
+def toplvl_lineprompt(entry_name, main, config):
+    def submit():
+        entries[entry_name].set(txt.get("1.0", END))
+        top.destroy()
+
+    top = Toplevel(main)
+    if config["topmost"]:
+        top.wm_attributes("-topmost", 1)
+    top.wait_visibility()
+    top.grab_set()
+    ttk.Label(top, text="Enter all values, separated by newlines.").pack(expand=True, fill=BOTH)
+    txt = Text(top, background=top.cget("background"), foreground=get_foreground(config),
+               highlightbackground=top.cget("background"), highlightcolor=top.cget("background"), highlightthickness=1)
+    txt.delete("1.0", END)
+    txt.insert(INSERT, entries[entry_name].get(), "a")
+    txt.see("end")
+    txt.pack(expand=True, fill=BOTH)
+    ttk.Button(top, text="Submit", command=submit).pack(expand=True, fill=BOTH)
+
+
 def create_survey_config(main: Tk, txt: Text = None):
     global entries
     # Create toplevel window then configure it
@@ -44,7 +64,6 @@ def create_survey_config(main: Tk, txt: Text = None):
         top.wm_attributes("-topmost", 1)
     top.wait_visibility()
     top.grab_set()
-    entries = {}
     # Create instructions label
     ttk.Label(top, text="Enter the corresponding value for the config name. The current value is already entered into"
                         " the field. Instructions are in README.md", justify="center", wraplength=400).grid(
@@ -78,8 +97,10 @@ def create_survey_config(main: Tk, txt: Text = None):
             ttk.Radiobutton(top, text="True", variable=entries[name], value="True", width=6).grid(row=row, column=1)
             ttk.Radiobutton(top, text="False", variable=entries[name], value="False", width=6).grid(row=row, column=2)
         elif fdat["type"] is list:
-            entries[name].set(",".join([str(i) for i in old_val]))
-            ttk.Entry(top, textvariable=entries[name], width=50).grid(row=row, column=1, columnspan=2)
+            entries[name].set("\n".join([str(i) for i in old_val if len(str(i)) > 0]))
+            ttk.Button(top, text="Open Editor",
+                       command=lambda n=name, m=main:
+                       toplvl_lineprompt(n, m, config)).grid(row=row, column=1, columnspan=2, sticky="we")
         row += 1
     # Create submit button
     ttk.Button(top, text="Submit", command=lambda: submit_survey(top, txt)).grid(row=row, column=0, columnspan=3,
@@ -109,13 +130,13 @@ def submit_survey(top: Toplevel, txt: Text = None):
             elif fdat["type"] is int:
                 con[name] = int(val)
             elif name == "wait_unit":
-                con[name] = split_escape(",", val.replace(", ", ","))[:-1] + [int(split_escape(",", val.replace(", ", ","))[-1])]
+                con[name] = val.split("\n")[:-1] + [int(val.split("\n")[-1])]
             elif fdat["type"] is str:
                 con[name] = val
             elif fdat["type"] is bool:
                 con[name] = {"True": True, "False": False}[val]
             elif fdat["type"] is list:
-                con[name] = split_escape(",", val.replace(", ", ","))
+                con[name] = val.split("\n")
         except (ValueError, KeyError):
             showerror("ValueError",
                       "Invalid value {} in {} field, see README for proper values".format(val, lb_name))

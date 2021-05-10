@@ -5,7 +5,6 @@
 # ------------------------------------------------------------------------------
 
 import socket
-import re
 from random import randint
 from webbrowser import open as wbopen
 
@@ -29,15 +28,6 @@ def check_bot_response(comment) -> bool:
         if c.author.name.casefold() == "transcribersofreddit":
             return True
     return False
-
-
-def split_escape(delimiter:str, string:str) -> list:
-    # I really wanna know if there's a better way to do the escaped escape character part...
-    # I know it's highly unlikely but if someone were to have that exact number there, then it would cause issues for
-    # that one instance
-    escaped_escape = str(randint(1000000000,9999999999))
-    return [i.replace("\\" + delimiter, delimiter).replace(escaped_escape, "\\") for i in
-            re.split(r'(?<!\\)' + delimiter, string.replace(r'\\', escaped_escape))]
 
 
 def insert_database(curs, data: list, log):
