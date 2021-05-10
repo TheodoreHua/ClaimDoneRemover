@@ -11,6 +11,8 @@ from os import mkdir
 from os.path import isfile, isdir
 from tkinter import NORMAL, END, INSERT, DISABLED, Text
 
+from praw.util.token_manager import BaseTokenManager
+
 from .global_vars import DATA_PATH
 from .set_defaults import reset_config, reset_praw, double_check_config
 
@@ -24,6 +26,33 @@ DATABASE_COLUMNS = {"id": "text",  # Comment ID
                     "deleted_time": "integer",  # Comment deletion time in UNIX
                     "cutoff_ignored": "integer"  # Whether or not the cutoff was ignored for the comment
                     }
+
+
+class TokenManager(BaseTokenManager):
+    """Custom token manager for new Reddit/PRAW refresh token managing"""
+
+    def __init__(self, file_location, log):
+        super().__init__()
+        self.file_location = file_location
+        self.log = log
+
+    def post_refresh_callback(self, authorizer):
+        """Update saved copy of refresh token"""
+        config = configparser.ConfigParser()
+        config.read(self.file_location)
+        config["credentials"]["refresh_token"] = authorizer.refresh_token
+        self.log.append_log("Set refresh token: " + redact_praw(repr(authorizer.refresh_token)))
+        with open(self.file_location, "w") as f:
+            config.write(f)
+
+    def pre_refresh_callback(self, authorizer):
+        if authorizer.refresh_token is None:
+            config = configparser.ConfigParser()
+            config.read(self.file_location)
+            authorizer.refresh_token = config["credentials"]["refresh_token"]
+            self.log.append_log("Loaded refresh token: " + redact_praw(repr(authorizer.refresh_token)))
+        else:
+            self.log.append_log("Already have loaded refresh token: " + redact_praw(repr(authorizer.refresh_token)))
 
 
 def get_config() -> dict:
@@ -44,19 +73,21 @@ def write_config(con: dict):
 def get_praw() -> dict:
     config = configparser.ConfigParser()
     config.read(DATA_PATH + "/praw.ini")
+    del config["credentials"]["refresh_token"]
     return dict(config["credentials"])
 
 
-def get_redact_praw() -> dict:
+def redact_praw(data):
     """Redact portions of PRAW data for logging (to protect user privacy)"""
-    config = configparser.ConfigParser()
-    config.read(DATA_PATH + "/praw.ini")
-    creds = dict(config["credentials"])
-    for i in ["client_secret", "refresh_token"]:
-        total_length_cs = len(creds[i])
+    if type(data) is dict:
+        for key in data.keys():
+            total_length_cs = len(data[key])
+            data[key] = data[key][:5] + ("*" * (total_length_cs - 10)) + data[key][-5:]
+        return data
+    elif type(data) is str:
+        total_length_cs = len(data)
         if total_length_cs > 0:
-            creds[i] = creds[i][:5] + ("*" * (total_length_cs - 10)) + creds[i][-5:]
-    return creds
+            return data[:5] + ("*" * (total_length_cs - 10)) + data[-5:]
 
 
 def assert_data(log, database_connection: sqlite3.Connection = None, txt: Text = None):

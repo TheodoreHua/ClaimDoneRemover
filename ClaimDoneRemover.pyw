@@ -328,7 +328,7 @@ assert_data(log, database_connection=conn)
 # Get data from config and output into logs
 config = get_config()
 log.append_log("Config: " + repr(config))
-log.append_log("PRAW: " + repr(get_redact_praw()))
+log.append_log("PRAW Client: " + repr(redact_praw(get_praw())))
 
 # Check if basic config is set
 if config["os"] in [None, ""]:
@@ -340,10 +340,11 @@ elif config["user"] in [None, ""]:
 else:
     # Create the reddit PRAW instance
     try:
+        reddit_tokenmanager = TokenManager(DATA_PATH + "/praw.ini", log)
         reddit = praw.Reddit(user_agent=config["os"] + ":claimdoneremover:v" + VERSION + " (originally by "
                                                                                          "u/MurdoMaclachlan heavily "
                                                                                          "modified by u/--B_L_A_N_K--)",
-                             **get_praw())
+                             token_manager=reddit_tokenmanager, **get_praw())
         log.append_log("Running on " + config["os"])
     except MissingRequiredAttributeException as e:
         reddit = None
