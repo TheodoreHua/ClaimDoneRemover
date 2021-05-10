@@ -32,7 +32,8 @@ opt_data = {
     "update_check": {"type": bool},
     "reply_trigger": {"type": bool},
     "database_logging": {"type": bool},
-    "regex_mode": {"type": bool}
+    "regex_mode": {"type": bool, "incompatible_enforce": {"enforced": [("case_sensitive", True)],
+                                                          "check": lambda i: i == "True"}}
 }
 
 
@@ -110,14 +111,23 @@ def create_survey_config(main: Tk, txt: Text = None):
 
 def submit_survey(top: Toplevel, txt: Text = None):
     con = {}
+    ignore = []
     # Iterate through all of the StringVars and add it to a dictionary in the correct formatting
     for name, var in entries.items():
+        if name in ignore:
+            continue
         val = var.get().strip()
         fdat = opt_data[name.lower()]
         if "namemethod" in fdat.keys():
             lb_name = fdat["namemethod"](name)
         else:
             lb_name = name.title()
+        if "incompatible_enforce" in fdat.keys() and fdat["incompatible_enforce"]["check"](val):
+            # noinspection PyTypeChecker
+            for enforce in fdat["incompatible_enforce"]["enforced"]:
+                ignore.append(enforce[0])
+                con[enforce[0]] = enforce[1]
+            continue
         try:
             if val == "":
                 showerror("Error", "There is a empty field.")
