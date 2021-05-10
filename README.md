@@ -95,7 +95,9 @@ to override the trigger and delete it regardless of whether the bot responded or
   will still exist, it just won't be inserted into)
 - ***Regex Mode:*** Whether the program will parse the blacklist values as Regex. The case-sensitive config option will
   be overridden to `True` regardless of what your current setting is as case-sensitive has to be true for Regex to work.
-  Also, please note that this mode is **experimental**, and you should **only use it if you know what you're doing**.
+  Keep in mind that the regex will only match if the comment body fully matches it. So a regex of `abc\d` would match a 
+  comment with a body of `abc1` but not `0abc1d`. Also, please note that this mode is **experimental**, and you should
+  **only use it if you know what you're doing**.
 
 ## FAQ
 
