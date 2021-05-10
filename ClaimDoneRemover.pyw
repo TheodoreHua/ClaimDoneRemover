@@ -481,7 +481,8 @@ while True:
                 elif config["reply_trigger"]:
                     # If the bot replied to the comment, delete it and update stats
                     if check_bot_response(comment):
-                        log.append_log("Deleted \"{}\". Comment Time {}.".format(comment.body, get_date(comment)))
+                        log.append_log("Deleted \"{}\". Comment Time {}. Comment ID {}."
+                                       .format(comment.body, get_date(comment), comment.id))
                         if config["database_logging"]:
                             insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
                                                     comment.created_utc, str(comment.subreddit),
@@ -489,13 +490,14 @@ while True:
                         comment.delete()
                         deleted += 1
                     else:
-                        log.append_log("Waiting for reply trigger \"{}\". Comment Time {}.".format(comment.body,
-                                                                                                   get_date(comment)))
+                        log.append_log("Waiting for reply trigger \"{}\". Comment Time {}. Comment ID {}."
+                                       .format(comment.body, get_date(comment), comment.id))
                         non_trigger += 1
                 else:
                     # If the sell-by date is passed, delete the comment and update stats
                     if cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
-                        log.append_log("Deleted \"{}\". Comment Time {}.".format(comment.body, get_date(comment)))
+                        log.append_log("Deleted \"{}\". Comment Time {}. Comment ID {}."
+                                       .format(comment.body, get_date(comment), comment.id))
                         if config["database_logging"]:
                             insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
                                                     comment.created_utc, str(comment.subreddit),
