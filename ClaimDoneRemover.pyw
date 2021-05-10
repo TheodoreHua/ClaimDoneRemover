@@ -10,6 +10,7 @@ import json
 import sqlite3
 import time
 from os import execv
+from re import match
 from tkinter import *
 from tkinter import ttk
 from tkinter.messagebox import askyesno, showinfo, showerror
@@ -452,7 +453,15 @@ while True:
                 check_body = comment.body
             else:
                 check_body = comment.body.casefold()
-            if check_body in config["blacklist"]:
+            blacklisted = False
+            if config["regex_mode"]:
+                for i in config["blacklist"]:
+                    if bool(match(i, check_body)):
+                        blacklisted = True
+                        break
+            elif check_body in config["blacklist"]:
+                blacklisted = True
+            if blacklisted:
                 # If ToR only is on then check if the subreddit is ToR
                 if config["tor_only"] and str(comment.subreddit).casefold() != "transcribersofreddit":
                     log.append_log("Found comment \"{}\" not on ToR subreddit with ToR_Only mode on, skipped."
