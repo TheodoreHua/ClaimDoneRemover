@@ -345,7 +345,10 @@ else:
                                                                                          "u/MurdoMaclachlan heavily "
                                                                                          "modified by u/--B_L_A_N_K--)",
                              token_manager=reddit_tokenmanager, **get_praw())
+        reddit_scopes = list(reddit.auth.scopes())
         log.append_log("Running on " + config["os"])
+        log.append_log("Authorized with {} scopes".format(
+            ", ".join(reddit_scopes[:-1]) + ", and " + reddit_scopes[-1] if reddit_scopes != ["*"] else "all"))
     except MissingRequiredAttributeException as e:
         reddit = None
         log.append_log(repr(e))
