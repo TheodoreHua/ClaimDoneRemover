@@ -161,6 +161,10 @@ paths
 
 Should be `/home/your_username/.config/ClaimDoneRemover` although I'm not certain
 
+#### Can I see progress and planned features for this project?
+
+Sure, there's a public list [here](https://app.gitkraken.com/glo/board/X0vAsD2bBQARuQty)
+
 #### Where can I contact the developer?
 
 If you want to report an issue with CDR you can
