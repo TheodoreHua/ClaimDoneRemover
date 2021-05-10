@@ -35,7 +35,7 @@ opt_data = {
 }
 
 
-def toplvl_lineprompt(entry_name, main, config):
+def editor_window(entry_name, main, config):
     def submit():
         entries[entry_name].set(txt.get("1.0", END))
         top.destroy()
@@ -100,7 +100,7 @@ def create_survey_config(main: Tk, txt: Text = None):
             entries[name].set("\n".join([str(i) for i in old_val if len(str(i)) > 0]))
             ttk.Button(top, text="Open Editor",
                        command=lambda n=name, m=main:
-                       toplvl_lineprompt(n, m, config)).grid(row=row, column=1, columnspan=2, sticky="we")
+                       editor_window(n, m, config)).grid(row=row, column=1, columnspan=2, sticky="we")
         row += 1
     # Create submit button
     ttk.Button(top, text="Submit", command=lambda: submit_survey(top, txt)).grid(row=row, column=0, columnspan=3,
