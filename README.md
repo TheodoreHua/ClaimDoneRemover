@@ -19,14 +19,17 @@ involved with this program and are not liable for any matters relating to it.**
 freeze if the program deletes a comment while the bot is processing it. This has currently happened to two users that we
 know of. There is currently nothing we can do about this until an update is made on the bots side**
 
-Also known as CDRemover or CDR, this program removes "claim" and "done" comments after a period of time or a bot
+Also known as CDRemover or CDR, this program removes blacklisted comments after a period of time or a bot
 response. It is designed with r/TranscribersOfReddit transcribers in mind; specifically those who are tired of these
-comments clogging up their profiles.
+comments clogging up their profiles. While you can use this for other purposes, it will require quite a bit of config
+tweaking, and it isn't really specialized for use otherwise. You can also try 
+[Murdo Maclachlan's OSCR program](https://github.com/MurdoMaclachlan/oscr) which while also designed for ToR users, it's
+slightly more generalized and may be easier to setup for non-ToR use.
 
-If you've been a transcriber for a while, chances are this program will not remove every "claim" or "done" you've ever
+If you've been a transcriber for a while, chances are this program will not remove every blacklisted comment you've ever
 posted however you should be able to get most of them following the instructions in the FAQ, the max is 1000 comments
-back depending on the setting you chose, and if you have it running in the background, it should check for `claim` and
-`done` every certain amount of seconds you set.
+back depending on the setting you chose, and if you have it running in the background, it should check for comment
+bodies that are equal to entries in a set blacklist every certain amount of time you set.
 
 ## Installation and Use
 
@@ -36,7 +39,7 @@ back depending on the setting you chose, and if you have it running in the backg
 3. Before doing anything else, you should now create an app for your Reddit account. You can do this by going to
    `https://www.reddit.com/prefs/apps/` and creating a new app. Give it a name ("ClaimDoneRemover" or "CDRemover" are
    easy to remember). Choose "script". Give it a description (which can really be anything you want). Set the redirect
-   url to `http://localhost:8080` as this will be important later on. You can set the about url as whatever you want (I
+   url to `http://localhost:9575` as this will be important later on. You can set the about url as whatever you want (I
    set it to the CDR repo link).
 4. Now run the `ClaimDoneRemover.pyw` program, don't worry if it says error.
 5. Click the options button then click the `Edit Config` button and fill in each field. There's a description of what
@@ -50,13 +53,14 @@ back depending on the setting you chose, and if you have it running in the backg
 7. Restart the program
 8. Done
 
-Once you're done, just navigate to the folder where `ClaimDoneRemover.pyw` is and run the file. You might run with an
-IDE you have installed, or simply run itself, or you can run it from the command line. On Linux, you do this like
-so: `./ClaimDoneRemover.pyw`
+Once you're done, just navigate to the folder where `ClaimDoneRemover.pyw` is and run the file. You should run it by
+itself (double clicking the file) but you can run it from the command line for debug purposes if you wish (although
+errors are usually logged into the log file). On Linux, you do this like so: `./ClaimDoneRemover.pyw`
 or `python ClaimDoneRemover.pyw` on Windows. You will see an output after a few seconds. Each comment older than your
 cutoff or has a bot reply (depending on the config) should be deleted. You can then either leave the program running in
-the background to delete posts while you are transcribing as you reach the cutoff, or you can manually run it now and
-then in order to delete in batches.
+the background to delete posts while you are transcribing as it gets triggered, or you can manually run it now and
+then in order to delete comments in batches. If you persistently see that a comment is "Awaiting Trigger", you may chose
+to override the trigger and delete it regardless of whether the bot responded or reached cutoff.
 
 ## Other Instructions
 
@@ -67,7 +71,7 @@ then in order to delete in batches.
 In order to put a comma in a comma delimited list (seperated by commas), you're going to need to escape it! To escape a
 comma, put a backslash (\) infront of the comma (e.g. `value1,value2\,value2 continued,value3`).
 
-#### One of the config values is comma separated, but the value I want to input has a backslash (\) in it, what do I do?
+#### One of the config values is comma separated, but the value I want to input has a backslash (\\) in it, what do I do?
 
 Currently, a backslash is used as an escape character so to avoid any unwanted issues, you should put another backslash 
 in front of the existing backslash (so \\ instead of \).
