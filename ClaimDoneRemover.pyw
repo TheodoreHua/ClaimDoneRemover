@@ -603,8 +603,8 @@ while True:
         progress["value"] = 0
     # Update progress bar if time hasn't passed
     else:
-        progress["value"] = (config["wait_unit"][2] - (cont_time - cur_time)) / (
-                config["wait"] * config["wait_unit"][2]) * 100
+        progress["value"] = (config["wait"] * config["wait_unit"][2] -
+                             (cont_time - cur_time)) / (config["wait"] * config["wait_unit"][2]) * 100
     # Update the window
     m.update_idletasks()
     m.update()
