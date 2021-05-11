@@ -44,7 +44,7 @@ class TokenManager(BaseTokenManager):
         config = configparser.ConfigParser()
         config.read(self.file_location)
         config["credentials"]["refresh_token"] = authorizer.refresh_token
-        self.log.append_log("Set refresh token: " + redact_praw(repr(authorizer.refresh_token)))
+        self.log.append_log("Set refresh token: " + repr(redact_praw(authorizer.refresh_token)))
         with open(self.file_location, "w") as f:
             config.write(f)
 
@@ -53,9 +53,9 @@ class TokenManager(BaseTokenManager):
             config = configparser.ConfigParser()
             config.read(self.file_location)
             authorizer.refresh_token = config["credentials"]["refresh_token"]
-            self.log.append_log("Loaded refresh token: " + redact_praw(repr(authorizer.refresh_token)))
+            self.log.append_log("Loaded refresh token: " + repr(redact_praw(authorizer.refresh_token)))
         else:
-            self.log.append_log("Already have loaded refresh token: " + redact_praw(repr(authorizer.refresh_token)))
+            self.log.append_log("Already have loaded refresh token: " + repr(redact_praw(authorizer.refresh_token)))
 
 
 def get_config() -> dict:
