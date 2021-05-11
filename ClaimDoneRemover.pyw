@@ -495,6 +495,35 @@ while True:
                         log.append_log("Waiting for reply trigger \"{}\". Comment Time {}. Comment ID {}."
                                        .format(comment.body, get_date(comment), comment.id))
                         non_trigger += 1
+                elif config["reply_cutoff_fallback_trigger"]:
+                    # If bot replied to the comment or cutoff date passed, delete it and update stats
+                    if check_bot_response(comment):
+                        log.append_log("Deleted \"{}\". Comment Time {}. Comment ID {}."
+                                       .format(comment.body, get_date(comment), comment.id))
+                        if config["database_logging"]:
+                            insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
+                                                    comment.created_utc, str(comment.subreddit),
+                                                    True, cur_time, False, comment.permalink,
+                                                    comment.submission.permalink], log)
+                        comment.delete()
+                        deleted += 1
+                    elif cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
+                        log.append_log("Deleted \"{}\". Comment Time {}. Comment ID {}."
+                                       .format(comment.body, get_date(comment), comment.id))
+                        if config["database_logging"]:
+                            insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
+                                                    comment.created_utc, str(comment.subreddit),
+                                                    check_bot_response(comment),
+                                                    cur_time, False, comment.permalink, comment.submission.permalink],
+                                            log)
+                        comment.delete()
+                        deleted += 1
+                    else:
+                        log.append_log("Waiting for cutoff or reply trigger \"{}\". Comment Time {}. Time Left Until "
+                                       "Delete {}. Delete At {}.".format(comment.body, get_date(comment),
+                                                              cur_time - get_date(comment), cur_time +
+                                                              (cur_time - get_date(comment))))
+                        non_trigger += 1
                 else:
                     # If the sell-by date is passed, delete the comment and update stats
                     if cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
