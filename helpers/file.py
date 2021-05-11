@@ -26,7 +26,8 @@ DATABASE_COLUMNS = {"id": "text",  # Comment ID
                     "deleted_time": "integer",  # Comment deletion time in UNIX
                     "cutoff_ignored": "integer",  # Whether or not the cutoff was ignored for the comment
                     "link": "text",  # Comment permalink
-                    "post_link": "text"  # Post permalink
+                    "post_link": "text",  # Post permalink
+                    "deletion_mode": "text"  # Mode CDR was on when comment was deleted
                     }
 
 

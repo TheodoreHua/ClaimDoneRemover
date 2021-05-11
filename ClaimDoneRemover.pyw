@@ -475,7 +475,8 @@ while True:
                         insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
                                                 comment.created_utc, str(comment.subreddit),
                                                 check_bot_response(comment),
-                                                cur_time, True, comment.permalink, comment.submission.permalink], log)
+                                                cur_time, True, comment.permalink, comment.submission.permalink,
+                                                "Ignore Trigger"], log)
                     comment.delete()
                     deleted += 1
                 # If reply trigger mode is on, check for that instead of cutoff
@@ -488,7 +489,7 @@ while True:
                             insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
                                                     comment.created_utc, str(comment.subreddit),
                                                     True, cur_time, False, comment.permalink,
-                                                    comment.submission.permalink], log)
+                                                    comment.submission.permalink, "Reply Trigger"], log)
                         comment.delete()
                         deleted += 1
                     else:
@@ -504,7 +505,7 @@ while True:
                             insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
                                                     comment.created_utc, str(comment.subreddit),
                                                     True, cur_time, False, comment.permalink,
-                                                    comment.submission.permalink], log)
+                                                    comment.submission.permalink, "Cutoff Fallback Reply Trigger"], log)
                         comment.delete()
                         deleted += 1
                     elif cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
@@ -513,8 +514,8 @@ while True:
                         if config["database_logging"]:
                             insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
                                                     comment.created_utc, str(comment.subreddit),
-                                                    check_bot_response(comment),
-                                                    cur_time, False, comment.permalink, comment.submission.permalink],
+                                                    False, cur_time, False, comment.permalink,
+                                                    comment.submission.permalink, "Cutoff Fallback Cutoff Trigger"],
                                             log)
                         comment.delete()
                         deleted += 1
@@ -533,8 +534,8 @@ while True:
                             insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
                                                     comment.created_utc, str(comment.subreddit),
                                                     check_bot_response(comment),
-                                                    cur_time, False, comment.permalink, comment.submission.permalink],
-                                            log)
+                                                    cur_time, False, comment.permalink, comment.submission.permalink,
+                                                    "Cutoff Trigger"], log)
                         comment.delete()
                         deleted += 1
                     # If the sell-by date hasn't passed, don't delete and update stats
