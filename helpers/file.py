@@ -24,7 +24,9 @@ DATABASE_COLUMNS = {"id": "text",  # Comment ID
                     "subreddit": "text",  # Subreddit name
                     "bot_replied": "integer",  # Whether or not the bot replied, any response (bool|0-1)
                     "deleted_time": "integer",  # Comment deletion time in UNIX
-                    "cutoff_ignored": "integer"  # Whether or not the cutoff was ignored for the comment
+                    "cutoff_ignored": "integer",  # Whether or not the cutoff was ignored for the comment
+                    "link": "text",  # Comment permalink
+                    "post_link": "text"  # Post permalink
                     }
 
 

@@ -474,7 +474,7 @@ while True:
                         insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
                                                 comment.created_utc, str(comment.subreddit),
                                                 check_bot_response(comment),
-                                                cur_time, True], log)
+                                                cur_time, True, comment.permalink, comment.submission.permalink], log)
                     comment.delete()
                     deleted += 1
                 # If reply trigger mode is on, check for that instead of cutoff
@@ -486,7 +486,8 @@ while True:
                         if config["database_logging"]:
                             insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
                                                     comment.created_utc, str(comment.subreddit),
-                                                    True, cur_time, False], log)
+                                                    True, cur_time, False, comment.permalink,
+                                                    comment.submission.permalink], log)
                         comment.delete()
                         deleted += 1
                     else:
@@ -502,7 +503,8 @@ while True:
                             insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
                                                     comment.created_utc, str(comment.subreddit),
                                                     check_bot_response(comment),
-                                                    cur_time, False], log)
+                                                    cur_time, False, comment.permalink, comment.submission.permalink],
+                                            log)
                         comment.delete()
                         deleted += 1
                     # If the sell-by date hasn't passed, don't delete and update stats
