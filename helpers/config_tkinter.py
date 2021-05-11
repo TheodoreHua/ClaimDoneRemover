@@ -30,14 +30,10 @@ opt_data = {
     "wait_unit": {"type": list},
     "tor_only": {"type": bool, "namemethod": lambda i: "ToR Only"},
     "update_check": {"type": bool},
-    "reply_trigger": {"type": bool, "incompatible_enforce": {"enforced": [("reply_cutoff_fallback_trigger", False)],
-                                                             "check": lambda i: i == "True"}},
     "database_logging": {"type": bool},
     "regex_mode": {"type": bool, "incompatible_enforce": {"enforced": [("case_sensitive", True)],
                                                           "check": lambda i: i == "True"}},
-    "reply_cutoff_fallback_trigger": {"type": bool, "incompatible_enforce": {"enforced": [("reply_trigger", False)],
-                                                                             "check": lambda i: i == "True"},
-                                      "namemethod": lambda i: "Cutoff Fallback"}
+    "trigger": {"type": str, "skip": True}
 }
 
 

@@ -121,23 +121,20 @@ def reset_window():
 def submit_change_theme(theme, win, txt: Text = None):
     """Function to update theme from config window"""
     val = theme.get()
-    if val.casefold() in ["light", "dark"]:
-        con = get_config()
-        con["mode"] = val.casefold()
-        write_config(con)
-        win.destroy()
-        global config
-        config = get_config()
-        reset_window()
-        update_txt("Success: Theme Updated", txt)
-    else:
-        showerror("Error", "Invalid Value in Mode (Light/Dark)")
-        return
+    con = get_config()
+    con["mode"] = val
+    write_config(con)
+    win.destroy()
+    global config
+    config = get_config()
+    reset_window()
+    update_txt("Success: Theme Updated", txt)
 
 
 def change_theme_window():
     """Function to create theme change config window"""
     win = Toplevel(m)
+    win.resizable(0, 0)
     if config["topmost"]:
         win.wm_attributes("-topmost", 1)
     if sys.platform.startswith("win"):
@@ -150,7 +147,36 @@ def change_theme_window():
     ttk.Radiobutton(win, text="Light", variable=theme, value="light", width=6).grid(row=1, column=1)
     ttk.Radiobutton(win, text="Dark", variable=theme, value="dark", width=6).grid(row=2, column=1)
     ttk.Button(win, text="Submit", command=lambda: submit_change_theme(theme, win)).grid(
-        row=3, column=0, columnspan=3, sticky="we", padx=2)
+        row=3, column=0, columnspan=3, sticky="we", padx=2, pady=2)
+
+
+def change_trigger():
+    """Function to create change trigger window"""
+
+    def submit():
+        val = trigger.get()
+        con = get_config()
+        con["trigger"] = val
+        config["trigger"] = val
+        write_config(con)
+        top.destroy()
+
+    options = ["cutoff", "reply", "cutoff_fallback"]
+    top = Toplevel(m)
+    top.resizable(0, 0)
+    if config["topmost"]:
+        top.wm_attributes("-topmost", 1)
+    top.wait_visibility()
+    top.grab_set()
+    trigger = StringVar()
+    trigger.set(config["trigger"])
+    ttk.Label(top, text="Trigger Mode").grid(row=0, column=1, padx=6)
+    row = 0
+    for row, opt in enumerate(options):
+        ttk.Radiobutton(top, text=opt.title().replace("_", " "), variable=trigger, value=opt, width=6) \
+            .grid(row=row + 1, column=1)
+    ttk.Button(top, text="Submit", command=submit).grid(row=row + 1, column=0, columnspan=3, sticky="we",
+                                                        padx=2, pady=2)
 
 
 def get_date(comment):
@@ -303,6 +329,7 @@ def options():
             "Erase Stored Log": lambda: log.erase_stored(confirm_txt),
             "Assert Data": lambda: assert_data(log, database_connection=conn, txt=confirm_txt),
             "Change Theme": change_theme_window,
+            "Change Mode": change_trigger,
             "Edit Config": lambda: create_survey_config(m, confirm_txt),
             "Edit PRAW Config": lambda: create_survey_praw(m, confirm_txt),
             "Reset Config": lambda: reset_config(confirm_txt),
@@ -480,7 +507,7 @@ while True:
                     comment.delete()
                     deleted += 1
                 # If reply trigger mode is on, check for that instead of cutoff
-                elif config["reply_trigger"]:
+                elif config["trigger"] == "reply":
                     # If the bot replied to the comment, delete it and update stats
                     if check_bot_response(comment):
                         log.append_log("Deleted \"{}\". Comment Time {}. Comment ID {}."
@@ -496,7 +523,7 @@ while True:
                         log.append_log("Waiting for reply trigger \"{}\". Comment Time {}. Comment ID {}."
                                        .format(comment.body, get_date(comment), comment.id))
                         non_trigger += 1
-                elif config["reply_cutoff_fallback_trigger"]:
+                elif config["trigger"] == "cutoff_fallback":
                     # If bot replied to the comment or cutoff date passed, delete it and update stats
                     if check_bot_response(comment):
                         log.append_log("Deleted \"{}\". Comment Time {}. Comment ID {}."
@@ -522,10 +549,10 @@ while True:
                     else:
                         log.append_log("Waiting for cutoff or reply trigger \"{}\". Comment Time {}. Time Left Until "
                                        "Delete {}. Delete At {}.".format(comment.body, get_date(comment),
-                                                              cur_time - get_date(comment), cur_time +
-                                                              (cur_time - get_date(comment))))
+                                                                         cur_time - get_date(comment), cur_time +
+                                                                         (cur_time - get_date(comment))))
                         non_trigger += 1
-                else:
+                elif config["trigger"] == "cutoff":
                     # If the sell-by date is passed, delete the comment and update stats
                     if cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
                         log.append_log("Deleted \"{}\". Comment Time {}. Comment ID {}."
@@ -545,6 +572,10 @@ while True:
                                                               cur_time - get_date(comment), cur_time +
                                                               (cur_time - get_date(comment))))
                         non_trigger += 1
+                else:
+                    log.append_log("Invalid trigger mode: " + config["trigger"])
+                    showerror("Fatal Error", "Invalid trigger mode: " + config["trigger"])
+                    close_window()
             # Update counted stats
             counted += 1
         # If ignore_trigger was True, set to False now that it's run
