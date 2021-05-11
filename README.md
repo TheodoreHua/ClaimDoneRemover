@@ -90,7 +90,8 @@ to override the trigger and delete it regardless of whether the bot responded or
 - ***Topmost:*** Whether the window shows on top of every other window.
 - ***ToR Only:*** Whether the program only deletes comments on the ToR subreddit.
 - ***Update Check:*** Whether the program will check for newer versions of the program on startup.
-- ***Reply Trigger:*** If set to True, will check for replies from the bot instead of waiting for a cutoff.
+- ***Reply Trigger:*** If set to True, will check for replies from the bot instead of waiting for a cutoff. The Cutoff 
+  Fallback config option will be overridden to `False` if this is enabled as they're conflicting modes.
 - ***Database Logging:*** Whether the program will log deleted comments into a database (when set to False, the database
   will still exist, it just won't be inserted into)
 - ***Regex Mode:*** Whether the program will parse the blacklist values as Regex. The case-sensitive config option will
@@ -98,7 +99,8 @@ to override the trigger and delete it regardless of whether the bot responded or
   Also, please note that this mode is **experimental**, and you should **only use it if you know what you're doing**.
 - ***Cutoff Fallback***: A combination between Reply Trigger and Cutoff Trigger 
   (see [the difference between modes](#whats-the-difference-between-the-different-modes)) where
-  it'll delete it upon receiving a bot comment but will also delete it if the cutoff is reached.
+  it'll delete it upon receiving a bot comment but will also delete it if the cutoff is reached. The Reply Trigger
+  config option will be overridden to `False` if this is enabled as they're conflicting modes.
 
 ## FAQ
 
