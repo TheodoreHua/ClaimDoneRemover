@@ -402,8 +402,8 @@ if config["update_check"]:
     if resp.status_code == 200:
         resp_js = resp.json()
         # Check whether the version number of remote is greater than version number of local (to avoid dev conflict)
-        if version.parse(resp_js["tag_name"][1:]) > version.parse(VERSION):
-            log.append_log("Update found, current version {}, new version {}".format(VERSION, resp_js["tag_name"][1:]))
+        if version.parse(resp_js["tag_name"]) > version.parse(VERSION):
+            log.append_log("Update found, current version v{}, new version {}".format(VERSION, resp_js["tag_name"]))
             # Ask user whether or not they want to open the releases page
             yn_resp = askyesno("New Version",
                                "A new version ({}) is available.\n\nPress yes to open page and no to ignore.\nUpdate "
