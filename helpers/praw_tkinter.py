@@ -33,6 +33,7 @@ def create_survey_praw(main: Tk, txt: Text = None):
     global entries
     # Create toplevel window then configure it
     top = Toplevel(main)
+    top.resizable(0, 0)
     config = get_config()
     if config["topmost"]:
         top.wm_attributes("-topmost", 1)

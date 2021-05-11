@@ -276,6 +276,7 @@ def show_graph():
 def options():
     # Create the toplevel options window and set it's attributes
     opt_win = Toplevel(m)
+    opt_win.resizable(0, 0)
     if config["topmost"]:
         opt_win.wm_attributes("-topmost", 1)
     # Set focus on options window when opened
