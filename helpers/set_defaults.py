@@ -26,7 +26,7 @@ config_defaults = {"user": "",
                    "mode": "light",
                    "tor_only": True,
                    "update_check": True,
-                   "reply_trigger": False,
+                   "reply_trigger": True,
                    "database_logging": True,
                    "regex_mode": False,
                    "reply_cutoff_fallback_trigger": False}
