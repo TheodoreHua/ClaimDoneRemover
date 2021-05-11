@@ -137,17 +137,15 @@ def change_theme_window():
     win.resizable(0, 0)
     if config["topmost"]:
         win.wm_attributes("-topmost", 1)
-    if sys.platform.startswith("win"):
-        m.wm_attributes("-toolwindow", 1)
     win.wait_visibility()
     win.grab_set()
     theme = StringVar()
     theme.set(config["mode"])
-    ttk.Label(win, text="Theme (Light/Dark)").grid(row=0, column=1, padx=6)
-    ttk.Radiobutton(win, text="Light", variable=theme, value="light", width=6).grid(row=1, column=1)
-    ttk.Radiobutton(win, text="Dark", variable=theme, value="dark", width=6).grid(row=2, column=1)
+    ttk.Label(win, text="Theme (Light/Dark)").grid(row=0, column=0, padx=6)
+    ttk.Radiobutton(win, text="Light", variable=theme, value="light", width=6).grid(row=1, column=0, sticky="we")
+    ttk.Radiobutton(win, text="Dark", variable=theme, value="dark", width=6).grid(row=2, column=0, sticky="we")
     ttk.Button(win, text="Submit", command=lambda: submit_change_theme(theme, win)).grid(
-        row=3, column=0, columnspan=3, sticky="we", padx=2, pady=2)
+        row=3, column=0, sticky="we", padx=2, pady=2)
 
 
 def change_trigger():
@@ -170,13 +168,12 @@ def change_trigger():
     top.grab_set()
     trigger = StringVar()
     trigger.set(config["trigger"])
-    ttk.Label(top, text="Trigger Mode").grid(row=0, column=1, padx=6)
+    ttk.Label(top, text="Trigger Mode").grid(row=0, column=0, padx=6)
     row = 0
     for row, opt in enumerate(options):
-        ttk.Radiobutton(top, text=opt.title().replace("_", " "), variable=trigger, value=opt, width=6) \
-            .grid(row=row + 1, column=1)
-    ttk.Button(top, text="Submit", command=submit).grid(row=row + 1, column=0, columnspan=3, sticky="we",
-                                                        padx=2, pady=2)
+        ttk.Radiobutton(top, text=opt.title().replace("_", " "), variable=trigger, value=opt) \
+            .grid(row=row + 1, column=0, sticky="we")
+    ttk.Button(top, text="Submit", command=submit).grid(row=row + 2, column=0, sticky="we", padx=2, pady=2)
 
 
 def get_date(comment):
