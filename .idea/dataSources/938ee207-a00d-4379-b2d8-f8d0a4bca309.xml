@@ -1366,23 +1366,35 @@
       <Position>9</Position>
       <DataType>integer|0s</DataType>
     </column>
-    <column id="500" parent="171" name="type">
+    <column id="500" parent="170" name="link">
+      <Position>10</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="501" parent="170" name="post_link">
+      <Position>11</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="502" parent="170" name="deletion_mode">
+      <Position>12</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="503" parent="171" name="type">
       <Position>1</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="501" parent="171" name="name">
+    <column id="504" parent="171" name="name">
       <Position>2</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="502" parent="171" name="tbl_name">
+    <column id="505" parent="171" name="tbl_name">
       <Position>3</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="503" parent="171" name="rootpage">
+    <column id="506" parent="171" name="rootpage">
       <Position>4</Position>
       <DataType>int|0s</DataType>
     </column>
-    <column id="504" parent="171" name="sql">
+    <column id="507" parent="171" name="sql">
       <Position>5</Position>
       <DataType>text|0s</DataType>
     </column>
