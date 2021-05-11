@@ -63,7 +63,7 @@ def create_survey_praw(main: Tk, txt: Text = None):
         row += 1
     # Create submit button
     ttk.Button(top, text="Submit", command=lambda: submit_survey(top, txt)).grid(row=row, column=0, columnspan=3,
-                                                                                 sticky="we", padx=2)
+                                                                                 sticky="we", padx=2, pady=2)
 
 
 def submit_survey(top: Toplevel, txt: Text = None):

@@ -54,7 +54,7 @@ def editor_window(entry_name, main, config):
     txt.insert(INSERT, entries[entry_name].get(), "a")
     txt.see("end")
     txt.pack(expand=True, fill=BOTH)
-    ttk.Button(top, text="Submit", command=submit).pack(expand=True, fill=BOTH)
+    ttk.Button(top, text="Submit", command=submit).pack(expand=True, fill=BOTH, pady=2)
 
 
 def create_survey_config(main: Tk, txt: Text = None):
@@ -107,7 +107,7 @@ def create_survey_config(main: Tk, txt: Text = None):
         row += 1
     # Create submit button
     ttk.Button(top, text="Submit", command=lambda: submit_survey(top, txt)).grid(row=row, column=0, columnspan=3,
-                                                                                 sticky="we", padx=2)
+                                                                                 sticky="we", padx=2,pady=2)
 
 
 def submit_survey(top: Toplevel, txt: Text = None):
