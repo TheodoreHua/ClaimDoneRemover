@@ -42,18 +42,22 @@ def editor_window(entry_name, main, config):
         entries[entry_name].set(txt.get("1.0", END))
         top.destroy()
 
+    # Create toplevel window then configure it
     top = Toplevel(main)
     if config["topmost"]:
         top.wm_attributes("-topmost", 1)
     top.wait_visibility()
     top.grab_set()
+    # Create instructions label
     ttk.Label(top, text="Enter all values, separated by newlines.").pack(expand=True, fill=BOTH)
+    # Create and configure text entry widget
     txt = Text(top, background=top.cget("background"), foreground=get_foreground(config),
                highlightbackground=top.cget("background"), highlightcolor=top.cget("background"), highlightthickness=1)
     txt.delete("1.0", END)
     txt.insert(INSERT, entries[entry_name].get(), "a")
     txt.see("end")
     txt.pack(expand=True, fill=BOTH)
+    # Create submit button
     ttk.Button(top, text="Submit", command=submit).pack(expand=True, fill=BOTH, pady=2)
 
 
