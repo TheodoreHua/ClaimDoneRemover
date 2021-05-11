@@ -28,7 +28,8 @@ config_defaults = {"user": "",
                    "update_check": True,
                    "reply_trigger": False,
                    "database_logging": True,
-                   "regex_mode": False}
+                   "regex_mode": False,
+                   "reply_cutoff_fallback_trigger": False}
 
 
 def reset_config(txt: Text = None):
