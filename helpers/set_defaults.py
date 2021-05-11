@@ -49,16 +49,24 @@ def double_check_config(log):
     with open(DATA_PATH + "/config.json", "r") as f:
         old_data = json.load(f)
     missing_keys = []
+    delete_keys = []
     for needed_key in config_defaults.keys():
         if needed_key not in old_data.keys():
             log.append_log("Missing config value \"{}\" found".format(needed_key))
             missing_keys.append(needed_key)
-    if len(missing_keys) > 0:
+    for key in old_data.keys():
+        if key not in config_defaults.keys():
+            log.append_log("Deprecated config value \"{}\" found".format(key))
+            delete_keys.append(key)
+    if len(missing_keys) > 0 or len(delete_keys) > 0:
         with open(DATA_PATH + "/config.json", "w") as f:
             new_data = old_data.copy()
             for missing_key in missing_keys:
                 log.append_log("Missing config value \"{}\" added with default".format(missing_key))
                 new_data[missing_key] = config_defaults[missing_key]
+            for delete_key in delete_keys:
+                log.append_log("Deprecated config value \"{}\" removed".format(delete_key))
+                del new_data[delete_key]
             json.dump(new_data, f, indent=2)
     else:
         log.append_log("No missing config values found")
