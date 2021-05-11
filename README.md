@@ -96,6 +96,9 @@ to override the trigger and delete it regardless of whether the bot responded or
 - ***Regex Mode:*** Whether the program will parse the blacklist values as Regex. The case-sensitive config option will
   be overridden to `True` regardless of what your current setting is as case-sensitive has to be true for Regex to work.
   Also, please note that this mode is **experimental**, and you should **only use it if you know what you're doing**.
+- ***Cutoff Fallback***: A combination between Reply Trigger and Cutoff Trigger 
+  (see [the difference between modes](#whats-the-difference-between-the-different-modes)) where
+  it'll delete it upon receiving a bot comment but will also delete it if the cutoff is reached.
 
 ## FAQ
 
@@ -119,14 +122,19 @@ files are located). If the error cannot be resolved by yourself, delete the `con
 run `ClaimDoneRemover.pyw`. The program will re-create the files, and you'll be good to go. You **WILL** have to
 re-setup the config and PRAW files.
 
-#### What's the difference between cutoff mode and bot reply mode?
+#### What's the difference between the different modes?
 
 In cutoff mode, the program will delete comments older than set amount of time regardless of whether the ToR bot
-responded or not. In bot reply mode, it ignores how old the comment is and will only delete the comment if the ToR bot
+responded or not.
+
+In bot reply mode, it ignores how old the comment is and will only delete the comment if the ToR bot
 has replied to it (currently it deletes regardless of what the reply is, even if it can't find your transcription. I may
 add a separate feature in the future to only delete if your transcription was found. For now, you can use another
 program ([ACN](https://www.github.com/TheodoreHua/AlreadyClaimedNotifier)) to notify you if your transcription wasn't
 found.)
+
+In cutoff fallback mode, it's a combination of both cutoff and bot reply. It'll delete the comment upon receiving a bot
+comment **OR** the cutoff is reached, whichever occurs first.
 
 #### How do I update CDR?
 
