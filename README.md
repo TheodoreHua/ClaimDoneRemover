@@ -19,9 +19,6 @@ involved with this program and are not liable for any matters relating to it.**
 freeze if the program deletes a comment while the bot is processing it. This has currently happened to two users that we
 know of. There is currently nothing we can do about this until an update is made on the bots side**
 
-*This README document is most commonly a dev version, and may not be accurate to your release. You should always refer
-to the README.md document that is packaged with your release to ensure accuracy*
-
 Also known as CDRemover or CDR, this program removes blacklisted comments after a period of time or a bot
 response. It is designed with r/TranscribersOfReddit transcribers in mind; specifically those who are tired of these
 comments clogging up their profiles. While you can use this for other purposes, it will require quite a bit of config
