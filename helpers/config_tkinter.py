@@ -30,10 +30,14 @@ opt_data = {
     "wait_unit": {"type": list},
     "tor_only": {"type": bool, "namemethod": lambda i: "ToR Only"},
     "update_check": {"type": bool},
-    "reply_trigger": {"type": bool},
+    "reply_trigger": {"type": bool, "incompatible_enforce": {"enforced": [("reply_cutoff_fallback_trigger", False)],
+                                                             "check": lambda i: i == "True"}},
     "database_logging": {"type": bool},
     "regex_mode": {"type": bool, "incompatible_enforce": {"enforced": [("case_sensitive", True)],
-                                                          "check": lambda i: i == "True"}}
+                                                          "check": lambda i: i == "True"}},
+    "reply_cutoff_fallback_trigger": {"type": bool, "incompatible_enforce": {"enforced": [("reply_trigger", False)],
+                                                                             "check": lambda i: i == "True"},
+                                      "namemethod": lambda i: "Cutoff Fallback"}
 }
 
 
@@ -160,6 +164,16 @@ def submit_survey(top: Toplevel, txt: Text = None):
     write_config(con)
     # Destroy the toplevel window
     top.destroy()
+    for i in ignore:
+        fdat = opt_data[i.lower()]
+        if "namemethod" in fdat:
+            n = fdat["namemethod"](i)
+        else:
+            n = i.title().replace("_", " ")
+        showinfo("Notice", "Config value {} has been set to {} because it's incompatible with one or more of the "
+                           "following:\n{}".format(n, con[i], "\n".join(
+            [j[0].title().replace("_", " ") if "namemethod" not in opt_data[j.lower()].keys() else
+             opt_data[j]["namemethod"]() for j in fdat["incompatible_enforce"]["enforced"].values()])))
     # Give a notice that it needs to be restarted to take effect
     showinfo("Notice", "Application restart needed to put changes into effect.")
     # Update option menu log
