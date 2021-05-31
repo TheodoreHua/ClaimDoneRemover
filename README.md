@@ -83,7 +83,12 @@ to override the trigger and delete it regardless of whether the bot responded or
   the larger this is, the longer it will take to check per run.
 - ***Wait:*** How many units of time the program should wait before checking for new comments again.
 - ***Wait Unit:*** The unit of time used for the wait configuration. This should be in the
-  format `singular unit name, plural unit name, number of seconds per unit`. E.g. `minute, minutes, 60` (comma) for minutes.
+  format:
+  ```
+  singular unit name
+  plural unit name
+  number of seconds per unit
+  ```
 - ***Real Time Checking:*** Whether you want to app to run continuously in the background and check OR check once when
   run/when check now button is pressed. Set `True` OR `False`.
 - ***Start Paused:*** Start the program paused instead of starting scanning as soon as the program starts.
@@ -166,4 +171,4 @@ Sure, there's a public list [here](https://app.gitkraken.com/glo/board/X0vAsD2bB
 
 If you want to report an issue with CDR you can
 [open a bug report](https://github.com/TheodoreHua/ClaimDoneRemover/issues/new), otherwise you can email me
-at `theodorehuadev@gmail.com`.
+at `contact@theodorehua.dev`.
