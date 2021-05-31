@@ -8,7 +8,7 @@ Navigate to `the reddit application settings page <https://www.reddit.com/prefs/
 `create another app...` under the `developed applications` section.
 
 Fill in the form with the following values (while most of them doesn't matter, I figured it'd be easier to provide you
-everything rather than confuse you with what you have to put where.
+everything rather than confuse you with what you have to put where).
 
 .. list-table::
    :header-rows: 1

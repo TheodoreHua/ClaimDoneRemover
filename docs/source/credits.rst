@@ -12,7 +12,7 @@ Theodore Hua
 - Creator
 - Primary Maintainer
 
-Murdo MacLachlan
+Murdo Maclachlan
 ^^^^^^^^^^^^^^^^^^
 
 `GitHub <https://github.com/MurdoMaclachlan>`__ | `Twitch <https://www.twitch.tv/murdomaclachlan>`__ |
@@ -50,4 +50,4 @@ Tim Jentzsch
 `GitHub <https://github.com/TimJentzsch>`__ |
 `Reddit <https://www.reddit.com/user/Tim3303>`__
 
-- Making `ToR-User-Stats <https://timjentzsch.github.io/tor-user-stats/>`__)
+- Making `ToR-User-Stats <https://timjentzsch.github.io/tor-user-stats/>`__
