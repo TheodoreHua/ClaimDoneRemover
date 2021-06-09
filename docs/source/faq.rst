@@ -41,7 +41,7 @@ paths
 Windows
 ^^^^^^^^^
 
-`C:\Users\your_username\AppData\Roaming\ClaimDoneRemover`
+`C:/Users/your_username/AppData/Roaming/ClaimDoneRemover`
 
 Linux
 ^^^^^^^^^
