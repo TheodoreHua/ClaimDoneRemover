@@ -8,9 +8,10 @@
 
 import json
 import sqlite3
-import time
 # noinspection PyUnresolvedReferences
 import sys
+# noinspection PyUnresolvedReferences
+import time
 from os import execv
 from re import match
 from tkinter import *

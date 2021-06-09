@@ -30,6 +30,18 @@ How do I update CDR?
 Unless otherwise noted in the release's release notes, all you have to do is extract CDR to the folder it was originally
 installed in and replace the original files.
 
+I'm getting bad request when attempting to get a refresh token
+-----------------------------------------------------------------
+If you see this:
+
+.. image:: _static/images/invalid_request_uri.png
+
+then double check that the `redirect uri` parameter is setup correctly in your app. You can do say by going to the
+`the reddit application settings page <https://www.reddit.com/prefs/apps/>`__ and then scrolling down to
+`developed applications` and clicking `edit` on the box that's named `Claim Done Remover` (or whatever you set the name
+as). After clicking that, check that `redirect_uri` is equal to **EXACTLY** `http://localhost:9575`, if not, then change
+it, click `update app`, then try again. If it is, then :ref:`contact me<Where can I contact the developer?>`.
+
 Where are the config and data files located?
 -----------------------------------------------
 
