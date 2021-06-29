@@ -39,6 +39,10 @@ posted however you should be able to get most of them following the instructions
 back depending on the setting you chose, and if you have it running in the background, it should check for comment
 bodies that are equal to entries in a set blacklist every certain amount of time you set.
 
+<details>
+<summary>Deprecated README instructions</summary>
+<br>
+
 ## Installation and Use
 
 1. Download the latest stable release from the releases page and extract it to a folder of your choice.
@@ -180,3 +184,4 @@ Sure, there's a public list [here](https://app.gitkraken.com/glo/board/X0vAsD2bB
 If you want to report an issue with CDR you can
 [open a bug report](https://github.com/TheodoreHua/ClaimDoneRemover/issues/new), otherwise you can email me
 at `contact@theodorehua.dev`.
+</details>
