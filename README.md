@@ -20,6 +20,10 @@ documentation growing increasingly long and not suitable for a single README.
 
 ---
 
+<details>
+<summary>Deprecated README instructions</summary>
+<br>
+
 **This is an unofficial program and is not officially endorsed by the Transcribers of Reddit; they are in no way
 involved with this program and are not liable for any matters relating to it.**
 
@@ -38,10 +42,6 @@ If you've been a transcriber for a while, chances are this program will not remo
 posted however you should be able to get most of them following the instructions in the FAQ, the max is 1000 comments
 back depending on the setting you chose, and if you have it running in the background, it should check for comment
 bodies that are equal to entries in a set blacklist every certain amount of time you set.
-
-<details>
-<summary>Deprecated README instructions</summary>
-<br>
 
 ## Installation and Use
 
