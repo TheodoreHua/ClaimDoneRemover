@@ -67,7 +67,7 @@ def create_main_window(recreate=False):
         m.wm_attributes("-topmost", 1)
     if sys.platform.startswith("win"):
         m.wm_attributes("-toolwindow", 1)
-        m.geometry("180x218")  # For some reason dimensions and margins are weirder in some Linux distros
+        m.geometry("180x218")  # Dimensions and margins are weird in some Linux distros, only perform scaling on Windows
     m.resizable(0, 0)
     m.protocol("WM_DELETE_WINDOW", close_window)
     log.append_log("Created Main Window")
