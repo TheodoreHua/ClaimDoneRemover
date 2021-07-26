@@ -59,7 +59,7 @@ def double_check_config(log):
         if key not in config_defaults.keys():
             log.append_log("Deprecated config value \"{}\" found".format(key))
             delete_keys.append(key)
-    if len(missing_keys) > 0 or len(delete_keys) > 0:
+    if len(missing_keys) > 0 or len(delete_keys) > 0 or list(old_data.keys()) != list(config_defaults.keys()):
         with open(DATA_PATH + "/config.json", "w") as f:
             new_data = old_data.copy()
             for missing_key in missing_keys:
@@ -68,7 +68,14 @@ def double_check_config(log):
             for delete_key in delete_keys:
                 log.append_log("Deprecated config value \"{}\" removed".format(delete_key))
                 del new_data[delete_key]
-            json.dump(new_data, f, indent=2)
+            if list(new_data.keys()) != list(config_defaults.keys()):
+                sorted_data = {}
+                for key in config_defaults.keys():
+                    sorted_data[key] = new_data[key]
+                log.append_log("Resorted config values to match preset order")
+                json.dump(sorted_data, f, indent=2)
+            else:
+                json.dump(new_data, f, indent=2)
     else:
         log.append_log("No missing config values found")
 
