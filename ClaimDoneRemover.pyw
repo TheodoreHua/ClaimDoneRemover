@@ -462,7 +462,7 @@ while True:
         # Add logs
         log.append_log("Starting Check")
         # Set the window to show that a deletion is in progress
-        update_text("In Progress")
+        update_text("In Progress\n\nIt's normal for the\nWindow to not respond\nduring this time.")
         # Set the progress bar to 100 to show that it's running
         # noinspection PyUnboundLocalVariable
         progress["value"] = 100
