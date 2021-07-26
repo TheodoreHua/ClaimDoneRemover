@@ -516,7 +516,8 @@ while True:
                                    .format(comment.body))
                 # If comment contains word on whitelist, skip it
                 elif not ignore_whitelist and any(wlst in comment.body for wlst in config["whitelist"]):
-                    log.append_log("Found comment \"{}\" which contains whitelisted word, skipped.")
+                    log.append_log("Found comment \"{}\" which contains whitelisted word, skipped."
+                                   .format(comment.body))
                 # If ignore_trigger is true, delete all matching values and update stats
                 elif ignore_trigger:
                     log.append_log("Deleted \"{}\". Comment Time {}. Trigger Ignored.".format(comment.body,
