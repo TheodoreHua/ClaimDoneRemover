@@ -20,6 +20,13 @@ Configuration Options
        done
 
        unclaim
+   * - Whitelist
+     - List of phrases to check against comments. If a comment contains a phrase or word in the whitelist, it won't
+       be removed. Note that this is generally not needed if your blacklist is more strict. Each entry should be on a
+       new line.
+     - treasurehunt
+
+       example
    * - Case Sensitive
      - Whether the blacklist should be case-sensitive.
      - True

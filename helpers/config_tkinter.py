@@ -18,6 +18,7 @@ opt_data = {
     "user": {"type": str},
     "os": {"type": str, "namemethod": lambda i: i.upper()},
     "blacklist": {"type": list},
+    "whitelist": {"type": list},
     "case_sensitive": {"type": bool},
     "cutoff": {"type": int},
     "cutoff_secs": {"type": int},

@@ -249,6 +249,24 @@ def set_ignore_trigger(txt: Text = None):
     update_txt("Success: Scanning & Ignoring", txt)
 
 
+def set_ignore_whitelist(txt: Text = None):
+    """Function to set the variable that ignores whitelisted phrases and deletes once for option menu"""
+    if reddit is None:
+        update_txt("Fail: Not Configured", txt)
+        return
+    if not askyesno("Prompt", "Are you sure you want to ignore the whitelist and delete now once?"):
+        # If the text widget is provided, update it
+        update_txt("Fail: Canceled", txt)
+        return
+    global ignore_whitelist
+    # Set ignore_whitelist to True
+    ignore_whitelist = True
+    # Call set_cont function to unpause and run now
+    set_cont()
+    # If the text widget is provided, update it
+    update_txt("Success: Scanning & Ignoring", txt)
+
+
 def close_window():
     """Function to be called when the user closes the window"""
     # Update the log
@@ -319,6 +337,7 @@ def options():
     # Set the dictionary full of all of the options and it's action
     btns = {"Scan Now": lambda: set_cont(confirm_txt),
             "Scan Now Ignore Trigger": lambda: set_ignore_trigger(confirm_txt),
+            "Scan Now Ignore Whitelist": lambda: set_ignore_whitelist(confirm_txt),
             "Show Lifetime Totals": lambda: showinfo("Lifetime Totals",
                                                      "Total Counted: {:,}\nTotal Deleted: {:,}".format(
                                                          lifetime_total_counted, lifetime_total_deleted)),
@@ -429,6 +448,7 @@ deleted = 0
 non_trigger = 0
 paused = config["start_paused"]
 ignore_trigger = False
+ignore_whitelist = False
 cont_time = time.time()
 start_time = time.time()
 log.append_log("Created Default Totals")
@@ -494,6 +514,9 @@ while True:
                 if config["tor_only"] and str(comment.subreddit).casefold() != "transcribersofreddit":
                     log.append_log("Found comment \"{}\" not on ToR subreddit with ToR_Only mode on, skipped."
                                    .format(comment.body))
+                # If comment contains word on whitelist, skip it
+                elif not ignore_whitelist and any(wlst in comment.body for wlst in config["whitelist"]):
+                    log.append_log("Found comment \"{}\" which contains whitelisted word, skipped.")
                 # If ignore_trigger is true, delete all matching values and update stats
                 elif ignore_trigger:
                     log.append_log("Deleted \"{}\". Comment Time {}. Trigger Ignored.".format(comment.body,
@@ -580,6 +603,8 @@ while True:
             counted += 1
         # If ignore_trigger was True, set to False now that it's run
         ignore_trigger = False
+        # If ignore_whitelist was True, set it to False now that it's run
+        ignore_whitelist = False
         # Add the current run stats to the total
         total_counted += counted
         total_deleted += deleted
