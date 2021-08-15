@@ -60,6 +60,9 @@ Configuration Options
    * - Topmost
      - Whether the window shows on top of every other window.
      - True
+   * - Forced Geometry
+     - Whether the window dimensions will be forced to a certain value (only for Windows, any other OS is forced to be False)
+     - True
    * - ToR Only
      - Whether the program only deletes comments if it's on the ToR
        (`r/TranscribersOfReddit <https://www.reddit.com/r/TranscribersOfReddit>`__).
