@@ -6,7 +6,7 @@ authors = ["Theodore Hua <theodorehuadev@gmail.com>"]
 license = "MPL-2.0"
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 praw = "~7.3.0"
 configparser = "~5.0.2"
 ttkthemes = "~3.2.2"
