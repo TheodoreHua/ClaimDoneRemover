@@ -7,6 +7,7 @@
 import datetime
 from tkinter import *
 
+from .file import assert_data
 from .global_vars import DATA_PATH
 
 
@@ -18,6 +19,7 @@ class Logger:
             self.log = []
         else:
             self.log = log
+        assert_data(self)
 
     def append_log(self, msg):
         """Method to append a line to the log"""
