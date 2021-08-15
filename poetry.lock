@@ -101,7 +101,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "praw"
-version = "7.3.0"
+version = "7.4.0"
 description = "PRAW, an acronym for `Python Reddit API Wrapper`, is a python package that allows for simple access to reddit's API."
 category = "main"
 optional = false
@@ -116,7 +116,7 @@ websocket-client = ">=0.54.0"
 ci = ["coveralls"]
 dev = ["packaging", "pre-commit", "black", "docstrfmt", "flake8", "flynt", "isort", "pydocstyle", "sphinx", "sphinx-rtd-theme", "betamax (>=0.8,<0.9)", "betamax-matchers (>=0.3.0,<0.5)", "pytest (>=2.7.3)"]
 lint = ["black", "docstrfmt", "flake8", "flynt", "isort", "pydocstyle", "sphinx", "sphinx-rtd-theme"]
-readthedocs = ["sphinx"]
+readthedocs = ["sphinx", "sphinx-rtd-theme"]
 test = ["betamax (>=0.8,<0.9)", "betamax-matchers (>=0.3.0,<0.5)", "pytest (>=2.7.3)"]
 
 [[package]]
@@ -236,7 +236,7 @@ test = ["websockets"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "6a7541038c5bb35b576310e279ef05a07f96b39a8140fed47c733c9e14526637"
+content-hash = "1e87046d444a628e701e5dc5980bb054a8ac9f4d505b263cb604bc99e4168dc6"
 
 [metadata.files]
 certifi = [
@@ -392,8 +392,8 @@ pillow = [
     {file = "Pillow-8.3.1.tar.gz", hash = "sha256:2cac53839bfc5cece8fdbe7f084d5e3ee61e1303cccc86511d351adcb9e2c792"},
 ]
 praw = [
-    {file = "praw-7.3.0-py3-none-any.whl", hash = "sha256:98d435856b34851aaf88575b65b4864f1f7f848913b47e046243bb126682a66f"},
-    {file = "praw-7.3.0.tar.gz", hash = "sha256:9773fb5a2f5ab910d6f8e14da84e81d8d3d868261745371341d8b2043588ba7c"},
+    {file = "praw-7.4.0-py3-none-any.whl", hash = "sha256:4d6f09b45ce3a7bcf137bffea39371a3e6c1184b5254e81803a8ff07f6df76e7"},
+    {file = "praw-7.4.0.tar.gz", hash = "sha256:08957060b6c770a6ab38b04a80e7edd2d08434f1bc95c0ec71a88d3a1e4b78d2"},
 ]
 prawcore = [
     {file = "prawcore-2.3.0-py3-none-any.whl", hash = "sha256:48c17db447fa06a13ca3e722201f443031437708daa736c05a1df895fbcceff5"},
