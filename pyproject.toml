@@ -2,7 +2,7 @@
 name = "claimdoneremover"
 version = "5.16.86"
 description = "Claim Done Remover, shortened to CDR, is a program designed for r/TranscribersOfReddit users to allow them to automatically delete claim, done (and anything else) comments after a certain trigger happens."
-authors = ["Theodore Hua <theodorehuadev@gmail.com>"]
+authors = ["Theodore Hua <contact@theodorehua.dev>"]
 license = "MPL-2.0"
 
 [tool.poetry.dependencies]
