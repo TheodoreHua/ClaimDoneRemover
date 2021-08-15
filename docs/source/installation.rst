@@ -45,7 +45,7 @@ Using Poetry
 ^^^^^^^^^^^^^
 
 `Poetry <https://python-poetry.org/>`__ is a much easier way to manage dependencies, if it's installed. Installation is
-actually pretty simple, `see here for a guide <https://python-poetry.org/docs/#installation>`__
+actually pretty simple, `see here for a guide <https://python-poetry.org/docs/#installation>`__.
 
 Once you have poetry installed, you can open a command prompt window up in the folder and enter `poetry install`.
 
