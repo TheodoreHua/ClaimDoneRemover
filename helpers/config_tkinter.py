@@ -17,8 +17,8 @@ entries = {}
 opt_data = {
     "user": {"type": str},
     "os": {"type": str, "namemethod": lambda i: i.upper()},
-    "blacklist": {"type": list},
-    "whitelist": {"type": list},
+    "blacklist": {"type": list, "empty_exempt": True},
+    "whitelist": {"type": list, "empty_exempt": True},
     "case_sensitive": {"type": bool},
     "cutoff": {"type": int},
     "cutoff_secs": {"type": int},
@@ -27,6 +27,7 @@ opt_data = {
     "real_time_checking": {"type": bool},
     "start_paused": {"type": bool},
     "topmost": {"type": bool},
+    "forced_geometry": {"type": bool},
     "mode": {"type": str, "skip": True},
     "wait_unit": {"type": list},
     "tor_only": {"type": bool, "namemethod": lambda i: "ToR Only"},
@@ -134,7 +135,7 @@ def submit_survey(top: Toplevel, txt: Text = None):
                 ignore.append(enforce[0])
                 con[enforce[0]] = enforce[1]
         try:
-            if val == "":
+            if val == "" and not fdat["empty_exempt"]:
                 showerror("Error", "There is a empty field.")
                 return
             elif type(fdat["type"]) is list:
