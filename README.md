@@ -5,7 +5,7 @@
 [![Actively Developed](https://img.shields.io/badge/Maintenance%20Level-Actively%20Developed-brightgreen.svg)](https://github.com/TheodoreHua/MaintenanceLevels#actively-developed)
 ![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability-percentage/TheodoreHua/ClaimDoneRemover)
 [![Documentation Status](https://readthedocs.org/projects/claimdoneremover/badge/?version=stable)](https://claimdoneremover.theodorehua.dev/en/stable/?badge=stable)
-[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/theodorehuadev@gmail.com)  
+[![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/TheodoreHua)  
 [![GitHub issues](https://img.shields.io/github/issues/TheodoreHua/ClaimDoneRemover)](https://github.com/TheodoreHua/ClaimDoneRemover/issues)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/TheodoreHua/ClaimDoneRemover)
 [![GitHub license](https://img.shields.io/github/license/TheodoreHua/ClaimDoneRemover)](https://github.com/TheodoreHua/ClaimDoneRemover/blob/master/LICENSE)
