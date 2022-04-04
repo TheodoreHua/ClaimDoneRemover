@@ -8,8 +8,10 @@
 
 import json
 import sqlite3
+
 # noinspection PyUnresolvedReferences
 import sys
+
 # noinspection PyUnresolvedReferences
 import time
 from os import execv
@@ -38,8 +40,13 @@ time_against = []
 def except_hook(exc_class, message, traceback):
     """Global exception handler"""
     # Log all errors that occur
-    log.append_log("\n---\nError occurred.\nError Name: {}\nError Message: {}\n{}---"
-                   .format(exc_class.__name__, message, "".join(format_exception(exc_class, message, traceback))))
+    log.append_log(
+        "\n---\nError occurred.\nError Name: {}\nError Message: {}\n{}---".format(
+            exc_class.__name__,
+            message,
+            "".join(format_exception(exc_class, message, traceback)),
+        )
+    )
     if exc_class is TclError:
         # Catch errors that happen when closing the window and pass
         pass
@@ -74,8 +81,16 @@ def create_main_window(recreate=False):
     log.append_log("Created Main Window")
 
     # Create the text widget and set it's state to DISABLED to make it read only
-    ent = Text(m, height=10, width=22, background=m.cget("background"), foreground=get_foreground(config),
-               highlightbackground=m.cget("background"), highlightcolor=m.cget("background"), highlightthickness=1)
+    ent = Text(
+        m,
+        height=10,
+        width=22,
+        background=m.cget("background"),
+        foreground=get_foreground(config),
+        highlightbackground=m.cget("background"),
+        highlightcolor=m.cget("background"),
+        highlightthickness=1,
+    )
     ent.config(state=DISABLED)
     # Render it on the window
     ent.grid(row=0, column=0, columnspan=2)
@@ -97,9 +112,18 @@ def create_main_window(recreate=False):
     if recreate:
         update_text(
             "Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: {:,}\n\n"
-            "Waiting {} {}.".format(total_counted, total_deleted, counted, deleted, non_trigger,
-                                    str(config["wait"]),
-                                    config["wait_unit"][0] if config["wait"] == 1 else config["wait_unit"][1]))
+            "Waiting {} {}.".format(
+                total_counted,
+                total_deleted,
+                counted,
+                deleted,
+                non_trigger,
+                str(config["wait"]),
+                config["wait_unit"][0]
+                if config["wait"] == 1
+                else config["wait_unit"][1],
+            )
+        )
         log.append_log("Window Recreated")
 
 
@@ -146,10 +170,15 @@ def change_theme_window():
     theme = StringVar()
     theme.set(config["mode"])
     ttk.Label(win, text="Theme (Light/Dark)").grid(row=0, column=0, padx=6)
-    ttk.Radiobutton(win, text="Light", variable=theme, value="light", width=6).grid(row=1, column=0, sticky="we")
-    ttk.Radiobutton(win, text="Dark", variable=theme, value="dark", width=6).grid(row=2, column=0, sticky="we")
-    ttk.Button(win, text="Submit", command=lambda: submit_change_theme(theme, win)).grid(
-        row=3, column=0, sticky="we", padx=2, pady=2)
+    ttk.Radiobutton(win, text="Light", variable=theme, value="light", width=6).grid(
+        row=1, column=0, sticky="we"
+    )
+    ttk.Radiobutton(win, text="Dark", variable=theme, value="dark", width=6).grid(
+        row=2, column=0, sticky="we"
+    )
+    ttk.Button(
+        win, text="Submit", command=lambda: submit_change_theme(theme, win)
+    ).grid(row=3, column=0, sticky="we", padx=2, pady=2)
 
 
 def change_trigger():
@@ -175,9 +204,12 @@ def change_trigger():
     ttk.Label(top, text="Trigger Mode").grid(row=0, column=0, padx=6)
     row = 0
     for row, opt in enumerate(options):
-        ttk.Radiobutton(top, text=opt.title().replace("_", " "), variable=trigger, value=opt) \
-            .grid(row=row + 1, column=0, sticky="we")
-    ttk.Button(top, text="Submit", command=submit).grid(row=row + 2, column=0, sticky="we", padx=2, pady=2)
+        ttk.Radiobutton(
+            top, text=opt.title().replace("_", " "), variable=trigger, value=opt
+        ).grid(row=row + 1, column=0, sticky="we")
+    ttk.Button(top, text="Submit", command=submit).grid(
+        row=row + 2, column=0, sticky="we", padx=2, pady=2
+    )
 
 
 def get_date(comment):
@@ -237,7 +269,9 @@ def set_ignore_trigger(txt: Text = None):
     if reddit is None:
         update_txt("Fail: Not Configured", txt)
         return
-    if not askyesno("Prompt", "Are you sure you want to ignore the trigger and delete now once?"):
+    if not askyesno(
+        "Prompt", "Are you sure you want to ignore the trigger and delete now once?"
+    ):
         # If the text widget is provided, update it
         update_txt("Fail: Canceled", txt)
         return
@@ -255,7 +289,9 @@ def set_ignore_whitelist(txt: Text = None):
     if reddit is None:
         update_txt("Fail: Not Configured", txt)
         return
-    if not askyesno("Prompt", "Are you sure you want to ignore the whitelist and delete now once?"):
+    if not askyesno(
+        "Prompt", "Are you sure you want to ignore the whitelist and delete now once?"
+    ):
         # If the text widget is provided, update it
         update_txt("Fail: Canceled", txt)
         return
@@ -279,7 +315,11 @@ def close_window():
     conn.close()
     # Add total to lifetime total
     with open(DATA_PATH + "/data/lifetime_totals.json", "w") as f:
-        json.dump({"counted": lifetime_total_counted, "deleted": lifetime_total_deleted}, f, indent=2)
+        json.dump(
+            {"counted": lifetime_total_counted, "deleted": lifetime_total_deleted},
+            f,
+            indent=2,
+        )
     # Destroy the main window then exit
     m.destroy()
     exit()
@@ -296,7 +336,11 @@ def restart_window():
     conn.close()
     # Add total to lifetime total
     with open(DATA_PATH + "/data/lifetime_totals.json", "w") as f:
-        json.dump({"counted": lifetime_total_counted, "deleted": lifetime_total_deleted}, f, indent=2)
+        json.dump(
+            {"counted": lifetime_total_counted, "deleted": lifetime_total_deleted},
+            f,
+            indent=2,
+        )
     # Destroy the main window then exit
     m.destroy()
     execv(sys.executable, ["python"] + sys.argv)
@@ -328,36 +372,52 @@ def options():
     opt_win.wait_visibility()
     opt_win.grab_set()
     # Create the confirmation Text widget
-    confirm_txt = Text(opt_win, height=1, width=30, background=m.cget("background"), foreground=get_foreground(config),
-                       highlightbackground=m.cget("background"), highlightcolor=m.cget("background"),
-                       highlightthickness=1)
+    confirm_txt = Text(
+        opt_win,
+        height=1,
+        width=30,
+        background=m.cget("background"),
+        foreground=get_foreground(config),
+        highlightbackground=m.cget("background"),
+        highlightcolor=m.cget("background"),
+        highlightthickness=1,
+    )
     confirm_txt.grid(row=0, column=0)
     confirm_txt.tag_configure("center", justify="center")
     confirm_txt.config(state=DISABLED)
     row = 1
     # Set the dictionary full of all of the options and it's action
-    btns = {"Scan Now": lambda: set_cont(confirm_txt),
-            "Scan Now Ignore Trigger": lambda: set_ignore_trigger(confirm_txt),
-            "Scan Now Ignore Whitelist": lambda: set_ignore_whitelist(confirm_txt),
-            "Show Lifetime Totals": lambda: showinfo("Lifetime Totals",
-                                                     "Total Counted: {:,}\nTotal Deleted: {:,}".format(
-                                                         lifetime_total_counted, lifetime_total_deleted)),
-            "Show Graph": show_graph,
-            "Open Data Folder": lambda: wbopen(DATA_PATH),
-            "Save Logs": lambda: log.write_log(txt=confirm_txt),
-            "Erase Cached Log": lambda: log.erase_cached(confirm_txt),
-            "Erase Stored Log": lambda: log.erase_stored(confirm_txt),
-            "Assert Data": lambda: assert_data(log, database_connection=conn, txt=confirm_txt),
-            "Change Theme": change_theme_window,
-            "Change Mode": change_trigger,
-            "Edit Config": lambda: create_survey_config(m, confirm_txt),
-            "Edit PRAW Config": lambda: create_survey_praw(m, confirm_txt),
-            "Reset Config": lambda: reset_config(confirm_txt),
-            "Reset PRAW Config": lambda: reset_praw(confirm_txt),
-            "Restart CDR": restart_window}
+    btns = {
+        "Scan Now": lambda: set_cont(confirm_txt),
+        "Scan Now Ignore Trigger": lambda: set_ignore_trigger(confirm_txt),
+        "Scan Now Ignore Whitelist": lambda: set_ignore_whitelist(confirm_txt),
+        "Show Lifetime Totals": lambda: showinfo(
+            "Lifetime Totals",
+            "Total Counted: {:,}\nTotal Deleted: {:,}".format(
+                lifetime_total_counted, lifetime_total_deleted
+            ),
+        ),
+        "Show Graph": show_graph,
+        "Open Data Folder": lambda: wbopen(DATA_PATH),
+        "Save Logs": lambda: log.write_log(txt=confirm_txt),
+        "Erase Cached Log": lambda: log.erase_cached(confirm_txt),
+        "Erase Stored Log": lambda: log.erase_stored(confirm_txt),
+        "Assert Data": lambda: assert_data(
+            log, database_connection=conn, txt=confirm_txt
+        ),
+        "Change Theme": change_theme_window,
+        "Change Mode": change_trigger,
+        "Edit Config": lambda: create_survey_config(m, confirm_txt),
+        "Edit PRAW Config": lambda: create_survey_praw(m, confirm_txt),
+        "Reset Config": lambda: reset_config(confirm_txt),
+        "Reset PRAW Config": lambda: reset_praw(confirm_txt),
+        "Restart CDR": restart_window,
+    }
     # Iterate through the dictionary and create the corresponding button
     for text, command in btns.items():
-        ttk.Button(opt_win, text=text, command=command).grid(row=row, column=0, sticky="we")
+        ttk.Button(opt_win, text=text, command=command).grid(
+            row=row, column=0, sticky="we"
+        )
         row += 1
 
 
@@ -377,8 +437,15 @@ assert_data(log, database_connection=conn)
 # Get data from config and output into logs
 config = get_config()
 log.append_log("Config: " + repr(config))
-log.append_log("PRAW Client: " + repr({"client_id": get_praw()["client_id"],
-                                       "client_secret": redact_praw(get_praw()["client_secret"])}))
+log.append_log(
+    "PRAW Client: "
+    + repr(
+        {
+            "client_id": get_praw()["client_id"],
+            "client_secret": redact_praw(get_praw()["client_secret"]),
+        }
+    )
+)
 
 # Check if basic config is set
 if config["os"] in [None, ""]:
@@ -391,14 +458,25 @@ else:
     # Create the reddit PRAW instance
     try:
         reddit_tokenmanager = TokenManager(DATA_PATH + "/praw.ini", log)
-        reddit = praw.Reddit(user_agent=config["os"] + ":claimdoneremover:v" + VERSION + " (originally by "
-                                                                                         "u/MurdoMaclachlan heavily "
-                                                                                         "modified by u/--B_L_A_N_K--)",
-                             token_manager=reddit_tokenmanager, **get_praw())
+        reddit = praw.Reddit(
+            user_agent=config["os"]
+            + ":claimdoneremover:v"
+            + VERSION
+            + " (originally by "
+            "u/MurdoMaclachlan heavily "
+            "modified by u/--B_L_A_N_K--)",
+            token_manager=reddit_tokenmanager,
+            **get_praw()
+        )
         reddit_scopes = list(reddit.auth.scopes())
         log.append_log("Running on " + config["os"])
-        log.append_log("Authorized with {} scopes".format(
-            ", ".join(reddit_scopes[:-1]) + ", and " + reddit_scopes[-1] if reddit_scopes != ["*"] else "all"))
+        log.append_log(
+            "Authorized with {} scopes".format(
+                ", ".join(reddit_scopes[:-1]) + ", and " + reddit_scopes[-1]
+                if reddit_scopes != ["*"]
+                else "all"
+            )
+        )
     except MissingRequiredAttributeException as e:
         reddit = None
         log.append_log(repr(e))
@@ -420,21 +498,35 @@ create_main_window()
 # Check for updates
 if config["update_check"]:
     # Check GitHub API endpoint
-    resp = requests.get("https://api.github.com/repos/TheodoreHua/ClaimDoneRemover/releases/latest")
+    resp = requests.get(
+        "https://api.github.com/repos/TheodoreHua/ClaimDoneRemover/releases/latest"
+    )
     # Check whether response is a success
     if resp.status_code == 200:
         resp_js = resp.json()
         # Check whether the version number of remote is greater than version number of local (to avoid dev conflict)
         if version.parse(resp_js["tag_name"]) > version.parse(VERSION):
-            log.append_log("Update found, current version v{}, new version {}".format(VERSION, resp_js["tag_name"]))
+            log.append_log(
+                "Update found, current version v{}, new version {}".format(
+                    VERSION, resp_js["tag_name"]
+                )
+            )
             # Ask user whether or not they want to open the releases page
-            yn_resp = askyesno("New Version",
-                               "A new version ({}) is available.\n\nPress yes to open page and no to ignore.\nUpdate "
-                               "checking can be disabled in config.".format(resp_js["tag_name"]))
+            yn_resp = askyesno(
+                "New Version",
+                "A new version ({}) is available.\n\nPress yes to open page and no to ignore.\nUpdate "
+                "checking can be disabled in config.".format(resp_js["tag_name"]),
+            )
             if yn_resp:
-                wbopen("https://github.com/TheodoreHua/ClaimDoneRemover/releases/latest")
+                wbopen(
+                    "https://github.com/TheodoreHua/ClaimDoneRemover/releases/latest"
+                )
     else:
-        log.append_log("Received status code {} while trying to check for updates.".format(resp.status_code))
+        log.append_log(
+            "Received status code {} while trying to check for updates.".format(
+                resp.status_code
+            )
+        )
 
 # Set the default values for the variables
 with open(DATA_PATH + "/data/lifetime_totals.json") as f:
@@ -463,18 +555,27 @@ while True:
     if reddit is None:
         # noinspection PyUnboundLocalVariable
         if "No Reddit Instance" not in ent.get("1.0", END).strip():
-            update_text("No Reddit Instance\nOR\nConfiguration Error\n\nSet Config\nand/or\nPRAW Config")
+            update_text(
+                "No Reddit Instance\nOR\nConfiguration Error\n\nSet Config\nand/or\nPRAW Config"
+            )
             log.append_log("No Reddit Instance")
     # Check whether or not program is paused
     elif paused:
         # If the window is not already set to Paused, add the pause indicator
         if "Paused" not in ent.get("1.0", END).strip():
-            update_text("Totals:\nCounted: {:,}\nDeleted: {:,}\n\nPaused".format(total_counted, total_deleted))
+            update_text(
+                "Totals:\nCounted: {:,}\nDeleted: {:,}\n\nPaused".format(
+                    total_counted, total_deleted
+                )
+            )
             log.append_log("Paused")
     elif not config["real_time_checking"] and checked_once not in [False, None]:
         if "Real Time Checking Off" not in ent.get("1.0", END).strip():
-            update_text("Totals:\nCounted: {:,}\nDeleted: {:,}\n\nReal Time Checking Off".format(total_counted,
-                                                                                                 total_deleted))
+            update_text(
+                "Totals:\nCounted: {:,}\nDeleted: {:,}\n\nReal Time Checking Off".format(
+                    total_counted, total_deleted
+                )
+            )
             log.append_log("Real Time Checking Off")
     # Check if the preset time has passed
     elif cur_time >= cont_time:
@@ -483,7 +584,9 @@ while True:
         # Add logs
         log.append_log("Starting Check")
         # Set the window to show that a deletion is in progress
-        update_text("In Progress\n\nIt's normal for the\nWindow to not respond\nduring this time.")
+        update_text(
+            "In Progress\n\nIt's normal for the\nWindow to not respond\nduring this time."
+        )
         # Set the progress bar to 100 to show that it's running
         # noinspection PyUnboundLocalVariable
         progress["value"] = 100
@@ -496,7 +599,9 @@ while True:
         counted = 0
         non_trigger = 0
         # Iterate through each comment in the redditor up until the limit
-        for comment in reddit.redditor(config["user"]).comments.new(limit=config["limit"]):
+        for comment in reddit.redditor(config["user"]).comments.new(
+            limit=config["limit"]
+        ):
             # Check if the comment is in the blacklist
             if config["case_sensitive"]:
                 check_body = comment.body
@@ -512,94 +617,208 @@ while True:
                 blacklisted = True
             if blacklisted:
                 # If ToR only is on then check if the subreddit is ToR
-                if config["tor_only"] and str(comment.subreddit).casefold() != "transcribersofreddit":
-                    log.append_log("Found comment \"{}\" not on ToR subreddit with ToR_Only mode on, skipped."
-                                   .format(comment.body))
+                if (
+                    config["tor_only"]
+                    and str(comment.subreddit).casefold() != "transcribersofreddit"
+                ):
+                    log.append_log(
+                        'Found comment "{}" not on ToR subreddit with ToR_Only mode on, skipped.'.format(
+                            comment.body
+                        )
+                    )
                 # If comment contains word on whitelist, skip it
-                elif not ignore_whitelist and any(wlst in comment.body for wlst in config["whitelist"]):
-                    log.append_log("Found comment \"{}\" which contains whitelisted word, skipped."
-                                   .format(comment.body))
+                elif not ignore_whitelist and any(
+                    wlst in comment.body for wlst in config["whitelist"]
+                ):
+                    log.append_log(
+                        'Found comment "{}" which contains whitelisted word, skipped.'.format(
+                            comment.body
+                        )
+                    )
                 # If ignore_trigger is true, delete all matching values and update stats
                 elif ignore_trigger:
-                    log.append_log("Deleted \"{}\". Comment Time {}. Trigger Ignored.".format(comment.body,
-                                                                                              get_date(comment)))
+                    log.append_log(
+                        'Deleted "{}". Comment Time {}. Trigger Ignored.'.format(
+                            comment.body, get_date(comment)
+                        )
+                    )
                     if config["database_logging"]:
-                        insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
-                                                comment.created_utc, str(comment.subreddit),
-                                                check_bot_response(comment),
-                                                cur_time, True, comment.permalink, comment.submission.permalink,
-                                                "Ignore Trigger"], log)
+                        insert_database(
+                            dcurs,
+                            [
+                                comment.id,
+                                comment.author.name,
+                                comment.body,
+                                comment.score,
+                                comment.created_utc,
+                                str(comment.subreddit),
+                                check_bot_response(comment),
+                                cur_time,
+                                True,
+                                comment.permalink,
+                                comment.submission.permalink,
+                                "Ignore Trigger",
+                            ],
+                            log,
+                        )
                     comment.delete()
                     deleted += 1
                 # If reply trigger mode is on, check for that instead of cutoff
                 elif config["trigger"] == "reply":
                     # If the bot replied to the comment, delete it and update stats
                     if check_bot_response(comment):
-                        log.append_log("Deleted \"{}\". Comment Time {}. Comment ID {}."
-                                       .format(comment.body, get_date(comment), comment.id))
+                        log.append_log(
+                            'Deleted "{}". Comment Time {}. Comment ID {}.'.format(
+                                comment.body, get_date(comment), comment.id
+                            )
+                        )
                         if config["database_logging"]:
-                            insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
-                                                    comment.created_utc, str(comment.subreddit),
-                                                    True, cur_time, False, comment.permalink,
-                                                    comment.submission.permalink, "Reply Trigger"], log)
+                            insert_database(
+                                dcurs,
+                                [
+                                    comment.id,
+                                    comment.author.name,
+                                    comment.body,
+                                    comment.score,
+                                    comment.created_utc,
+                                    str(comment.subreddit),
+                                    True,
+                                    cur_time,
+                                    False,
+                                    comment.permalink,
+                                    comment.submission.permalink,
+                                    "Reply Trigger",
+                                ],
+                                log,
+                            )
                         comment.delete()
                         deleted += 1
                     else:
-                        log.append_log("Waiting for reply trigger \"{}\". Comment Time {}. Comment ID {}."
-                                       .format(comment.body, get_date(comment), comment.id))
+                        log.append_log(
+                            'Waiting for reply trigger "{}". Comment Time {}. Comment ID {}.'.format(
+                                comment.body, get_date(comment), comment.id
+                            )
+                        )
                         non_trigger += 1
                 elif config["trigger"] == "cutoff_fallback":
                     # If bot replied to the comment or cutoff date passed, delete it and update stats
                     if check_bot_response(comment):
-                        log.append_log("Deleted \"{}\". Comment Time {}. Comment ID {}."
-                                       .format(comment.body, get_date(comment), comment.id))
+                        log.append_log(
+                            'Deleted "{}". Comment Time {}. Comment ID {}.'.format(
+                                comment.body, get_date(comment), comment.id
+                            )
+                        )
                         if config["database_logging"]:
-                            insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
-                                                    comment.created_utc, str(comment.subreddit),
-                                                    True, cur_time, False, comment.permalink,
-                                                    comment.submission.permalink, "Cutoff Fallback Reply Trigger"], log)
+                            insert_database(
+                                dcurs,
+                                [
+                                    comment.id,
+                                    comment.author.name,
+                                    comment.body,
+                                    comment.score,
+                                    comment.created_utc,
+                                    str(comment.subreddit),
+                                    True,
+                                    cur_time,
+                                    False,
+                                    comment.permalink,
+                                    comment.submission.permalink,
+                                    "Cutoff Fallback Reply Trigger",
+                                ],
+                                log,
+                            )
                         comment.delete()
                         deleted += 1
-                    elif cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
-                        log.append_log("Deleted \"{}\". Comment Time {}. Comment ID {}."
-                                       .format(comment.body, get_date(comment), comment.id))
+                    elif (
+                        cur_time - get_date(comment)
+                        > config["cutoff"] * config["cutoff_secs"]
+                    ):
+                        log.append_log(
+                            'Deleted "{}". Comment Time {}. Comment ID {}.'.format(
+                                comment.body, get_date(comment), comment.id
+                            )
+                        )
                         if config["database_logging"]:
-                            insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
-                                                    comment.created_utc, str(comment.subreddit),
-                                                    False, cur_time, False, comment.permalink,
-                                                    comment.submission.permalink, "Cutoff Fallback Cutoff Trigger"],
-                                            log)
+                            insert_database(
+                                dcurs,
+                                [
+                                    comment.id,
+                                    comment.author.name,
+                                    comment.body,
+                                    comment.score,
+                                    comment.created_utc,
+                                    str(comment.subreddit),
+                                    False,
+                                    cur_time,
+                                    False,
+                                    comment.permalink,
+                                    comment.submission.permalink,
+                                    "Cutoff Fallback Cutoff Trigger",
+                                ],
+                                log,
+                            )
                         comment.delete()
                         deleted += 1
                     else:
-                        log.append_log("Waiting for cutoff or reply trigger \"{}\". Comment Time {}. Time Left Until "
-                                       "Delete {}. Delete At {}.".format(comment.body, get_date(comment),
-                                                                         cur_time - get_date(comment), cur_time +
-                                                                         (cur_time - get_date(comment))))
+                        log.append_log(
+                            'Waiting for cutoff or reply trigger "{}". Comment Time {}. Time Left Until '
+                            "Delete {}. Delete At {}.".format(
+                                comment.body,
+                                get_date(comment),
+                                cur_time - get_date(comment),
+                                cur_time + (cur_time - get_date(comment)),
+                            )
+                        )
                         non_trigger += 1
                 elif config["trigger"] == "cutoff":
                     # If the sell-by date is passed, delete the comment and update stats
-                    if cur_time - get_date(comment) > config["cutoff"] * config["cutoff_secs"]:
-                        log.append_log("Deleted \"{}\". Comment Time {}. Comment ID {}."
-                                       .format(comment.body, get_date(comment), comment.id))
+                    if (
+                        cur_time - get_date(comment)
+                        > config["cutoff"] * config["cutoff_secs"]
+                    ):
+                        log.append_log(
+                            'Deleted "{}". Comment Time {}. Comment ID {}.'.format(
+                                comment.body, get_date(comment), comment.id
+                            )
+                        )
                         if config["database_logging"]:
-                            insert_database(dcurs, [comment.id, comment.author.name, comment.body, comment.score,
-                                                    comment.created_utc, str(comment.subreddit),
-                                                    check_bot_response(comment),
-                                                    cur_time, False, comment.permalink, comment.submission.permalink,
-                                                    "Cutoff Trigger"], log)
+                            insert_database(
+                                dcurs,
+                                [
+                                    comment.id,
+                                    comment.author.name,
+                                    comment.body,
+                                    comment.score,
+                                    comment.created_utc,
+                                    str(comment.subreddit),
+                                    check_bot_response(comment),
+                                    cur_time,
+                                    False,
+                                    comment.permalink,
+                                    comment.submission.permalink,
+                                    "Cutoff Trigger",
+                                ],
+                                log,
+                            )
                         comment.delete()
                         deleted += 1
                     # If the sell-by date hasn't passed, don't delete and update stats
                     else:
-                        log.append_log("Waiting for cutoff \"{}\". Comment Time {}. Time Left Until Delete {}. "
-                                       "Delete At {}.".format(comment.body, get_date(comment),
-                                                              cur_time - get_date(comment), cur_time +
-                                                              (cur_time - get_date(comment))))
+                        log.append_log(
+                            'Waiting for cutoff "{}". Comment Time {}. Time Left Until Delete {}. '
+                            "Delete At {}.".format(
+                                comment.body,
+                                get_date(comment),
+                                cur_time - get_date(comment),
+                                cur_time + (cur_time - get_date(comment)),
+                            )
+                        )
                         non_trigger += 1
                 else:
                     log.append_log("Invalid trigger mode: " + config["trigger"])
-                    showerror("Fatal Error", "Invalid trigger mode: " + config["trigger"])
+                    showerror(
+                        "Fatal Error", "Invalid trigger mode: " + config["trigger"]
+                    )
                     close_window()
             # Update counted stats
             counted += 1
@@ -620,21 +839,36 @@ while True:
         # Commit to database
         conn.commit()
         # Update the window
-        update_text("Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: "
-                    "{:,}\n\nWaiting {} {}."
-                    .format(total_counted, total_deleted, counted, deleted, non_trigger,
-                            str(config["wait"]), config["wait_unit"][0] if config["wait"] == 1
-                            else config["wait_unit"][1]))
-        log.append_log("Finished Check. Totals {:,}, {:,}. This Run {:,}, {:,}, {:,}"
-                       .format(total_counted, total_deleted, counted, deleted, non_trigger))
+        update_text(
+            "Totals:\nCounted: {:,}\nDeleted: {:,}\n\nThis Run:\nCounted: {:,}\nDeleted: {:,}\nWaiting For: "
+            "{:,}\n\nWaiting {} {}.".format(
+                total_counted,
+                total_deleted,
+                counted,
+                deleted,
+                non_trigger,
+                str(config["wait"]),
+                config["wait_unit"][0]
+                if config["wait"] == 1
+                else config["wait_unit"][1],
+            )
+        )
+        log.append_log(
+            "Finished Check. Totals {:,}, {:,}. This Run {:,}, {:,}, {:,}".format(
+                total_counted, total_deleted, counted, deleted, non_trigger
+            )
+        )
         # Set the next check time
         cont_time = cur_time + (config["wait"] * config["wait_unit"][2])
         # Reset progress bar
         progress["value"] = 0
     # Update progress bar if time hasn't passed
     else:
-        progress["value"] = (config["wait"] * config["wait_unit"][2] -
-                             (cont_time - cur_time)) / (config["wait"] * config["wait_unit"][2]) * 100
+        progress["value"] = (
+            (config["wait"] * config["wait_unit"][2] - (cont_time - cur_time))
+            / (config["wait"] * config["wait_unit"][2])
+            * 100
+        )
     # Update the window
     m.update_idletasks()
     m.update()

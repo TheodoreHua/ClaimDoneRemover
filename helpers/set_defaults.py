@@ -12,25 +12,35 @@ from .global_vars import DATA_PATH, OS
 
 """Functions to take care of resetting the files back to their default states"""
 
-config_defaults = {"user": "",
-                   "os": OS,
-                   "blacklist": ["claim", "done", "unclaim",
-                                 "claim -- this was a automated action. please contact me with any questions.",
-                                 "done -- this was a automated action. please contact me with any questions.",
-                                 "unclaim -- this was a automated action. please contact me with any questions."],
-                   "whitelist": [],
-                   "case_sensitive": False, "cutoff": 5, "cutoff_secs": 60, "limit": 100, "wait": 1,
-                   "wait_unit": ["minute", "minutes", 60],
-                   "real_time_checking": True,
-                   "start_paused": False,
-                   "topmost": True,
-                   "mode": "light",
-                   "forced_geometry": True,
-                   "tor_only": True,
-                   "update_check": True,
-                   "database_logging": True,
-                   "regex_mode": False,
-                   "trigger": "reply"}
+config_defaults = {
+    "user": "",
+    "os": OS,
+    "blacklist": [
+        "claim",
+        "done",
+        "unclaim",
+        "claim -- this was a automated action. please contact me with any questions.",
+        "done -- this was a automated action. please contact me with any questions.",
+        "unclaim -- this was a automated action. please contact me with any questions.",
+    ],
+    "whitelist": [],
+    "case_sensitive": False,
+    "cutoff": 5,
+    "cutoff_secs": 60,
+    "limit": 100,
+    "wait": 1,
+    "wait_unit": ["minute", "minutes", 60],
+    "real_time_checking": True,
+    "start_paused": False,
+    "topmost": True,
+    "mode": "light",
+    "forced_geometry": True,
+    "tor_only": True,
+    "update_check": True,
+    "database_logging": True,
+    "regex_mode": False,
+    "trigger": "reply",
+}
 
 
 def reset_config(txt: Text = None):
@@ -54,20 +64,28 @@ def double_check_config(log):
     delete_keys = []
     for needed_key in config_defaults.keys():
         if needed_key not in old_data.keys():
-            log.append_log("Missing config value \"{}\" found".format(needed_key))
+            log.append_log('Missing config value "{}" found'.format(needed_key))
             missing_keys.append(needed_key)
     for key in old_data.keys():
         if key not in config_defaults.keys():
-            log.append_log("Deprecated config value \"{}\" found".format(key))
+            log.append_log('Deprecated config value "{}" found'.format(key))
             delete_keys.append(key)
-    if len(missing_keys) > 0 or len(delete_keys) > 0 or list(old_data.keys()) != list(config_defaults.keys()):
+    if (
+        len(missing_keys) > 0
+        or len(delete_keys) > 0
+        or list(old_data.keys()) != list(config_defaults.keys())
+    ):
         with open(DATA_PATH + "/config.json", "w") as f:
             new_data = old_data.copy()
             for missing_key in missing_keys:
-                log.append_log("Missing config value \"{}\" added with default".format(missing_key))
+                log.append_log(
+                    'Missing config value "{}" added with default'.format(missing_key)
+                )
                 new_data[missing_key] = config_defaults[missing_key]
             for delete_key in delete_keys:
-                log.append_log("Deprecated config value \"{}\" removed".format(delete_key))
+                log.append_log(
+                    'Deprecated config value "{}" removed'.format(delete_key)
+                )
                 del new_data[delete_key]
             if list(new_data.keys()) != list(config_defaults.keys()):
                 sorted_data = {}
@@ -85,9 +103,7 @@ def reset_praw(txt=None):
     # Get configparser object
     config = configparser.ConfigParser()
     # Set the dicts with default values
-    config["credentials"] = {"client_id": "",
-                             "client_secret": "",
-                             "refresh_token": ""}
+    config["credentials"] = {"client_id": "", "client_secret": "", "refresh_token": ""}
     # Write to INI file
     with open(DATA_PATH + "/praw.ini", "w") as f:
         config.write(f)

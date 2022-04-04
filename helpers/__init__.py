@@ -5,7 +5,14 @@
 # ------------------------------------------------------------------------------
 
 from .config_tkinter import create_survey_config
-from .file import get_config, write_config, assert_data, get_praw, redact_praw, TokenManager
+from .file import (
+    get_config,
+    write_config,
+    assert_data,
+    get_praw,
+    redact_praw,
+    TokenManager,
+)
 from .logger import Logger
 from .misc import get_foreground, insert_database, check_bot_response
 from .praw_tkinter import create_survey_praw

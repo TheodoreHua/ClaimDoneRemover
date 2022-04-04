@@ -40,7 +40,9 @@ def insert_database(curs, data: list, log):
             formatted_data.append("1" if i else "0")
         else:
             formatted_data.append(str(i))
-    curs.execute("INSERT INTO delete_data VALUES ({})".format(", ".join(formatted_data)))
+    curs.execute(
+        "INSERT INTO delete_data VALUES ({})".format(", ".join(formatted_data))
+    )
     log.append_log("Added data {} into database".format(repr(formatted_data)))
 
 
@@ -60,7 +62,7 @@ def get_refresh_token(client_id, client_secret):
         client_id=client_id,
         client_secret=client_secret,
         redirect_uri="http://localhost:9575",
-        user_agent="CDR_Get_Refresh_Token"
+        user_agent="CDR_Get_Refresh_Token",
     )
     state = str(randint(0, 65000))
     url = reddit.auth.url(scopes, state, "permanent")
@@ -72,16 +74,20 @@ def get_refresh_token(client_id, client_secret):
         key: value for (key, value) in [token.split("=") for token in param_tokens]
     }
     if state != params["state"]:
-        client.send("HTTP/1.1 200 OK\r\n\r\nState Mismatch\nExpected {} Received: {}".format(state, params["state"])
-                    .encode("utf-8"))
+        client.send(
+            "HTTP/1.1 200 OK\r\n\r\nState Mismatch\nExpected {} Received: {}".format(
+                state, params["state"]
+            ).encode("utf-8")
+        )
         client.close()
         return None
     elif "error" in params:
         client.send("HTTP/1.1 200 OK\r\n\r\n{}".format(params["error"]).encode("utf-8"))
         client.close()
         return None
-    client.send("HTTP/1.1 200 OK\r\n\r\nSuccess, the refresh token should have been automatically entered in CDR.\n"
-                "You may close this window."
-                .encode("utf-8"))
+    client.send(
+        "HTTP/1.1 200 OK\r\n\r\nSuccess, the refresh token should have been automatically entered in CDR.\n"
+        "You may close this window.".encode("utf-8")
+    )
     client.close()
     return reddit.auth.authorize(params["code"])

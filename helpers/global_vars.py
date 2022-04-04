@@ -11,8 +11,7 @@ from tkinter import Tk
 from tkinter.messagebox import showerror
 
 home = expanduser("~")
-PLATFORM_LOCATIONS = {"linux": ".config",
-                      "darwin": ".config"}
+PLATFORM_LOCATIONS = {"linux": ".config", "darwin": ".config"}
 VERSION = "5.16.87"
 if sysplatform.startswith("win"):
     OS = "Windows"
