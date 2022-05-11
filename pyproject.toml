@@ -7,7 +7,7 @@ license = "MPL-2.0"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-praw = "~7.5.0"
+praw = "~7.6.0"
 configparser = "~5.2.0"
 ttkthemes = "~3.2.2"
 matplotlib = "~3.5.1"
