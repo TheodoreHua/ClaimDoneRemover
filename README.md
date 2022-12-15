@@ -3,7 +3,7 @@
 ![CodeQL](https://github.com/TheodoreHua/ClaimDoneRemover/workflows/CodeQL/badge.svg)
 ![OSSAR](https://github.com/TheodoreHua/ClaimDoneRemover/workflows/OSSAR/badge.svg)
 [![Documentation Status](https://readthedocs.org/projects/claimdoneremover/badge/?version=stable)](https://claimdoneremover.theodorehua.dev/en/stable/?badge=stable)  
-[![Actively Developed](https://img.shields.io/badge/Maintenance%20Level-Actively%20Developed-brightgreen.svg)](https://github.com/TheodoreHua/MaintenanceLevels#actively-developed)
+[![Semi-Maintained](https://img.shields.io/badge/Maintenance%20Level-Semi--Maintained-yellowgreen.svg)](https://github.com/TheodoreHua/MaintenanceLevels#actively-maintained)
 ![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability-percentage/TheodoreHua/ClaimDoneRemover)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/TheodoreHua)  
