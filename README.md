@@ -1,5 +1,9 @@
 # Claim/Done Remover
 
+This project is now **archived**, as the Transcribers of Reddit have shut down. A big thank you to all of the volunteers I've had the pleasure of interacting with over the yeras.
+
+---
+
 ![CodeQL](https://github.com/TheodoreHua/ClaimDoneRemover/workflows/CodeQL/badge.svg)
 ![OSSAR](https://github.com/TheodoreHua/ClaimDoneRemover/workflows/OSSAR/badge.svg)
 [![Documentation Status](https://readthedocs.org/projects/claimdoneremover/badge/?version=stable)](https://claimdoneremover.theodorehua.dev/en/stable/?badge=stable)  
